@@ -30,11 +30,12 @@ CREATE TABLE `client` (
   `password` varchar(200) COLLATE utf8mb4_bin NOT NULL,
   `address` varchar(100) COLLATE utf8mb4_bin DEFAULT NULL,
   `city` varchar(100) COLLATE utf8mb4_bin DEFAULT NULL,
-  `phone_number` varchar(100) COLLATE utf8mb4_bin DEFAULT NULL,
+  `phone_number` varchar(20) COLLATE utf8mb4_bin DEFAULT NULL,
   `bio` varchar(300) COLLATE utf8mb4_bin DEFAULT NULL,
   `dob` date DEFAULT NULL,
   `profile_image` varchar(200) COLLATE utf8mb4_bin DEFAULT NULL,
   `salt` varchar(100) COLLATE utf8mb4_bin NOT NULL,
+  `verified` tinyint(1) NOT NULL DEFAULT 0,
   PRIMARY KEY (`id`),
   UNIQUE KEY `user_unique_email` (`email`),
   UNIQUE KEY `user_unique_phone` (`phone_number`)
@@ -47,13 +48,37 @@ CREATE TABLE `client` (
 
 LOCK TABLES `client` WRITE;
 /*!40000 ALTER TABLE `client` DISABLE KEYS */;
-INSERT INTO `client` VALUES (1,'satinder','singh','satinder@email.com','*F28064AE72F6BF705A01724B55EB5BEE5088A2FB',NULL,NULL,NULL,NULL,NULL,NULL,'salt_123456');
+INSERT INTO `client` VALUES (1,'satinder','singh','satinder@email.com','*F28064AE72F6BF705A01724B55EB5BEE5088A2FB','123 fake st','edmonton','123456789','i am satinder','1994-11-15','satinder_profile.jpeg','salt_123456',0);
 /*!40000 ALTER TABLE `client` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
 -- Dumping routines for database 'myride_api'
 --
+/*!50003 DROP PROCEDURE IF EXISTS `user_post_all` */;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = utf8mb4 */ ;
+/*!50003 SET character_set_results = utf8mb4 */ ;
+/*!50003 SET collation_connection  = utf8mb4_general_ci */ ;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = 'IGNORE_SPACE,STRICT_TRANS_TABLES,ERROR_FOR_DIVISION_BY_ZERO,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION' */ ;
+DELIMITER ;;
+CREATE DEFINER=`root`@`localhost` PROCEDURE `user_post_all`(address_input varchar(100),city_input varchar(100),
+phone_number_input varchar(20),bio_input varchar(300),dob_input date, profile_image_input varchar(200))
+    MODIFIES SQL DATA
+BEGIN
+	update client 
+	set  address = address_input,city =  city_input,
+	phone_number = phone_number_input, bio = bio_input, dob =  dob_input, profile_image = profile_image_input;
+	commit;
+END ;;
+DELIMITER ;
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
 /*!50003 DROP PROCEDURE IF EXISTS `user_post_credentials` */;
 /*!50003 SET @saved_cs_client      = @@character_set_client */ ;
 /*!50003 SET @saved_cs_results     = @@character_set_results */ ;
@@ -90,4 +115,4 @@ DELIMITER ;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2022-11-02 12:19:06
+-- Dump completed on 2022-11-02 12:41:14
