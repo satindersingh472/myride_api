@@ -1,5 +1,5 @@
 from dbhelpers import conn_exe_close
-from apihelpers import verify_endpoints_info, add_for_patch,upload_picture
+from apihelpers import verify_endpoints_info, add_for_patch,upload_picture,bring_picture
 from flask import Flask, request, make_response
 import json,os,base64
 import dbcreds
@@ -9,17 +9,7 @@ app = Flask(__name__)
 app.config['UPLOAD_FOLDER'] = 'files/profile_images'
 
 
-@app.post('/api/user')
-def use_upload_picture():
-    return upload_picture()
 
-
-def show_image():
-    with open(os.path.join(app.config['UPLOAD_FOLDER'],'foodie_order.png'),'rb') as my_image: 
-        image = base64.b64encode(my_image.read())
-    return image   
-
-show_image()
 
 if(dbcreds.production_mode == True):
     import bjoern #type: ignore

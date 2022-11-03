@@ -1,6 +1,6 @@
 import base64
 import os
-from flask import current_app
+from flask import Flask, flash, request, redirect, url_for,current_app
 from werkzeug.utils import secure_filename
 from dbhelpers import conn_exe_close
 from apihelpers import verify_endpoints_info, add_for_patch
@@ -15,11 +15,15 @@ ALLOWED_EXTENSIONS = {'txt', 'pdf', 'png', 'jpg', 'jpeg', 'gif'}
 
 
 
+def download_file(name):
+    return send_from_directory(current_app.config['UPLOAD_FOLDER'],name)
+
+
 def post_picture():
     file = request.files.get('file')
     filename = secure_filename(file.filename)
-    file.save(os.path.join('files/profile_images', filename))
-    return filename
+    file.save(os.path.join(current_app.config['UPLOAD_FOLDER'], filename))
+    return redirect(url_for('download_file',name=filename))
 
 def get_picture():
     invalid_header = verify_endpoints_info(request.headers.get('token'))

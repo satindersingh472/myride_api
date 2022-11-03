@@ -1,4 +1,4 @@
-import os
+import os,base64
 from flask import request,flash,redirect
 from werkzeug.utils import secure_filename
 
@@ -26,15 +26,26 @@ def allowed_file(filename):
     return '.' in filename and \
         filename.rsplit('.',1)[1].lower() in ALLOWED_EXTENSIONS
 
+# this function will upload the image file into server upon checking the file type from allowed extensions
 def upload_picture():
+    # if no file is sent then no file part is shown 
     if 'file' not in request.files:
         flash('No file part')
         return redirect(request.url)
     file = request.files.get('file')
+    # if filename is empty then no selected file is shown
     if file.filename == '':
         flash('No selected file')
         return redirect(request.url)
+        # if file is sent and file is not empty then check for file type
+        # will return true if file type is in allowed extension
     if file and allowed_file(file.filename):
         filename = secure_filename(file.filename)
         file.save(os.path.join('files/profile_images',filename))
         return filename
+
+# will bring back the file from the server as a string and read it as a binary 
+def bring_picture(image_name):
+    with open(os.path.join('files/profile_images',image_name),'rb') as my_image: 
+        image = base64.b64encode(my_image.read())
+    return image 
