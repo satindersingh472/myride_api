@@ -1,32 +1,25 @@
-import os
-from flask import Flask, flash, request, redirect, url_for
-from werkzeug.utils import secure_filename
 from dbhelpers import conn_exe_close
-from apihelpers import verify_endpoints_info, add_for_patch
-from flask import Flask, request, make_response,send_from_directory
-import json
+from apihelpers import verify_endpoints_info, add_for_patch,upload_picture
+from flask import Flask, request, make_response
+import json,os,base64
 import dbcreds
+from rough_work import post_picture
 
 app = Flask(__name__)
-ALLOWED_EXTENSIONS = {'txt', 'pdf', 'png', 'jpg', 'jpeg', 'gif'}
-app.config['UPLOAD_FOLDER'] = 'images'
-app.secret_key = 'super secret key'
-
-
-@app.get('/api/user/<name>')
-def download_file(name):
-    return send_from_directory(app.config['UPLOAD_FOLDER'],name)
+app.config['UPLOAD_FOLDER'] = 'files/profile_images'
 
 
 @app.post('/api/user')
-def post_picture():
-    file = request.files.get('file')
-    filename = secure_filename(file.filename)
-    file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
-    return redirect(url_for('download_file',name=filename)) 
+def use_upload_picture():
+    return upload_picture()
 
 
+def show_image():
+    with open(os.path.join(app.config['UPLOAD_FOLDER'],'foodie_order.png'),'rb') as my_image: 
+        image = base64.b64encode(my_image.read())
+    return image   
 
+show_image()
 
 if(dbcreds.production_mode == True):
     import bjoern #type: ignore
