@@ -42,6 +42,6 @@ def client_verified():
     if(type(results) == list and len(results) == 1):
         return make_response(json.dumps(results[0],default=str),200)
     elif(type(results) == list and len(results) != 1):
-        return make_response(json.dumps(results,default=str),400)
+        return make_response(json.dumps('invalid user',default=str),400)
     else:
         return make_response(json.dumps(results,default=str),500)

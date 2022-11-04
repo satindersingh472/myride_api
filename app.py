@@ -18,9 +18,12 @@ def use_client_verified():
     return client_verified()
 
 # -------------------------------------------------
+# it will post a new client credentials
 @app.post('/api/client')
 def use_client_post():
     return client_post()
+
+
 
 
 
