@@ -1,6 +1,6 @@
 from flask import Flask
 import dbcreds
-from clients import client_post
+from clients import client_post,client_patch_all
 from apihelpers import upload_picture
 from client_verification import client_verify,client_verified
 
@@ -23,7 +23,9 @@ def use_client_verified():
 def use_client_post():
     return client_post()
 
-
+@app.patch('/api/client')
+def use_client_patch_all():
+    return client_patch_all()
 
 
 

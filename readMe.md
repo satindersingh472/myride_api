@@ -39,8 +39,22 @@ take benefit of not driving while going away from a city.
  <br>
 
  ## /api/client_verified
+This endpoint will check if client is verified or not
 
+**Required Header**
+```
+{
+   token: (string)
+}
+```
+**Data Returned**
+```
+{
+   verified: (bool 0 or 1)
+}
+```
 
+<br>
 
 
 

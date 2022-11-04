@@ -31,12 +31,12 @@ def allowed_file(filename):
         filename.rsplit('.',1)[1].lower() in ALLOWED_EXTENSIONS
 
 # this function will upload the image file into server upon checking the file type from allowed extensions
-def upload_picture():
+def upload_picture(key):
     # if no file is sent then no file part is shown 
-    if 'file' not in request.files:
+    if key not in request.files:
         flash('No file part')
         return None
-    file = request.files.get('file')
+    file = request.files.get(key)
     # if filename is empty then no selected file is shown
     if file.filename == '':
         flash('No selected file')

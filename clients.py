@@ -4,24 +4,6 @@ from flask import make_response,request
 from dbhelpers import conn_exe_close
 from apihelpers import verify_endpoints_info,upload_picture,bring_picture,send_email
 
-
-def client_patch_image():
-    invalid_header = verify_endpoints_info(request.headers,['token'])
-    if(invalid_header != None):
-        return make_response(json.dumps(invalid_header,default=str),400)
-    image_name = upload_picture()
-    if(image_name):
-        results = conn_exe_close('call client_patch_image(?,?)',[image_name,request.headers['token']])
-        if(type(results) == list and results[0]['row_count'] == 1):
-            return make_response(json.dumps('image upload success',default=str),200)
-        elif(type(results) == list and results[0]['row_count'] == 0):
-            return make_response(json.dumps('image upload failed',default=str),400)
-        elif(type(results) == str):
-            return make_response(json.dumps(results,default=str),400)
-        else:
-            return make_response(json.dumps(results,default=str),500)
-
-
 # client post will add a client to the database and at first it will just add first_name,last_name
 # email and password and token and salt for security and login 
 def client_post():
@@ -49,3 +31,28 @@ def client_post():
         return make_response(json.dumps(results,default=str),400)
     else:
         return make_response(json.dumps(results,default=str),500)
+
+
+# it will patch the image only
+def client_patch_image(key):
+    image_name = upload_picture(key)
+    if(image_name):
+        results = conn_exe_close('call client_patch_image(?,?)',[image_name,request.headers['token']])
+        if(type(results) == list and results[0]['row_count'] == 1):
+            return make_response(json.dumps('image upload success',default=str),200)
+        elif(type(results) == list and results[0]['row_count'] == 0):
+            return make_response(json.dumps('image upload failed',default=str),400)
+        elif(type(results) == str):
+            return make_response(json.dumps(results,default=str),400)
+        else:
+            return make_response(json.dumps(results,default=str),500)
+
+def client_patch_all():
+    invalid_header = verify_endpoints_info(request.headers,['token'])
+    if(invalid_header != None):
+        return make_response(json.dumps(invalid_header,default=str),400)
+    invalid_image = verify_endpoints_info(request.files,['profile_image'])
+    if(invalid_image != None):
+        return make_response(json.dumps(invalid_image,default=str),400)
+    if(invalid_image == None):
+        return client_patch_image('profile_image')
