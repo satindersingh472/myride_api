@@ -1,7 +1,8 @@
 from flask import Flask
 import dbcreds
-from clients import client_post,client_verify
+from clients import client_post
 from apihelpers import upload_picture
+from client_verification import client_verify
 
 app = Flask(__name__)
 
