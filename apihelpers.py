@@ -49,3 +49,4 @@ def bring_picture(image_name):
     with open(os.path.join('files/profile_images',image_name),'rb') as my_image: 
         image = base64.b64encode(my_image.read())
     return image 
+

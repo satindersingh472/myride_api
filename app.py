@@ -1,13 +1,13 @@
-from clients import picture_post
 from flask import Flask
 import dbcreds
+from clients import client_post
 
 app = Flask(__name__)
 app.config['UPLOAD_FOLDER'] = 'files/profile_images'
 
-@app.post('/api/user')
-def use_picture_post():
-    return picture_post()
+@app.post('/api/client')
+def use_client_post():
+    return client_post()
 
 
 if(dbcreds.production_mode == True):

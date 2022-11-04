@@ -1,8 +1,27 @@
 import json
+from uuid import uuid4 
 from flask import make_response,request
-from apihelpers import upload_picture,bring_picture
+from dbhelpers import conn_exe_close
+from apihelpers import verify_endpoints_info,upload_picture,bring_picture
 
 
-def picture_post():
-    results = upload_picture()
-    return bring_picture(results)
+# client post will add a client to the database and at first it will just add first_name,last_name
+# email and password and token and salt for security and login 
+def client_post():
+    # will check for various data if it is sent or not
+    invalid = verify_endpoints_info(request.json,
+    ['first_name','last_name','email','password'])
+    # if not then error will pop up
+    if(invalid != None):
+        return make_response(json.dumps(invalid,default=str),400)
+        # will generate a token and salt to send along with a request
+    token = uuid4().hex
+    salt = uuid4().hex
+    results = conn_exe_close('call client_post(?,?,?,?,?,?)',
+    [request.json['first_name'],request.json['last_name'],request.json['email'],request.json['password'],token,salt])
+    if(type(results) == list and len(results) == 1):
+        return make_response(json.dumps(results[0],default=str),200)
+    elif(type(results) == list and len(results) != 1):
+        return make_response(json.dumps(results,default=str),400)
+    else:
+        return make_response(json.dumps(results,default=str),500)

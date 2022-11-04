@@ -1,41 +1,47 @@
-import base64
-import os
-from flask import Flask, flash, request, redirect, url_for,current_app
-from werkzeug.utils import secure_filename
-from dbhelpers import conn_exe_close
-from apihelpers import verify_endpoints_info, add_for_patch
-from flask import Flask, request, make_response,send_from_directory
-import json
+
+import smtplib, ssl
+from email.mime.text import MIMEText
+from email.mime.multipart import MIMEMultipart
 import dbcreds
 
+def send_email(email,name):
+    port = 465  # For SSL
+    smtp_server = "smtp.gmail.com"
+    sender_email = "developersatinder@gmail.com"  # Enter your address
+    receiver_email = f"{email}"  # Enter receiver address
+    password = dbcreds.gmail_password
 
-ALLOWED_EXTENSIONS = {'txt', 'pdf', 'png', 'jpg', 'jpeg', 'gif'}
+    message = MIMEMultipart("alternative")
+    message["Subject"] = "multipart test"
+    message["From"] = sender_email
+    message["To"] = receiver_email
 
-# current_app.secret_key = 'super secret key'
+    # Create the plain-text and HTML version of your message
+    html = f"""\
+    <html>
+    <body>
+        <p>
+        hi {name},
+        please confirm that you have created an account at Myride by clicking yes.
+        <a href="http://www.myride.ml/api/user_verify/">
+        <button style = font-size:2px;background:green;padding:5px;font-weight:bold;">YES</button>
+        </a> 
+        </p>
+    </body>
+    </html>
+    """
+
+    # Turn these into plain/html MIMEText objects
+    part1 = MIMEText(html, "html")
+
+    # Add HTML/plain-text parts to MIMEMultipart message
+    # The email client will try to render the last part first
+    message.attach(part1)
+
+    context = ssl.create_default_context()
+    with smtplib.SMTP_SSL(smtp_server, port, context=context) as server:
+        server.login(sender_email, password)
+        server.sendmail(sender_email, receiver_email, message.as_string())
 
 
-
-def download_file(name):
-    return send_from_directory(current_app.config['UPLOAD_FOLDER'],name)
-
-
-def post_picture():
-    file = request.files.get('file')
-    filename = secure_filename(file.filename)
-    file.save(os.path.join(current_app.config['UPLOAD_FOLDER'], filename))
-    return redirect(url_for('download_file',name=filename))
-
-def get_picture():
-    invalid_header = verify_endpoints_info(request.headers.get('token'))
-    if(invalid_header != None):
-        return make_response(json.dumps(invalid_header,default=str),400)
-    results = conn_exe_close('call get_picture(?)',[request.headers['token']])
-    with open(os.path.join(current_app.config['UPLOAD_FOLDER'],results[0]['profile_image'])) as my_image: 
-        image = base64.b64encode(my_image.read())
-    return image    
-
-
-
-
-
-
+send_email('satindersingh472@gmail.com','satinder singh')

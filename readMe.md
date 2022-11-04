@@ -8,7 +8,13 @@ take benefit of not driving while going away from a city.
 
 ## **`Endpoints`**
 
+ ## /api/client
+ HTTP methods available: **GET,POST,PATCH,DELETE** <br>
+ client can get its information, create an account , modify its own account and delete its own account
+ so, the first step in creating an account is send credentials as a required data and verify an email sent to the client's email.
 
+ 
+ 
 
 
 
