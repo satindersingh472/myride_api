@@ -24,3 +24,24 @@ def client_verify():
         return make_response(json.dumps(results,default=str),400)
     else:
         return make_response(json.dumps(results,default=str),500)
+
+# 
+# this function will check if client has verified status or not
+# if verified then response will be object with verified key value 1 and 
+# not verified will be with value 0
+def client_verified():
+    # will check if user sent a header or not
+    invalid_header = verify_endpoints_info(request.headers,['token'])
+    if(invalid_header != None):
+        # if header not sent then error will show up
+        return make_response(json.dumps(invalid_header,default=str),400)
+    # call the stored procedure and save the response inside results
+    results = conn_exe_close('call client_verified(?)',[request.headers['token']])
+    # if client is verified then response is a list of one object with verified key of value 1
+    # if not verified then 0 
+    if(type(results) == list and len(results) == 1):
+        return make_response(json.dumps(results[0],default=str),200)
+    elif(type(results) == list and len(results) != 1):
+        return make_response(json.dumps(results,default=str),400)
+    else:
+        return make_response(json.dumps(results,default=str),500)

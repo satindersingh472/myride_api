@@ -2,15 +2,20 @@ from flask import Flask
 import dbcreds
 from clients import client_post
 from apihelpers import upload_picture
-from client_verification import client_verify
+from client_verification import client_verify,client_verified
 
 app = Flask(__name__)
 
 #--------------------------------------------------
- 
+#  it will help the request from email to verify the client 
 @app.get('/api/client_verify')
 def use_client_verify():
     return client_verify()
+
+# it will send back the response about the verification status of a client
+@app.get('/api/client_verified')
+def use_client_verified():
+    return client_verified()
 
 # -------------------------------------------------
 @app.post('/api/client')
