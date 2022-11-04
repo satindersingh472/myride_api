@@ -1,13 +1,21 @@
 from flask import Flask
 import dbcreds
-from clients import client_post
+from clients import client_post,client_verify
+from apihelpers import upload_picture
 
 app = Flask(__name__)
-app.config['UPLOAD_FOLDER'] = 'files/profile_images'
 
+#--------------------------------------------------
+ 
+@app.get('/api/client_verify')
+def use_client_verify():
+    return client_verify()
+
+# -------------------------------------------------
 @app.post('/api/client')
 def use_client_post():
     return client_post()
+
 
 
 if(dbcreds.production_mode == True):

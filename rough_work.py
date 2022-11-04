@@ -4,7 +4,7 @@ from email.mime.text import MIMEText
 from email.mime.multipart import MIMEMultipart
 import dbcreds
 
-def send_email(email,name):
+def send_email(email,name,token):
     port = 465  # For SSL
     smtp_server = "smtp.gmail.com"
     sender_email = "developersatinder@gmail.com"  # Enter your address
@@ -21,12 +21,17 @@ def send_email(email,name):
     <html>
     <body>
         <p>
-        hi {name},
-        please confirm that you have created an account at Myride by clicking yes.
-        <a href="http://www.myride.ml/api/user_verify/">
-        <button style = font-size:2px;background:green;padding:5px;font-weight:bold;">YES</button>
-        </a> 
+        Hi {name},<br>
+        To use services at MyRide, please confirm that you have created an account at Myride by clicking yes. 
         </p>
+        <a href="http://localhost:5000/api/user_verify?verified=1">
+        <button style = "width:100px;background-color:green;font-size:2px;padding:5px;font-weight:bold;">Confirm</button>
+        </a> 
+        <br>
+        <br>
+        <a href="http://localhost:5000/api/user_verify?verified=0">
+        <button style = "width:100px;background-color:red;font-size:2px;padding:5px;font-weight:bold;">Reject</button>
+        </a>        
     </body>
     </html>
     """
@@ -42,6 +47,3 @@ def send_email(email,name):
     with smtplib.SMTP_SSL(smtp_server, port, context=context) as server:
         server.login(sender_email, password)
         server.sendmail(sender_email, receiver_email, message.as_string())
-
-
-send_email('satindersingh472@gmail.com','satinder singh')

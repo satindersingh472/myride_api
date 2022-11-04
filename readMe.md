@@ -26,8 +26,19 @@ take benefit of not driving while going away from a city.
     password: (string)
  }
  ```
+ **Data Returned**
+ ```
+ {
+    client_id: (number),
+    token: (string)
+ }
+ ```
+ after this point user will recieve an email for confirming an account
  
- 
+ <br>
+ <br>
+
+ ## /api/client_verified
 
 
 

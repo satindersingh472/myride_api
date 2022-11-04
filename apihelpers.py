@@ -1,6 +1,10 @@
 import os,base64
-from flask import request,flash,redirect
-from werkzeug.utils import secure_filename
+from flask import request,flash
+from uuid import uuid4
+import smtplib, ssl
+from email.mime.text import MIMEText
+from email.mime.multipart import MIMEMultipart
+import dbcreds
 
 
 # the following function will over write the new data that has passed by user with the original data in the request
@@ -31,16 +35,16 @@ def upload_picture():
     # if no file is sent then no file part is shown 
     if 'file' not in request.files:
         flash('No file part')
-        return redirect(request.url)
+        return None
     file = request.files.get('file')
     # if filename is empty then no selected file is shown
     if file.filename == '':
         flash('No selected file')
-        return redirect(request.url)
+        return None
         # if file is sent and file is not empty then check for file type
         # will return true if file type is in allowed extension
     if file and allowed_file(file.filename):
-        filename = secure_filename(file.filename)
+        filename = uuid4().hex + '.' + file.filename.rsplit('.',1)[1].lower()
         file.save(os.path.join('files/profile_images',filename))
         return filename
 
@@ -50,3 +54,40 @@ def bring_picture(image_name):
         image = base64.b64encode(my_image.read())
     return image 
 
+def send_email(email,name,token):
+    port = 465  # For SSL
+    smtp_server = "smtp.gmail.com"
+    sender_email = "developersatinder@gmail.com"  # Enter your address
+    receiver_email = f"{email}"  # Enter receiver address
+    password = dbcreds.gmail_password
+
+    message = MIMEMultipart("alternative")
+    message["Subject"] = "multipart test"
+    message["From"] = sender_email
+    message["To"] = receiver_email
+
+    # Create the plain-text and HTML version of your message
+    html = f"""\
+    <html>
+    <body>
+        <p>Hi {name},</p>
+        <p>  To use services at MyRide, please confirm that you have created an account at Myride. 
+        </p>
+        <a href="http://127.0.0.1:5000/api/client_verify?verified=1&token={token}">
+        <button style = "width:100px;background-color:green;font-size:2px;padding:5px;font-weight:bold;">Confirm</button>
+        </a>        
+    </body>
+    </html>
+    """
+
+    # Turn these into plain/html MIMEText objects
+    part1 = MIMEText(html, "html")
+
+    # Add HTML/plain-text parts to MIMEMultipart message
+    # The email client will try to render the last part first
+    message.attach(part1)
+
+    context = ssl.create_default_context()
+    with smtplib.SMTP_SSL(smtp_server, port, context=context) as server:
+        server.login(sender_email, password)
+        server.sendmail(sender_email, receiver_email, message.as_string())
