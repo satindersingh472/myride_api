@@ -79,7 +79,7 @@ CREATE TABLE `client` (
 
 LOCK TABLES `client` WRITE;
 /*!40000 ALTER TABLE `client` DISABLE KEYS */;
-INSERT INTO `client` VALUES (7,'first_name','last_name','email@email.com','*F28064AE72F6BF705A01724B55EB5BEE5088A2FB','123 fake st','edmonton','123456789','i am satinder','1994-11-15','satinder_profile.jpeg','salt_123456',1),(16,'satinder','singh','satindersingh772@gmail.com','*73ADA3BAFAEB09930DD9DC21F9C59151CE48AD66',NULL,NULL,NULL,NULL,NULL,'66a0ef563e914f829a8cc68178a1ef09.jpeg','fd896ce6cf2d412d9deed94b288ace09',0);
+INSERT INTO `client` VALUES (7,'first_name','last_name','email@email.com','*F28064AE72F6BF705A01724B55EB5BEE5088A2FB','123 fake st','edmonton','123456789','i am satinder','1994-11-15','satinder_profile.jpeg','salt_123456',1),(16,'satinder','singh','satindersingh772@gmail.com','*1B31F78DAE392769F9AD23FDC8FEFB48B27C256D','123 fake st','Edmonton,ab','12345678945','I am satinder singh','1997-11-15','66a0ef563e914f829a8cc68178a1ef09.jpeg','e5fa0e8d635249a981df2bf667420342',1);
 /*!40000 ALTER TABLE `client` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -145,6 +145,66 @@ UNLOCK TABLES;
 --
 -- Dumping routines for database 'myride_api'
 --
+/*!50003 DROP PROCEDURE IF EXISTS `client_get` */;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = utf8mb4 */ ;
+/*!50003 SET character_set_results = utf8mb4 */ ;
+/*!50003 SET collation_connection  = utf8mb4_general_ci */ ;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = 'IGNORE_SPACE,STRICT_TRANS_TABLES,ERROR_FOR_DIVISION_BY_ZERO,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION' */ ;
+DELIMITER ;;
+CREATE DEFINER=`root`@`localhost` PROCEDURE `client_get`(id_input int unsigned, token_input varchar(100))
+BEGIN
+	select 
+	convert (c.first_name using utf8) as first_name,
+	convert (c.last_name using utf8) as last_name,
+	convert (c.email using utf8) as email,
+	convert (c.address using utf8) as address,
+	convert (c.city using utf8) as city,
+	convert (c.phone_number using utf8) as phone_number,
+	convert (c.bio using utf8) as bio,
+	convert (c.dob using utf8) as dob,
+	convert (c.profile_image using utf8) as profile_image
+	from client c inner join client_session cs on cs.client_id = c.id 
+	where cs.client_id = id_input and cs.token = token_input and c.verified = 1;
+END ;;
+DELIMITER ;
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
+/*!50003 DROP PROCEDURE IF EXISTS `client_get_with_token` */;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = utf8mb4 */ ;
+/*!50003 SET character_set_results = utf8mb4 */ ;
+/*!50003 SET collation_connection  = utf8mb4_general_ci */ ;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = 'IGNORE_SPACE,STRICT_TRANS_TABLES,ERROR_FOR_DIVISION_BY_ZERO,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION' */ ;
+DELIMITER ;;
+CREATE DEFINER=`root`@`localhost` PROCEDURE `client_get_with_token`(token_input varchar(100))
+BEGIN
+	SELECT 
+	convert (c.first_name using utf8) as first_name,
+	convert (c.last_name using utf8) as last_name,
+	convert (c.email using utf8) as email,
+	convert (c.address using utf8) as address,
+	convert (c.city using utf8) as city,
+	convert (c.phone_number using utf8) as phone_number,
+	convert (c.bio using utf8) as bio,
+	convert (c.dob using utf8) as dob
+	FROM client c inner join client_session cs on cs.client_id = c.id
+	where cs.token = token_input and c.verified = 1;
+	
+END ;;
+DELIMITER ;
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
 /*!50003 DROP PROCEDURE IF EXISTS `client_patch` */;
 /*!50003 SET @saved_cs_client      = @@character_set_client */ ;
 /*!50003 SET @saved_cs_results     = @@character_set_results */ ;
@@ -310,4 +370,4 @@ DELIMITER ;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2022-11-04 18:47:06
+-- Dump completed on 2022-11-04 21:37:07

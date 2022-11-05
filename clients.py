@@ -4,6 +4,11 @@ from flask import make_response,request
 from dbhelpers import conn_exe_close
 from apihelpers import verify_endpoints_info,upload_picture,bring_picture,send_email,add_for_patch
 
+
+
+def client_get():
+    invalid_headers = verify_endpoints_info(request.headers)
+
 # client post will add a client to the database and at first it will just add first_name,last_name
 # email and password and token and salt for security and login 
 def client_post():
