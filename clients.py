@@ -56,17 +56,24 @@ def client_post():
         return make_response(json.dumps(results,default=str),500)
 
 def client_delete():
+    # will check if client sent token and password as headers
     invalid_headers = verify_endpoints_info(request.headers,['password','token'])
     if(invalid_headers != None):
+        # if not then error 
         return make_response(json.dumps(invalid_headers,default=str),400)
+        # will send request to the stored procedure with password and token
     results = conn_exe_close('call client_delete(?,?)',[request.headers['password'],request.headers['token']])
     if(type(results) == list and results[0]['row_count'] == 1):
+        # on success row count will be one
         return make_response(json.dumps('client deleted successfully',default=str),200)
     elif(type(results) == list and results[0]['row_count'] == 0):
+        # on failure row count will be 0
         return make_response(json.dumps('client delete failed',default=str),400)
     elif(type(results) != list):
+        # if mistake made then no list onlt string will be there as a response
         return make_response(json.dumps(results,default=str),400)
     else:
+        # if any other error the server has made that error and 500 code as a response will be back
         return make_response(json.dumps(results,default=str),500)
 
 # it will patch the image only expecting a key that is sent as a argument in a form data
