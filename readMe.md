@@ -229,7 +229,37 @@ it will check the status of a client verification
 <br>
 
 ## /api/ride
-HTTP methods available: **POST,PATCH** <br>
+HTTP methods available: **GET,POST,PATCH** <br>
+
+## `GET`
+this method will get all the rides associated with user that is posted by the user
+given the valid client id and token.
+
+**Required Headers**  <br>
+```
+{
+   client_id : (number),
+   token: (string)
+}
+```
+**Data Returned**  <br>
+```
+[
+   {
+      ride_id: (number),
+      from_city: (string),
+      to_city: (string),
+      travel_date: (string with format "yyyy-mm-dd"),
+      leave_time: (time with format hh:mm:ss)
+   }
+]
+```
+**On no rides** : "no rides to show" <br>
+
+<br>
+
+
+<br>
 
 ## `POST` <br>
 It will post the ride in the database. User with a valid token can post a ride. <br>
