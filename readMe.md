@@ -229,7 +229,7 @@ it will check the status of a client verification
 <br>
 
 ## /api/ride
-HTTP methods available: **POST** <br>
+HTTP methods available: **POST,PATCH** <br>
 
 ## `POST` <br>
 It will post the ride in the database. User with a valid token can post a ride. <br>
@@ -259,7 +259,30 @@ It will post the ride in the database. User with a valid token can post a ride. 
 }
 ```
 **On failure** : "ride post failed" or **any other error** <br>
+
 <br>
 
+## `PATCH`
+Patch will change information about the ride posted with valid token of a client and valid ride_id sent as a header
 
+**Required Headers** <br>
+```
+{
+   token: (string),
+   ride_id: (number)
+}
+```
+**Optional Data** : Send one or more of the optional arguments to see any change in the data <br>
+```
+{
+   from_city: (string),
+   to_city: (string),
+   travel_date: (date as a string format "yyyy-mm-dd"),
+   leave_time: (time as format hh:mm:ss)
+}
+```
+**Data Returned** 
+**On success** : "ride update successfull" <br>
+**On failure** : "ride update failed" or **any other error**. <br>
 
+<br>
