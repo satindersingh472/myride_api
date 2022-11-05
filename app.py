@@ -4,6 +4,7 @@ from clients import client_get,client_post,client_patch_all,client_patch_image,c
 from apihelpers import upload_picture
 from client_verification import client_verify,client_verified
 from client_login import client_login,client_logout
+from ride import ride_post
 
 app = Flask(__name__)
 # -----------------------------------------------
@@ -50,6 +51,13 @@ def use_client_delete():
 def use_client_patch_image():
     return client_patch_image()
 # --------------------------------------------------------
+@app.post('/api/ride')
+def use_ride_post():
+    return ride_post()
+
+
+
+# -----------------------------------------------------------
 if(dbcreds.production_mode == True):
     import bjoern #type: ignore
     bjoern.run(app,'0.0.0.0',5300)

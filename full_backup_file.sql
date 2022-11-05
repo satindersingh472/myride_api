@@ -79,7 +79,7 @@ CREATE TABLE `client` (
 
 LOCK TABLES `client` WRITE;
 /*!40000 ALTER TABLE `client` DISABLE KEYS */;
-INSERT INTO `client` VALUES (21,'satinder','singh','satindersingh772@gmail.com','*DBA628DA0790B6320396FD364F7047245CC71429',NULL,NULL,NULL,NULL,NULL,'8666b6759e1041d89ef5fc9dadaa9ace.jpeg','c8e99f041b2f49e9bdca443b25aef2a9',0);
+INSERT INTO `client` VALUES (21,'satinder','singh','satindersingh772@gmail.com','*DBA628DA0790B6320396FD364F7047245CC71429',NULL,NULL,NULL,NULL,NULL,'8666b6759e1041d89ef5fc9dadaa9ace.jpeg','c8e99f041b2f49e9bdca443b25aef2a9',1);
 /*!40000 ALTER TABLE `client` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -130,7 +130,7 @@ CREATE TABLE `ride` (
   PRIMARY KEY (`id`),
   KEY `ride_FK` (`rider_id`),
   CONSTRAINT `ride_FK` FOREIGN KEY (`rider_id`) REFERENCES `client` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin;
+) ENGINE=InnoDB AUTO_INCREMENT=41 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -139,6 +139,7 @@ CREATE TABLE `ride` (
 
 LOCK TABLES `ride` WRITE;
 /*!40000 ALTER TABLE `ride` DISABLE KEYS */;
+INSERT INTO `ride` VALUES (21,'Edmonton','calgary','2022-11-08','15:00:00',21,'2022-11-05 13:48:18'),(22,'Edmonton','calgary','2022-11-08','15:00:00',21,'2022-11-05 13:48:19'),(23,'Edmonton','calgary','2022-11-08','15:00:00',21,'2022-11-05 13:48:20'),(24,'Edmonton','calgary','2022-11-08','15:00:00',21,'2022-11-05 13:48:20'),(25,'Edmonton','calgary','2022-11-08','15:00:00',21,'2022-11-05 13:48:21'),(26,'edmonton','calgary','2022-11-05','13:56:38',21,'2022-11-05 13:56:38'),(27,'edmonton','calgary','2022-11-05','13:56:38',21,'2022-11-05 13:56:38'),(28,'edmonton','calgary','2022-11-05','13:57:10',21,'2022-11-05 13:57:10'),(29,'edmonton','calgary','2022-11-05','13:57:10',21,'2022-11-05 13:57:10'),(30,'edmonton','calgary','2022-11-05','13:57:54',21,'2022-11-05 13:57:54'),(31,'edmonton','calgary','2022-11-05','13:57:55',21,'2022-11-05 13:57:55'),(32,'Edmonton','calgary','2022-11-08','15:00:00',21,'2022-11-05 14:00:38'),(33,'Edmonton','calgary','2022-11-08','15:00:00',21,'2022-11-05 14:00:39'),(34,'Edmonton','calgary','2022-11-08','15:00:00',21,'2022-11-05 14:00:40'),(35,'Edmonton','calgary','2022-11-08','15:00:00',21,'2022-11-05 14:00:41'),(36,'Edmonton','calgary','2022-11-08','15:00:00',21,'2022-11-05 14:01:01'),(37,'Edmonton','calgary','2022-11-08','15:00:00',21,'2022-11-05 14:01:08'),(38,'Edmonton','calgary','2022-11-08','15:00:00',21,'2022-11-05 14:01:14'),(39,'Edmonton','calgary','2022-11-08','15:00:00',21,'2022-11-05 14:01:25'),(40,'Edmonton','calgary','2022-11-08','15:00:00',21,'2022-11-05 14:01:53');
 /*!40000 ALTER TABLE `ride` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -471,7 +472,9 @@ BEGIN
 	select from_input, to_input, date_input, time_input,cs.client_id
 	from client_session cs inner join client c on c.id = cs.client_id 
 	where cs.token = token_input and c.verified = 1;
-	select LAST_INSERT_ID() as ride_id ; 
+		
+	select LAST_INSERT_ID() as ride_id , row_count() as row_count; 
+
 	commit;
 END ;;
 DELIMITER ;
@@ -489,4 +492,4 @@ DELIMITER ;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2022-11-05 13:19:15
+-- Dump completed on 2022-11-05 14:02:17
