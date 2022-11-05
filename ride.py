@@ -79,18 +79,26 @@ def ride_post():
 
 
 def ride_delete():
+    # will check for token inside headers
+    # if not sent then error will show up
     invalid_header = verify_endpoints_info(request.headers,['token'])
     if(invalid_header != None):
         return make_response(json.dumps(invalid_header,default=str),400)
+    # will check for ride id sent as data if not sent then error will show up
     invalid = verify_endpoints_info(request.json,['ride_id'])
     if(invalid != None):
         return make_response(json.dumps(invalid,default=str),400)
+    # call the procedure to delete the ride data from tables
     results = conn_exe_close('call ride_delete(?,?)',[request.json['ride_id'],request.headers['token']])
+    # if results is a list then row count 1 means something is deleted 
+    # row count 0 means not deleted or does not even exists in database
     if(type(results) == list and results[0]['row_count'] == 1):
         return make_response(json.dumps('ride delete successfull',default=str),200)
     elif(type(results) == list and results[0]['row_count'] == 0):
         return make_response(json.dumps('ride delete failed',default=str),400)
     elif(type(results) != list):
+        # if some error occur from user side then this statement will show up
         return make_response(json.dumps(results,default=str),400)
     else:
+        # if error from server side it will be 500 errror code 
         return make_response(json.dumps(results,default=str),500)
