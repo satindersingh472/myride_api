@@ -125,6 +125,45 @@ only one of these should be sent at one time
 <br>
 <br>
 
+## /api/client_login
+This endpoint will login user and logout user
+HTTP methods available : **POST,DELETE**   <br>
+
+## `POST`
+post method will log in the client with valid email and password
+
+**Required Data** <br>
+```
+{
+   email: (string),
+   password: (string)
+}
+```
+
+**Data Returned**  <br>
+```
+{
+   client_id: (number),
+   token: (string)
+}
+```
+<br>
+
+## `DELETE`
+delete method will logout the client and delete the token from session
+
+**Required Headers**
+```
+{
+   token: (string)
+}
+```
+
+
+
+<br>
+<br>
+
 ## /api/client_image
 This endpoint will help with the client profile image
 HTTP methods available: **PATCH** <br>
