@@ -1,6 +1,6 @@
 from flask import Flask
 import dbcreds
-from clients import client_post,client_patch_all
+from clients import client_get,client_post,client_patch_all
 from apihelpers import upload_picture
 from client_verification import client_verify,client_verified
 
@@ -18,6 +18,11 @@ def use_client_verified():
     return client_verified()
 
 # -------------------------------------------------
+
+@app.get('/api/client')
+def use_client_get():
+    return client_get()
+
 # it will post a new client credentials
 @app.post('/api/client')
 def use_client_post():

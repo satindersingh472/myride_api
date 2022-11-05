@@ -7,7 +7,18 @@ from apihelpers import verify_endpoints_info,upload_picture,bring_picture,send_e
 
 
 def client_get():
-    invalid_headers = verify_endpoints_info(request.headers)
+    invalid_headers = verify_endpoints_info(request.headers,['token','client_id'])
+    if(invalid_headers != None):
+        return make_response(json.dumps(invalid_headers,default=str),400)
+    results = conn_exe_close('call client_get(?,?)',[request.headers['client_id'],request.headers['token']])
+    if(type(results) == list and len(results) == 1):
+        return make_response(json.dumps(results[0],default=str),200)
+    elif(type(results) == list and len(results) != 1):
+        return make_response(json.dumps('error getting user details',default=str),400)
+    elif(type(results) != list ):
+        return make_response(json.dumps(results,default=str),400)
+    else:
+        return make_response(json.dumps(results,default=str),500)
 
 # client post will add a client to the database and at first it will just add first_name,last_name
 # email and password and token and salt for security and login 
