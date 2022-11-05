@@ -3,11 +3,13 @@ import dbcreds
 from clients import client_get,client_post,client_patch_all,client_patch_image
 from apihelpers import upload_picture
 from client_verification import client_verify,client_verified
+from client_login import client_login
 
 app = Flask(__name__)
 # -----------------------------------------------
-
-
+@app.post('/api/client_login')
+def use_client_login():
+    return client_login()
 
 #--------------------------------------------------
 #  it will help the request from email to verify the client 
