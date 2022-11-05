@@ -4,6 +4,24 @@ from apihelpers import verify_endpoints_info,add_for_patch
 from dbhelpers import conn_exe_close
 
 
+def ride_get():
+    # will check for headers if id and token is present
+    invalid_headers = verify_endpoints_info(request.headers,['client_id','token'])
+    if(invalid_headers != None):
+        # if not then error will show up
+        return make_response(json.dumps(invalid_headers,default=str),400)
+        # make a request with id and token sent
+    results = conn_exe_close('call ride_get(?,?)',[request.headers['client_id'],request.headers['token']])
+    # will show the response with 200 if there is a valid response with a list of dictionarie or dictionaries
+    if(type(results) == list and len(results) >= 1):
+        return make_response(json.dumps(results,default=str),200)
+    # if error then show the error
+    elif(type(results) == list and len(results) == 0):
+        return make_response(json.dumps('no rides to show',default=str),400)
+    else:
+        return make_response(json.dumps(results,default=str),500)
+
+
 def ride_patch():
     # token and id will be sent as a headers
     invalid_headers = verify_endpoints_info(request.headers,['ride_id','token'])
