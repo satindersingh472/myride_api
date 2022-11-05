@@ -465,7 +465,7 @@ DELIMITER ;
 /*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
 /*!50003 SET sql_mode              = 'IGNORE_SPACE,STRICT_TRANS_TABLES,ERROR_FOR_DIVISION_BY_ZERO,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION' */ ;
 DELIMITER ;;
-CREATE DEFINER=`root`@`localhost` PROCEDURE `ride_get_for_patch`(token_input varchar(100))
+CREATE DEFINER=`root`@`localhost` PROCEDURE `ride_get_for_patch`(id_input int unsigned, token_input varchar(100))
 BEGIN
 	SELECT 
 	convert (r.from_city using utf8) as from_city,
@@ -473,7 +473,7 @@ BEGIN
 	convert (r.travel_date using utf8) as travel_date,
 	convert (r.leave_time using utf8) as leave_time
 	from ride r inner join client_session cs on cs.client_id = r.rider_id 
-	where cs.token = token_input;
+	where cs.token = token_input and r.id = id_input;
 	
 END ;;
 DELIMITER ;
@@ -541,4 +541,4 @@ DELIMITER ;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2022-11-05 14:42:53
+-- Dump completed on 2022-11-05 14:47:16
