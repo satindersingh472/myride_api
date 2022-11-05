@@ -5,6 +5,9 @@ from apihelpers import upload_picture
 from client_verification import client_verify,client_verified
 
 app = Flask(__name__)
+# -----------------------------------------------
+
+
 
 #--------------------------------------------------
 #  it will help the request from email to verify the client 
@@ -36,8 +39,7 @@ def use_client_patch_all():
 @app.patch('/api/client_image')
 def use_client_patch_image():
     return client_patch_image()
-
-
+# --------------------------------------------------------
 if(dbcreds.production_mode == True):
     import bjoern #type: ignore
     bjoern.run(app,'0.0.0.0',5300)

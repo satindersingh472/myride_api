@@ -110,7 +110,7 @@ only one of these should be sent at one time
 
  ## `DELETE`
 
- Delete request will the client from the database if it is verified and send the correct token and password. <br>
+ Delete request will delete the client from the database if it is verified and if user has sent the correct token and password. <br>
  **Required Headers** <br>
  ```
  {

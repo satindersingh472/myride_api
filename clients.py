@@ -2,7 +2,7 @@ import json
 from uuid import uuid4 
 from flask import make_response,request
 from dbhelpers import conn_exe_close
-from apihelpers import verify_endpoints_info,upload_picture,bring_picture,send_email,add_for_patch
+from apihelpers import verify_endpoints_info,upload_picture,bring_picture,send_email,add_for_patch,remove_old_image
 
 
 # will grab the information about the client with token and client id
@@ -85,6 +85,9 @@ def client_patch_image():
     invalid = verify_endpoints_info(request.files,['profile_image'])
     if(invalid != None):
         return make_response(json.dumps(invalid,default=str),400)
+    # will bring the name of old image just to delete it from the server
+    old_image = conn_exe_close('call client_old_image(?)',[request.headers['token']])
+    old_image = old_image[0]['profile_image']
     # will use upload picture function and send the key with that to check the name of argument
     # it will further check the name of the file and turn it into hex for security
     image_name = upload_picture('profile_image')
@@ -93,7 +96,10 @@ def client_patch_image():
         results = conn_exe_close('call client_patch_image(?,?)',[image_name,request.headers['token']])
         # if results has a list and first object row_count is 1 then this statement will be true
         if(type(results) == list and results[0]['row_count'] == 1):
+            # will get image so that to display the user instant changes
+            # remove old picture will delete the old image from server we got from database 
             image = bring_picture(image_name)
+            remove_old_image(old_image)
             return make_response(json.dumps(image,default=str),200)
         # if row count is 0 then this statement will be true
         elif(type(results) == list and results[0]['row_count'] == 0):
