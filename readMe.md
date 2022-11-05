@@ -83,12 +83,18 @@ only one of these should be sent at one time
    profile_image: (file with any of the formats from ['.jpeg','.jpg','.png','.gif'])
 }
 ```
+**Data Returned** <br>
+**On Success** : "image upload successfull" <br>
+**On Failure** : "image upload failed" or **any other error** <br>
 **`OR`**
 ```
 {
    password: (string)
 }
 ```
+**Data Returned** <br>
+**On Success** : "password update successfull" <br>
+**On Failure** : "password update failed" or **any other error** <br>
 **`OR`** <br>
 **Optional data** : Send one or more of these optional data
 ```
@@ -103,6 +109,9 @@ only one of these should be sent at one time
    dob: (data of birth format yyyy-mm-dd)
 }
 ```
+**Data Returned** <br>
+**On Success** : "profile update successfull" <br>
+**On Failure** : "profile update failed" or **any other error** <br>
 
 <br>
 <br>

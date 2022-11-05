@@ -86,7 +86,7 @@ def client_patch_image(key):
         results = conn_exe_close('call client_patch_image(?,?)',[image_name,request.headers['token']])
         # if results has a list and first object row_count is 1 then this statement will be true
         if(type(results) == list and results[0]['row_count'] == 1):
-            return make_response(json.dumps('image upload success',default=str),200)
+            return make_response(json.dumps('image upload successfull',default=str),200)
         # if row count is 0 then this statement will be true
         elif(type(results) == list and results[0]['row_count'] == 0):
             return make_response(json.dumps('image upload failed',default=str),400)
