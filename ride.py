@@ -5,20 +5,32 @@ from dbhelpers import conn_exe_close
 
 
 def ride_patch():
+    # token and id will be sent as a headers
     invalid_headers = verify_endpoints_info(request.headers,['ride_id','token'])
     if(invalid_headers != None):
         return make_response(json.dumps(invalid_headers,default=str),400)
+    # will grab the original data related to the ride and modify it based on information sent by user
     results = conn_exe_close('call ride_get_for_patch(?,?)',[request.headers['ride_id'],request.headers['token']])
+    # looking for these arguments inside data that user should have sent
+    # but it is not common that every information will the user want to change
+    # the user might want to change one or two column
+    # the rest of the data we will use the existing one from the db itself
     required_data = ['from_city','to_city','travel_date','leave_time']
+    # this code will overwrite the sent data to the original data and grab all the orignal data with
+    # overwritten data and call the procedure by sending new and some old data or 
+    # totally new data or totally old data if user did not sent anything
     results = add_for_patch(request.json,required_data,results[0])
     results = conn_exe_close('call ride_patch(?,?,?,?,?,?)',
     [results['from_city'],results['to_city'],results['travel_date'],results['leave_time'],
     request.headers['ride_id'],request.headers['token']])
+    # if something is changed then user will get the following message
     if(type(results) == list and results[0]['row_count'] == 1):
         return make_response(json.dumps('ride update successfull',default=str),200)
+        # if nothing changed then the following message will appear
     elif(type(results) == list and results[0]['row_count'] == 0):
         return make_response(json.dumps('ride update failed',default=str),400)
     else:
+        # on server error the following message will be displayed
         return make_response(json.dumps(results,default=str),500)
     
 
