@@ -201,7 +201,11 @@ Image as a string.
 <br>
 
  ## /api/client_verified
+ HTTP methods available: **GET**
 This endpoint will check if client is verified or not
+
+## `GET`
+it will check the status of a client verification
 
 **Required Header**
 ```
@@ -216,6 +220,45 @@ This endpoint will check if client is verified or not
 }
 ```
 
+<br>
+<br>
+
+
+
+
+<br>
+
+## /api/ride
+HTTP methods available: **POST** <br>
+
+## `POST` <br>
+It will post the ride in the database. User with a valid token can post a ride. <br>
+
+**Required Headers** <br>
+```
+{
+   token: (string)
+}
+```
+
+**Required Data** <br>
+```
+{
+   from_city: (string),
+   to_city: (string),
+   travel_date: (date with format yyyy-mm-dd),
+   leave_time: (time format hh:mm::ss)
+}
+```
+
+**Data Returned** <br>
+```
+{
+   ride_id: (number),
+   rides_posted_count: (number) it is the number of rides posted in the database to make sure if atleast one row_count has been made
+}
+```
+**On failure** : "ride post failed" or **any other error** <br>
 <br>
 
 
