@@ -2,7 +2,7 @@ import json
 from uuid import uuid4 
 from flask import make_response,request
 from dbhelpers import conn_exe_close
-from apihelpers import verify_endpoints_info,upload_picture,bring_picture,send_email
+from apihelpers import verify_endpoints_info,upload_picture,bring_picture,send_email,add_for_patch
 
 # client post will add a client to the database and at first it will just add first_name,last_name
 # email and password and token and salt for security and login 
@@ -70,6 +70,26 @@ def client_patch_with_password():
         return make_response(json.dumps('password update failed',default=str),400)
     else:
         # if any server error then this statament will be true
+        return make_response(json.dumps(results,default=str),500)
+
+def client_patch():
+    results = conn_exe_close('call client_get_with_token(?)',[request.headers['token']])
+    if(type(results) != list):
+        return make_response(json.dumps(results,default=str),400)
+    elif(type(results) == list and len(results) == 0):
+        return make_response(json.dumps('something went wrong, login again can solve the problem',default=str),400)
+    required_args = ['first_name','last_name','email','address','city','phone_number','bio','dob']
+    results = add_for_patch(request.json,required_args,results[0])
+    results = conn_exe_close('call client_patch(?,?,?,?,?,?,?,?)',
+    [results['first_name'],results['last_name'],results['email'],results['address'],results['city'],results['phone_number'],
+    results['bio'],results['dob']])
+    if(type(results) == list and results[0]['row_count'] == 1):
+        return make_response(json.dumps('profile update successfull',default=str),200)
+    elif(type(results) == list and results[0]['row_count'] == 0):
+        return make_response(json.dumps('profile update failed',default=str),400)
+    elif(type(results) != list or len(results) == 0):
+        return make_response(json.dumps(results,default=str),400)
+    else:
         return make_response(json.dumps(results,default=str),500)
 
 
