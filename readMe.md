@@ -229,7 +229,7 @@ it will check the status of a client verification
 <br>
 
 ## /api/ride
-HTTP methods available: **GET,POST,PATCH** <br>
+HTTP methods available: **GET,POST,PATCH,DELETE** <br>
 
 ## `GET`
 this method will get all the rides associated with user that is posted by the user
@@ -314,5 +314,26 @@ Patch will change information about the ride posted with valid token of a client
 **Data Returned** 
 **On success** : "ride update successfull" <br>
 **On failure** : "ride update failed" or **any other error**. <br>
+
+<br>
+
+## `DELETE`  <br>
+
+Delete will delete the ride belongs to a client if valid token is sent as header and ride_id sent as data. <br>
+**Required Headers**
+```
+{
+   token: (string)
+}
+```
+**Required Data**  <br>
+```
+{
+   ride_id: (number)
+}
+```
+**Data Returned** <br>
+**On success** : "ride delete successfull" <br>
+**On failure** : "ride delete failed" or **any other error** <br>
 
 <br>
