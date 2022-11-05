@@ -19,6 +19,7 @@ def ride_get():
     elif(type(results) == list and len(results) == 0):
         return make_response(json.dumps('no rides to show',default=str),400)
     else:
+        # if server messed up then show this error
         return make_response(json.dumps(results,default=str),500)
 
 
