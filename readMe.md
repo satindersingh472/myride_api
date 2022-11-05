@@ -158,8 +158,9 @@ delete method will logout the client and delete the token from session
    token: (string)
 }
 ```
-
-
+**Data Returned** <br>
+**On success** : "client logout successfull" <br>
+**On failure** : "client logout failed" or **any other error**. <br>
 
 <br>
 <br>
