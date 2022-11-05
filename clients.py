@@ -72,23 +72,41 @@ def client_patch_with_password():
         # if any server error then this statament will be true
         return make_response(json.dumps(results,default=str),500)
 
+
+# will update everyinfo except id,password,salt,image and verified in the client table
+# with the help of a token
 def client_patch():
+    # to achieve this original information will be needed from the table
+    # so that if something is not sent then original information will be used to send along the request
     results = conn_exe_close('call client_get_with_token(?)',[request.headers['token']])
+    # will check if the original data is sent by the database is a list or not
+    # if not list then there is an error
     if(type(results) != list):
         return make_response(json.dumps(results,default=str),400)
+    # also another layer for error is added 
     elif(type(results) == list and len(results) == 0):
         return make_response(json.dumps('something went wrong, login again can solve the problem',default=str),400)
+    # these are the required arguments we need to have for the stored procedure to update the data for client
     required_args = ['first_name','last_name','email','address','city','phone_number','bio','dob']
+    # add to patch will just check if something is not sent then it will stick the older data from db
+    # if something is sent from the user then it will overwrite the data from the original data sent and 
+    # it will still send the original data even if it is overwritten in full with new values sent by user to change
     results = add_for_patch(request.json,required_args,results[0])
-    results = conn_exe_close('call client_patch(?,?,?,?,?,?,?,?)',
+    # now from data coming from add_to_patch we will send the arguments along with token to the database to make a change and
+    # expect number of rows to get changed
+    results = conn_exe_close('call client_patch(?,?,?,?,?,?,?,?,?)',
     [results['first_name'],results['last_name'],results['email'],results['address'],results['city'],results['phone_number'],
-    results['bio'],results['dob']])
+    results['bio'],results['dob'],request.headers['token']])
+    # if row count is 1 then change has happened and reponse is 200
     if(type(results) == list and results[0]['row_count'] == 1):
         return make_response(json.dumps('profile update successfull',default=str),200)
+    # if row count is 0 then nothing has changed and error is 400
     elif(type(results) == list and results[0]['row_count'] == 0):
         return make_response(json.dumps('profile update failed',default=str),400)
     elif(type(results) != list or len(results) == 0):
+    # if error happend in sending data then the following statment is true
         return make_response(json.dumps(results,default=str),400)
+        # if server error then 500 is shown
     else:
         return make_response(json.dumps(results,default=str),500)
 
