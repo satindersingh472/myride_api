@@ -65,7 +65,7 @@ take benefit of not driving while going away from a city.
 
 ## `PATCH` <br>
 Patch method will patch the client's information and password as well
-**Note**: send the token as a header and "password" or "profile_image" should be sent by itself to change i.e. while changing a password only password should be sent as required data and same with profile_image <br>
+**Note**: send the token as a header and "password" or "profile" should be sent by itself to change i.e. while changing a password only password should be sent as required data and same with profile<br>
 
 **for example**: <br>
 
@@ -77,16 +77,7 @@ Patch method will patch the client's information and password as well
 ```
 only one of these should be sent at one time
 
-**Required Data**
-```
-{
-   profile_image: (file with any of the formats from ['.jpeg','.jpg','.png','.gif'])
-}
-```
-**Data Returned** <br>
-**On Success** : "image upload successfull" <br>
-**On Failure** : "image upload failed" or **any other error** <br>
-**`OR`**
+**Required Data**   <br>
 ```
 {
    password: (string)
@@ -95,7 +86,10 @@ only one of these should be sent at one time
 **Data Returned** <br>
 **On Success** : "password update successfull" <br>
 **On Failure** : "password update failed" or **any other error** <br>
+<br>
 **`OR`** <br>
+<br>
+**Required Data**  <br>
 **Optional data** : Send one or more of these optional data
 ```
 {
@@ -131,6 +125,33 @@ only one of these should be sent at one time
 <br>
 <br>
 
+## /api/client_image
+This endpoint will help with the client profile image
+HTTP methods available: **PATCH** <br>
+
+## `PATCH`
+This will change the existing profile image or even if there is no profile image it will insert the sent profile image as file. <br>
+
+**Required Headers**
+```
+{
+   token: (string)
+}
+```
+**Required Data**
+```
+{
+   profile_image: (file with a format of ['.png','.jpg','.jpeg','.gif'])
+}
+```
+
+**Data Returned** 
+
+Image as a string. 
+
+
+<br>
+<br>
 
  ## /api/client_verified
 This endpoint will check if client is verified or not

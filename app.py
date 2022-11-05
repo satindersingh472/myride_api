@@ -1,6 +1,6 @@
 from flask import Flask
 import dbcreds
-from clients import client_get,client_post,client_patch_all
+from clients import client_get,client_post,client_patch_all,client_patch_image
 from apihelpers import upload_picture
 from client_verification import client_verify,client_verified
 
@@ -32,6 +32,10 @@ def use_client_post():
 def use_client_patch_all():
     return client_patch_all()
 
+# -------------------------------------------------------
+@app.patch('/api/client_image')
+def use_client_patch_image():
+    return client_patch_image()
 
 
 if(dbcreds.production_mode == True):
