@@ -70,7 +70,7 @@ CREATE TABLE `client` (
   PRIMARY KEY (`id`),
   UNIQUE KEY `user_unique_email` (`email`),
   UNIQUE KEY `user_unique_phone` (`phone_number`)
-) ENGINE=InnoDB AUTO_INCREMENT=19 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin;
+) ENGINE=InnoDB AUTO_INCREMENT=22 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -79,7 +79,7 @@ CREATE TABLE `client` (
 
 LOCK TABLES `client` WRITE;
 /*!40000 ALTER TABLE `client` DISABLE KEYS */;
-INSERT INTO `client` VALUES (18,'satinder','singh','satindersingh772@gmail.com','*46FEE28425D9980C9BF75945CB4181CE69CF1D8F',NULL,NULL,NULL,NULL,NULL,NULL,'222b5af561294ae2b1e58fcc630b2393',1);
+INSERT INTO `client` VALUES (21,'satinder','singh','satindersingh772@gmail.com','*DBA628DA0790B6320396FD364F7047245CC71429',NULL,NULL,NULL,NULL,NULL,'8666b6759e1041d89ef5fc9dadaa9ace.jpeg','c8e99f041b2f49e9bdca443b25aef2a9',0);
 /*!40000 ALTER TABLE `client` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -99,7 +99,7 @@ CREATE TABLE `client_session` (
   UNIQUE KEY `client_session_unique_token` (`token`),
   KEY `client_session_FK` (`client_id`),
   CONSTRAINT `client_session_FK` FOREIGN KEY (`client_id`) REFERENCES `client` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=88 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin;
+) ENGINE=InnoDB AUTO_INCREMENT=91 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -108,7 +108,7 @@ CREATE TABLE `client_session` (
 
 LOCK TABLES `client_session` WRITE;
 /*!40000 ALTER TABLE `client_session` DISABLE KEYS */;
-INSERT INTO `client_session` VALUES (74,'3a8f37d790be414fb523188b189086ef',18,'2022-11-05 08:32:46');
+INSERT INTO `client_session` VALUES (90,'58234d2f4d6e4f09b1791de4e62ffbc2',21,'2022-11-05 10:46:42');
 /*!40000 ALTER TABLE `client_session` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -121,16 +121,16 @@ DROP TABLE IF EXISTS `ride`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `ride` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
-  `from` varchar(100) COLLATE utf8mb4_bin NOT NULL,
-  `to` varchar(100) COLLATE utf8mb4_bin NOT NULL,
-  `date` date NOT NULL,
-  `time` time NOT NULL,
-  `rider` int(10) unsigned NOT NULL,
+  `from_city` varchar(100) COLLATE utf8mb4_bin NOT NULL,
+  `to_city` varchar(100) COLLATE utf8mb4_bin NOT NULL,
+  `travel_date` date NOT NULL,
+  `leave_time` time NOT NULL,
+  `rider_id` int(10) unsigned NOT NULL,
   `created_at` datetime NOT NULL DEFAULT current_timestamp(),
   PRIMARY KEY (`id`),
-  KEY `ride_FK` (`rider`),
-  CONSTRAINT `ride_FK` FOREIGN KEY (`rider`) REFERENCES `client` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin;
+  KEY `ride_FK` (`rider_id`),
+  CONSTRAINT `ride_FK` FOREIGN KEY (`rider_id`) REFERENCES `client` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -454,6 +454,31 @@ DELIMITER ;
 /*!50003 SET character_set_client  = @saved_cs_client */ ;
 /*!50003 SET character_set_results = @saved_cs_results */ ;
 /*!50003 SET collation_connection  = @saved_col_connection */ ;
+/*!50003 DROP PROCEDURE IF EXISTS `ride_post` */;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = utf8mb4 */ ;
+/*!50003 SET character_set_results = utf8mb4 */ ;
+/*!50003 SET collation_connection  = utf8mb4_general_ci */ ;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = 'IGNORE_SPACE,STRICT_TRANS_TABLES,ERROR_FOR_DIVISION_BY_ZERO,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION' */ ;
+DELIMITER ;;
+CREATE DEFINER=`root`@`localhost` PROCEDURE `ride_post`(from_input varchar(100),to_input varchar(100),date_input date, time_input time,token_input varchar(100))
+    MODIFIES SQL DATA
+BEGIN
+	insert into ride(from_city,to_city,travel_date,leave_time,rider_id)
+	select from_input, to_input, date_input, time_input,cs.client_id
+	from client_session cs inner join client c on c.id = cs.client_id 
+	where cs.token = token_input and c.verified = 1;
+	select LAST_INSERT_ID() as ride_id ; 
+	commit;
+END ;;
+DELIMITER ;
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
@@ -464,4 +489,4 @@ DELIMITER ;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2022-11-05 10:07:51
+-- Dump completed on 2022-11-05 13:19:15
