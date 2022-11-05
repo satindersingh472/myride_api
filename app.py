@@ -4,7 +4,7 @@ from clients import client_get,client_post,client_patch_all,client_patch_image,c
 from apihelpers import upload_picture
 from client_verification import client_verify,client_verified
 from client_login import client_login,client_logout
-from ride import ride_post,ride_patch,ride_get
+from ride import ride_post,ride_patch,ride_get,ride_delete
 
 app = Flask(__name__)
 # -----------------------------------------------
@@ -62,6 +62,10 @@ def use_ride_patch():
 @app.get('/api/ride')
 def use_ride_get():
     return ride_get()
+
+@app.delete('/api/ride')
+def use_ride_delete():
+    return ride_delete()
 
 # -----------------------------------------------------------
 if(dbcreds.production_mode == True):

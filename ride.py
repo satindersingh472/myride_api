@@ -76,3 +76,21 @@ def ride_post():
     else:
         # server error will show up as error 500
         return make_response(json.dumps(results,default=str),500)
+
+
+def ride_delete():
+    invalid_header = verify_endpoints_info(request.headers,['token'])
+    if(invalid_header != None):
+        return make_response(json.dumps(invalid_header,default=str),400)
+    invalid = verify_endpoints_info(request.json,['ride_id'])
+    if(invalid != None):
+        return make_response(json.dumps(invalid,default=str),400)
+    results = conn_exe_close('call ride_delete(?,?)',[request.json['ride_id'],request.headers['token']])
+    if(type(results) == list and results[0]['row_count'] == 1):
+        return make_response(json.dumps('ride delete successfull',default=str),200)
+    elif(type(results) == list and results[0]['row_count'] == 0):
+        return make_response(json.dumps('ride delete failed',default=str),400)
+    elif(type(results) != list):
+        return make_response(json.dumps(results,default=str),400)
+    else:
+        return make_response(json.dumps(results,default=str),500)
