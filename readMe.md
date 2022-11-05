@@ -115,9 +115,16 @@ only one of these should be sent at one time
  ```
  {
    token: (string),
+ }
+ ```
+
+ **Required Data** <br>
+ ```
+ {
    password: (string)
  }
  ```
+
  **Data Returned** <br>
  **On success** : "client delete successfull" <br>
  **On failure** : "client delete failed" or **any other error** <br>
