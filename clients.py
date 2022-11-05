@@ -103,7 +103,8 @@ def client_patch_image():
             # will get image so that to display the user instant changes
             # remove old picture will delete the old image from server we got from database 
             image = bring_picture(image_name)
-            remove_old_image(old_image)
+            if(old_image != '' and old_image != None):
+                remove_old_image(old_image)
             return make_response(json.dumps(image,default=str),200)
         # if row count is 0 then this statement will be true
         elif(type(results) == list and results[0]['row_count'] == 0):
