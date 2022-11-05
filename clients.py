@@ -65,7 +65,7 @@ def client_delete():
     results = conn_exe_close('call client_delete(?,?)',[request.headers['password'],request.headers['token']])
     if(type(results) == list and results[0]['row_count'] == 1):
         # on success row count will be one
-        return make_response(json.dumps('client deleted successfully',default=str),200)
+        return make_response(json.dumps('client delete successfull',default=str),200)
     elif(type(results) == list and results[0]['row_count'] == 0):
         # on failure row count will be 0
         return make_response(json.dumps('client delete failed',default=str),400)

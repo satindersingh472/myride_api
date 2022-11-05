@@ -112,6 +112,21 @@ only one of these should be sent at one time
 **Data Returned** <br>
 **On Success** : "profile update successfull" <br>
 **On Failure** : "profile update failed" or **any other error** <br>
+ <br>
+
+ ## `DELETE`
+
+ Delete request will the client from the database if it is verified and send the correct token and password. <br>
+ **Required Headers** <br>
+ ```
+ {
+   token: (string),
+   password: (string)
+ }
+ ```
+ **Data Returned** <br>
+ **On success** : "client delete successfull" <br>
+ **On failure** : "client delete failed" or **any other error** <br>
 
 <br>
 <br>
