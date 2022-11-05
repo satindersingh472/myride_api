@@ -12,7 +12,7 @@ def ride_patch():
     required_data = ['from_city','to_city','travel_date','leave_time']
     results = add_for_patch(request.json,required_data,results[0])
     results = conn_exe_close('call ride_patch(?,?,?,?,?,?)',
-    [request.json['from_city'],request.json['to_city'],request.json['travel_date'],request.json['leave_time'],
+    [results['from_city'],results['to_city'],results['travel_date'],results['leave_time'],
     request.headers['ride_id'],request.headers['token']])
     if(type(results) == list and results[0]['row_count'] == 1):
         return make_response(json.dumps('ride update successfull',default=str),200)
