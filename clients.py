@@ -33,26 +33,63 @@ def client_post():
         return make_response(json.dumps(results,default=str),500)
 
 
-# it will patch the image only
+# it will patch the image only expecting a key that is sent as a argument in a form data
 def client_patch_image(key):
+    # will use upload picture function and send the key with that to check the name of argument
+    # it will further check the name of the file and turn it into hex for security
     image_name = upload_picture(key)
     if(image_name):
+        # if everything goes fine then image name is true and have some value then none
         results = conn_exe_close('call client_patch_image(?,?)',[image_name,request.headers['token']])
+        # if results has a list and first object row_count is 1 then this statement will be true
         if(type(results) == list and results[0]['row_count'] == 1):
             return make_response(json.dumps('image upload success',default=str),200)
+        # if row count is 0 then this statement will be true
         elif(type(results) == list and results[0]['row_count'] == 0):
             return make_response(json.dumps('image upload failed',default=str),400)
+        # if error then results will be string then this statement 
         elif(type(results) == str):
             return make_response(json.dumps(results,default=str),400)
+        # if server error then this statement will be true
         else:
             return make_response(json.dumps(results,default=str),500)
+    # if image name is none then this statement will be true
+    else:
+        return make_response(json.dumps('image not uploaded',default=str),400)
+
+def client_patch_with_password():
+    # will grab the new salt with uuid and hex
+    salt = uuid4().hex
+    # will send the password along with new salt and token
+    results = conn_exe_close('call client_patch_with_password(?,?,?)',[request.json['password'],request.headers['token'],salt])
+    # if password updated below result statement will be true and message will show up
+    if(type(results) == list and results[0]['row_count'] == 1):
+        return make_response(json.dumps('password update successfull',default=str),200)
+        # if password does not get updated then below statement will show up
+    elif(type(results) == list and results[0]['row_count'] == 0):
+        return make_response(json.dumps('password update failed',default=str),400)
+    else:
+        # if any server error then this statament will be true
+        return make_response(json.dumps(results,default=str),500)
+
 
 def client_patch_all():
+    # token inside a header is important for this endpoint and it will check if the token is sent as a header
     invalid_header = verify_endpoints_info(request.headers,['token'])
     if(invalid_header != None):
+    # if token not sent then this message will show up
         return make_response(json.dumps(invalid_header,default=str),400)
+    # if image is sent as file then this will execute a function based on condition
+    # otherwise error
     invalid_image = verify_endpoints_info(request.files,['profile_image'])
-    if(invalid_image != None):
-        return make_response(json.dumps(invalid_image,default=str),400)
-    if(invalid_image == None):
+    # if password is sent then function will get executed according to the condition
+    invalid_password = verify_endpoints_info(request.json,['password'])
+    # if password is sent and image is not sent then this statement will be true
+    if(invalid_password == None and invalid_image != None):
+        return client_patch_with_password()
+    # if image is sent as a file and password is not sent then this statement will be true
+    elif(invalid_image == None and invalid_password != None):
         return client_patch_image('profile_image')
+    # if no password is sent and no image is sent then this statement will be true
+    elif(invalid_image != None and invalid_password != None):
+        return client_patch()
