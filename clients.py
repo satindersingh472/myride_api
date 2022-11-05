@@ -56,13 +56,17 @@ def client_post():
         return make_response(json.dumps(results,default=str),500)
 
 def client_delete():
-    # will check if client sent token and password as headers
-    invalid_headers = verify_endpoints_info(request.headers,['password','token'])
+    # will check if client sent token as a header
+    invalid_headers = verify_endpoints_info(request.headers,['token'])
     if(invalid_headers != None):
         # if not then error 
         return make_response(json.dumps(invalid_headers,default=str),400)
-        # will send request to the stored procedure with password and token
-    results = conn_exe_close('call client_delete(?,?)',[request.headers['password'],request.headers['token']])
+    #   will check if user sent password or not
+    invalid = verify_endpoints_info(request.json,['password'])
+    if(invalid != None):
+        return make_response(json.dumps(invalid,default=str),400)
+          # will send request to the stored procedure with password and token
+    results = conn_exe_close('call client_delete(?,?)',[request.json['password'],request.headers['token']])
     if(type(results) == list and results[0]['row_count'] == 1):
         # on success row count will be one
         return make_response(json.dumps('client delete successfull',default=str),200)
