@@ -130,7 +130,7 @@ CREATE TABLE `ride` (
   PRIMARY KEY (`id`),
   KEY `ride_FK` (`rider_id`),
   CONSTRAINT `ride_FK` FOREIGN KEY (`rider_id`) REFERENCES `client` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=41 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin;
+) ENGINE=InnoDB AUTO_INCREMENT=44 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -139,7 +139,7 @@ CREATE TABLE `ride` (
 
 LOCK TABLES `ride` WRITE;
 /*!40000 ALTER TABLE `ride` DISABLE KEYS */;
-INSERT INTO `ride` VALUES (21,'Edmonton','calgary','2022-11-08','15:00:00',21,'2022-11-05 13:48:18'),(22,'Edmonton','calgary','2022-11-08','15:00:00',21,'2022-11-05 13:48:19'),(23,'Edmonton','calgary','2022-11-08','15:00:00',21,'2022-11-05 13:48:20'),(24,'Edmonton','calgary','2022-11-08','15:00:00',21,'2022-11-05 13:48:20'),(25,'Edmonton','calgary','2022-11-08','15:00:00',21,'2022-11-05 13:48:21'),(26,'edmonton','calgary','2022-11-05','13:56:38',21,'2022-11-05 13:56:38'),(27,'edmonton','calgary','2022-11-05','13:56:38',21,'2022-11-05 13:56:38'),(28,'edmonton','calgary','2022-11-05','13:57:10',21,'2022-11-05 13:57:10'),(29,'edmonton','calgary','2022-11-05','13:57:10',21,'2022-11-05 13:57:10'),(30,'edmonton','calgary','2022-11-05','13:57:54',21,'2022-11-05 13:57:54'),(31,'edmonton','calgary','2022-11-05','13:57:55',21,'2022-11-05 13:57:55'),(32,'Edmonton','calgary','2022-11-08','15:00:00',21,'2022-11-05 14:00:38'),(33,'Edmonton','calgary','2022-11-08','15:00:00',21,'2022-11-05 14:00:39'),(34,'Edmonton','calgary','2022-11-08','15:00:00',21,'2022-11-05 14:00:40'),(35,'Edmonton','calgary','2022-11-08','15:00:00',21,'2022-11-05 14:00:41'),(36,'Edmonton','calgary','2022-11-08','15:00:00',21,'2022-11-05 14:01:01'),(37,'Edmonton','calgary','2022-11-08','15:00:00',21,'2022-11-05 14:01:08'),(38,'Edmonton','calgary','2022-11-08','15:00:00',21,'2022-11-05 14:01:14'),(39,'Edmonton','calgary','2022-11-08','15:00:00',21,'2022-11-05 14:01:25'),(40,'Edmonton','calgary','2022-11-08','15:00:00',21,'2022-11-05 14:01:53');
+INSERT INTO `ride` VALUES (21,'toronto','edmonton','2022-11-15','05:00:00',21,'2022-11-05 13:48:18'),(22,'toronto','edmonton','2022-11-15','05:00:00',21,'2022-11-05 13:48:19'),(23,'reddeer','edmonton','2022-11-17','09:00:00',21,'2022-11-05 13:48:20'),(24,'toronto','edmonton','2022-11-15','05:00:00',21,'2022-11-05 13:48:20'),(25,'toronto','edmonton','2022-11-15','05:00:00',21,'2022-11-05 13:48:21'),(26,'toronto','edmonton','2022-11-15','05:00:00',21,'2022-11-05 13:56:38'),(27,'toronto','edmonton','2022-11-15','05:00:00',21,'2022-11-05 13:56:38'),(28,'toronto','edmonton','2022-11-15','05:00:00',21,'2022-11-05 13:57:10'),(29,'toronto','edmonton','2022-11-15','05:00:00',21,'2022-11-05 13:57:10'),(30,'toronto','edmonton','2022-11-15','05:00:00',21,'2022-11-05 13:57:54'),(31,'toronto','edmonton','2022-11-15','05:00:00',21,'2022-11-05 13:57:55'),(32,'toronto','edmonton','2022-11-15','05:00:00',21,'2022-11-05 14:00:38'),(33,'toronto','edmonton','2022-11-15','05:00:00',21,'2022-11-05 14:00:39'),(34,'toronto','edmonton','2022-11-15','05:00:00',21,'2022-11-05 14:00:40'),(35,'toronto','edmonton','2022-11-15','05:00:00',21,'2022-11-05 14:00:41'),(36,'toronto','edmonton','2022-11-15','05:00:00',21,'2022-11-05 14:01:01'),(37,'toronto','edmonton','2022-11-15','05:00:00',21,'2022-11-05 14:01:08'),(38,'toronto','edmonton','2022-11-15','05:00:00',21,'2022-11-05 14:01:14'),(39,'toronto','edmonton','2022-11-15','05:00:00',21,'2022-11-05 14:01:25'),(40,'toronto','edmonton','2022-11-15','05:00:00',21,'2022-11-05 14:01:53'),(41,'toronto','edmonton','2022-11-15','05:00:00',21,'2022-11-05 14:05:33'),(42,'toronto','edmonton','2022-11-15','05:00:00',21,'2022-11-05 14:05:41'),(43,'toronto','edmonton','2022-11-15','05:00:00',21,'2022-11-05 14:05:51');
 /*!40000 ALTER TABLE `ride` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -455,6 +455,55 @@ DELIMITER ;
 /*!50003 SET character_set_client  = @saved_cs_client */ ;
 /*!50003 SET character_set_results = @saved_cs_results */ ;
 /*!50003 SET collation_connection  = @saved_col_connection */ ;
+/*!50003 DROP PROCEDURE IF EXISTS `ride_get_for_patch` */;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = utf8mb4 */ ;
+/*!50003 SET character_set_results = utf8mb4 */ ;
+/*!50003 SET collation_connection  = utf8mb4_general_ci */ ;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = 'IGNORE_SPACE,STRICT_TRANS_TABLES,ERROR_FOR_DIVISION_BY_ZERO,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION' */ ;
+DELIMITER ;;
+CREATE DEFINER=`root`@`localhost` PROCEDURE `ride_get_for_patch`(token_input varchar(100))
+BEGIN
+	SELECT 
+	convert (r.from_city using utf8) as from_city,
+	convert (r.to_city using utf8) as  to_city,
+	convert (r.travel_date using utf8) as travel_date,
+	convert (r.leave_time using utf8) as leave_time
+	from ride r inner join client_session cs on cs.client_id = r.rider_id 
+	where cs.token = token_input;
+	
+END ;;
+DELIMITER ;
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
+/*!50003 DROP PROCEDURE IF EXISTS `ride_patch` */;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = utf8mb4 */ ;
+/*!50003 SET character_set_results = utf8mb4 */ ;
+/*!50003 SET collation_connection  = utf8mb4_general_ci */ ;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = 'IGNORE_SPACE,STRICT_TRANS_TABLES,ERROR_FOR_DIVISION_BY_ZERO,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION' */ ;
+DELIMITER ;;
+CREATE DEFINER=`root`@`localhost` PROCEDURE `ride_patch`(from_input varchar(100),to_input varchar(100),date_input date,time_input time,id_input int unsigned, token_input varchar(100))
+    MODIFIES SQL DATA
+BEGIN
+	update ride r inner join client_session cs on cs.client_id = r.rider_id
+	set r.from_city = from_input, r.to_city = to_input, r.travel_date = date_input, r.leave_time = time_input
+	where cs.token = token_input and r.id = id_input;
+	commit;
+END ;;
+DELIMITER ;
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
 /*!50003 DROP PROCEDURE IF EXISTS `ride_post` */;
 /*!50003 SET @saved_cs_client      = @@character_set_client */ ;
 /*!50003 SET @saved_cs_results     = @@character_set_results */ ;
@@ -473,7 +522,7 @@ BEGIN
 	from client_session cs inner join client c on c.id = cs.client_id 
 	where cs.token = token_input and c.verified = 1;
 		
-	select LAST_INSERT_ID() as ride_id , row_count() as row_count; 
+	select LAST_INSERT_ID() as ride_id , row_count() as rides_posted_count; 
 
 	commit;
 END ;;
@@ -492,4 +541,4 @@ DELIMITER ;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2022-11-05 14:02:17
+-- Dump completed on 2022-11-05 14:42:53

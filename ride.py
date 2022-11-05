@@ -4,6 +4,9 @@ from apihelpers import verify_endpoints_info
 from dbhelpers import conn_exe_close
 
 
+
+
+
 def ride_post():
     # will check for token as a header is sent or not
     invalid_headers = verify_endpoints_info(request.headers,['token'])
@@ -19,7 +22,9 @@ def ride_post():
     if(type(results) == list and results[0]['rides_posted_count'] == 1):
         # if ride posted successfully then it will give back the number of rides posted and ride id
         return make_response(json.dumps(results[0],default=str),200)
+        # if no ride posted then error will show up from the following statment
     elif(type(results) == list and results[0]['rides_posted_count'] == 0):
         return make_response(json.dumps('ride post failed',default=str),400)
     else:
+        # server error will show up as error 500
         return make_response(json.dumps(results,default=str),500)
