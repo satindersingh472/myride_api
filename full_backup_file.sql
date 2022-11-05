@@ -108,7 +108,7 @@ CREATE TABLE `client_session` (
 
 LOCK TABLES `client_session` WRITE;
 /*!40000 ALTER TABLE `client_session` DISABLE KEYS */;
-INSERT INTO `client_session` VALUES (74,'3a8f37d790be414fb523188b189086ef',18,'2022-11-05 08:32:46'),(75,'new_token',18,'2022-11-05 08:34:07'),(85,'djldjfldsjfldsajfjdalfj',18,'2022-11-05 08:38:20'),(86,'djldjfldsjfldsajfjda',18,'2022-11-05 08:38:30'),(87,'d65ea61cc4854a33ae732e1c487c0da8',18,'2022-11-05 09:16:36');
+INSERT INTO `client_session` VALUES (74,'3a8f37d790be414fb523188b189086ef',18,'2022-11-05 08:32:46'),(85,'djldjfldsjfldsajfjdalfj',18,'2022-11-05 08:38:20'),(86,'djldjfldsjfldsajfjda',18,'2022-11-05 08:38:30'),(87,'d65ea61cc4854a33ae732e1c487c0da8',18,'2022-11-05 09:16:36');
 /*!40000 ALTER TABLE `client_session` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -249,6 +249,28 @@ BEGIN
 	
 	select cs.client_id as client_id, convert(cs.token using utf8) as token
 	from client_session cs where cs.token = token_input;
+	commit;
+END ;;
+DELIMITER ;
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
+/*!50003 DROP PROCEDURE IF EXISTS `client_logout` */;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = utf8mb4 */ ;
+/*!50003 SET character_set_results = utf8mb4 */ ;
+/*!50003 SET collation_connection  = utf8mb4_general_ci */ ;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = 'IGNORE_SPACE,STRICT_TRANS_TABLES,ERROR_FOR_DIVISION_BY_ZERO,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION' */ ;
+DELIMITER ;;
+CREATE DEFINER=`root`@`localhost` PROCEDURE `client_logout`(token_input varchar(100))
+    MODIFIES SQL DATA
+BEGIN
+	delete from client_session where token = token_input;
+	select row_count() as row_count;
 	commit;
 END ;;
 DELIMITER ;
@@ -442,4 +464,4 @@ DELIMITER ;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2022-11-05  9:17:14
+-- Dump completed on 2022-11-05  9:43:38
