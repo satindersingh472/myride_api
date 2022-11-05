@@ -24,3 +24,23 @@ def client_login():
         # else server error can send 500 error code as a response with an error
     else:
         return make_response(json.dumps(results,default=str),500)
+
+# will logout the client from the client sessions
+def client_logout():
+    # if token is not sent as a header then error will show up
+    invalid_header = verify_endpoints_info(request.headers,['token'])
+    if(invalid_header != None):
+        return make_response(json.dumps(invalid_header,default=str),400)
+    # after a token is sent then stored procedured will be called and we expect a row count with 1
+    results = conn_exe_close('call client_logout(?)',[request.headers['token']])
+    if(type(results) == list and results[0]['row_count'] == 1):
+        return make_response(json.dumps('client logout successfull',default=str),200)
+    # this statement will be true if user sends invalid token 
+    elif(type(results) == list and results[0]['row_count'] == 0):
+        return make_response(json.dumps('client logout failed',default=str),400)
+    elif(type(results) != list):
+        # if any other error occurs this statemtn will be true
+        return make_response(json.dumps(results,default=str),400)
+                # if server error this statement will be true
+    else:
+        return make_response(json.dumps(results,default=str),500)
