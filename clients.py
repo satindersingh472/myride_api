@@ -55,6 +55,19 @@ def client_post():
     else:
         return make_response(json.dumps(results,default=str),500)
 
+def client_delete():
+    invalid_headers = verify_endpoints_info(request.headers,['password','token'])
+    if(invalid_headers != None):
+        return make_response(json.dumps(invalid_headers,default=str),400)
+    results = conn_exe_close('call client_delete(?,?)',[request.headers['password'],request.headers['token']])
+    if(type(results) == list and results[0]['row_count'] == 1):
+        return make_response(json.dumps('client deleted successfully',default=str),200)
+    elif(type(results) == list and results[0]['row_count'] == 0):
+        return make_response(json.dumps('client delete failed',default=str),400)
+    elif(type(results) != list):
+        return make_response(json.dumps(results,default=str),400)
+    else:
+        return make_response(json.dumps(results,default=str),500)
 
 # it will patch the image only expecting a key that is sent as a argument in a form data
 def client_patch_image(key):
