@@ -79,7 +79,7 @@ CREATE TABLE `client` (
 
 LOCK TABLES `client` WRITE;
 /*!40000 ALTER TABLE `client` DISABLE KEYS */;
-INSERT INTO `client` VALUES (7,'first_name','last_name','email@email.com','*F28064AE72F6BF705A01724B55EB5BEE5088A2FB','123 fake st','edmonton','123456789','i am satinder','1994-11-15','satinder_profile.jpeg','salt_123456',1),(16,'satinder','singh','satindersingh772@gmail.com','*73ADA3BAFAEB09930DD9DC21F9C59151CE48AD66',NULL,NULL,NULL,NULL,NULL,NULL,'fd896ce6cf2d412d9deed94b288ace09',0);
+INSERT INTO `client` VALUES (7,'first_name','last_name','email@email.com','*F28064AE72F6BF705A01724B55EB5BEE5088A2FB','123 fake st','edmonton','123456789','i am satinder','1994-11-15','satinder_profile.jpeg','salt_123456',1),(16,'satinder','singh','satindersingh772@gmail.com','*73ADA3BAFAEB09930DD9DC21F9C59151CE48AD66',NULL,NULL,NULL,NULL,NULL,'66a0ef563e914f829a8cc68178a1ef09.jpeg','fd896ce6cf2d412d9deed94b288ace09',0);
 /*!40000 ALTER TABLE `client` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -187,7 +187,7 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `client_patch_image`(profile_image_i
     MODIFIES SQL DATA
 BEGIN
 	update client c inner join client_session cs on cs.client_id = c.id 
-	set c.profile_image = profile_image_input where cs.token = token_input;
+	set c.profile_image = profile_image_input where cs.token = token_input and c.verified = 1;
 	
 	select row_count() as row_count;
 	commit;
@@ -207,16 +207,11 @@ DELIMITER ;
 /*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
 /*!50003 SET sql_mode              = 'IGNORE_SPACE,STRICT_TRANS_TABLES,ERROR_FOR_DIVISION_BY_ZERO,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION' */ ;
 DELIMITER ;;
-CREATE DEFINER=`root`@`localhost` PROCEDURE `client_patch_with_password`(first_name_input varchar(100),last_name_input varchar(100),email_input varchar(300),
-password_input varchar(200),address_input varchar(100),city_input varchar(100),phone_number_input varchar(20),
-bio_input varchar(300),dob_input date, token_input varchar(100),salt_input varchar(100))
+CREATE DEFINER=`root`@`localhost` PROCEDURE `client_patch_with_password`(password_input varchar(200),token_input varchar(100),salt_input varchar(100))
     MODIFIES SQL DATA
 BEGIN
 	update client c inner join client_session cs on cs.client_id = c.id  
-	set first_name = first_name_input,last_name = last_name_input,email = email_input, address = address_input,city =  city_input,
-	phone_number = phone_number_input, bio = bio_input, dob =  dob_input,
-	password = password(concat(password_input,salt_input)),salt = salt_input
-	
+	set password = password(concat(password_input,salt_input)),salt = salt_input
 	where cs.token = token_input and c.verified = 1;
 	
 	select row_count() as row_count;
@@ -270,7 +265,7 @@ DELIMITER ;
 DELIMITER ;;
 CREATE DEFINER=`root`@`localhost` PROCEDURE `client_verified`(token_input varchar(100))
 BEGIN
-	SELECT c.verified
+	SELECT c.verified as verified
 	from client c inner join client_session cs on cs.client_id = c.id 
 	where cs.token = token_input;
 	
@@ -315,4 +310,4 @@ DELIMITER ;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2022-11-04 15:25:37
+-- Dump completed on 2022-11-04 18:47:06
