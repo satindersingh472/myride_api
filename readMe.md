@@ -13,6 +13,32 @@ take benefit of not driving while going away from a city.
  client can get its information, create an account , modify its own account and delete its own account
  so, the first step in creating an account is send credentials as a required data and verify an email sent to the client's email.
 
+ ## `GET`
+ Get method will bring details about the client with valid id and token if a client is verified. <br>
+ **Required Headers**
+ ```
+ {
+   token: (string),
+   client_id: (string)
+ }
+ ```
+**Data Returned** <br>
+```
+{
+   first_name: (string),
+   last_name: (string),
+   email: (string),
+   address: (string),
+   city: (string),
+   phone_number: (string),
+   bio: (string),
+   dob: (string),
+   profile_image: (string)
+}
+```
+<br>
+
+
  ## `POST`
 
  Post method will add a new a client's first_name, last_name, email and password to the database
