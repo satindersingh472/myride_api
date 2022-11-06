@@ -19,6 +19,7 @@ def rides_get_all():
         # if error then this statement will be true
         return make_response(json.dumps(results,default=str),400)
     else:
+        # if server error then this statement will get executed
         return make_response(json.dumps(results,default=str),500)
 
 

@@ -244,8 +244,6 @@ regardless of the location but upcoming rides only not the past rides.
 ]
 ```
 
-
-
 <br>
 <br>
 
