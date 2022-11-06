@@ -467,8 +467,15 @@ DELIMITER ;
 DELIMITER ;;
 CREATE DEFINER=`root`@`localhost` PROCEDURE `rides_get_all`()
 BEGIN
-	select r.id 
-	from ride r
+	select
+	r.id as ride_id,
+	convert (r.from_city using utf8) as from_city,
+	convert (r.to_city using utf8) as to_city,
+	convert (r.travel_date using utf8) as travel_date ,
+	convert (r.leave_time using utf8) as leave_time,
+	r.rider_id as rider_id,
+	convert (c.first_name using utf8) as rider_first_name
+	from ride r inner join client c on c.id = r.rider_id
 	where r.travel_date >= now();
 END ;;
 DELIMITER ;
@@ -614,4 +621,4 @@ DELIMITER ;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2022-11-06 11:38:30
+-- Dump completed on 2022-11-06 12:10:51

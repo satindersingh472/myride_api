@@ -4,6 +4,24 @@ from apihelpers import verify_endpoints_info,add_for_patch
 from dbhelpers import conn_exe_close
 
 
+# will get all the rides available after now()
+# stored procedure rides_get_all is not expecting any arguments
+def rides_get_all():
+    # will directly call the stored procedure to get all the results for rides
+    results = conn_exe_close('call rides_get_all()',[])
+    if(type(results) == list and len(results) != 0):
+        # if response has rides then this statement will be true
+        return make_response(json.dumps(results,default=str),200)
+    # if not then this statement will be true
+    elif(type(results) == list and len(results) == 0):
+        return make_response(json.dumps('no rides available',default=str),400)
+    elif(type(results) != list):
+        # if error then this statement will be true
+        return make_response(json.dumps(results,default=str),400)
+    else:
+        return make_response(json.dumps(results,default=str),500)
+
+
 def ride_get():
     # will check for headers if id and token is present
     invalid_headers = verify_endpoints_info(request.headers,['client_id','token'])
