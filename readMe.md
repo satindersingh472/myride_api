@@ -223,9 +223,30 @@ it will check the status of a client verification
 <br>
 <br>
 
+## /api/rides
+HTTP methods available: **GET** <br>
+
+## `GET`
+It will show all the available rides to the user. at this time all the rides are being shown to the user
+regardless of the location but upcoming rides only not the past rides.
+**Data Returned**
+```
+[
+   {
+      ride_id: (number),
+      from_city: (string),
+      to_city: (string),
+      travel_date: (string),
+      leave_time: (string),
+      rider_id: (number),
+      rider_first_name: (string)
+   },
+]
+```
 
 
 
+<br>
 <br>
 
 ## /api/ride
