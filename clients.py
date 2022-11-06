@@ -52,6 +52,9 @@ def client_post():
         return make_response(json.dumps(results[0],default=str),200)
     elif(type(results) == list and len(results) != 1):
         return make_response(json.dumps(results,default=str),400)
+        # will show an error if duplicate email is being entered
+    elif(type(results) == str and results.startswith('Duplicate entry')):
+        return make_response(json.dumps('User already exists with same email',default=str),400)
     else:
         return make_response(json.dumps(results,default=str),500)
 

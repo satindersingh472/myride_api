@@ -70,7 +70,7 @@ CREATE TABLE `client` (
   PRIMARY KEY (`id`),
   UNIQUE KEY `user_unique_email` (`email`),
   UNIQUE KEY `user_unique_phone` (`phone_number`)
-) ENGINE=InnoDB AUTO_INCREMENT=22 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin;
+) ENGINE=InnoDB AUTO_INCREMENT=24 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -139,7 +139,7 @@ CREATE TABLE `ride` (
 
 LOCK TABLES `ride` WRITE;
 /*!40000 ALTER TABLE `ride` DISABLE KEYS */;
-INSERT INTO `ride` VALUES (23,'montreal','edmonton','2022-12-04','09:00:00',21,'2022-11-05 13:48:20'),(24,'toronto','edmonton','2022-11-15','05:00:00',21,'2022-11-05 13:48:20'),(25,'montreal','edmonton','2022-12-04','05:00:00',21,'2022-11-05 13:48:21'),(26,'toronto','edmonton','2022-11-15','05:00:00',21,'2022-11-05 13:56:38'),(27,'toronto','edmonton','2022-11-15','05:00:00',21,'2022-11-05 13:56:38'),(28,'toronto','edmonton','2022-11-15','05:00:00',21,'2022-11-05 13:57:10'),(29,'toronto','edmonton','2022-11-15','05:00:00',21,'2022-11-05 13:57:10'),(30,'toronto','edmonton','2022-11-15','05:00:00',21,'2022-11-05 13:57:54'),(31,'toronto','edmonton','2022-11-15','05:00:00',21,'2022-11-05 13:57:55'),(32,'toronto','edmonton','2022-11-15','05:00:00',21,'2022-11-05 14:00:38'),(33,'toronto','edmonton','2022-11-15','05:00:00',21,'2022-11-05 14:00:39'),(34,'toronto','edmonton','2022-11-15','05:00:00',21,'2022-11-05 14:00:40'),(35,'toronto','edmonton','2022-11-15','05:00:00',21,'2022-11-05 14:00:41'),(36,'toronto','edmonton','2022-11-15','05:00:00',21,'2022-11-05 14:01:01'),(37,'toronto','edmonton','2022-11-15','05:00:00',21,'2022-11-05 14:01:08'),(38,'toronto','edmonton','2022-11-15','05:00:00',21,'2022-11-05 14:01:14'),(39,'toronto','edmonton','2022-11-15','05:00:00',21,'2022-11-05 14:01:25'),(40,'toronto','edmonton','2022-11-15','05:00:00',21,'2022-11-05 14:01:53'),(41,'toronto','edmonton','2022-11-15','05:00:00',21,'2022-11-05 14:05:33'),(42,'toronto','edmonton','2022-11-15','05:00:00',21,'2022-11-05 14:05:41'),(43,'toronto','edmonton','2022-11-15','05:00:00',21,'2022-11-05 14:05:51');
+INSERT INTO `ride` VALUES (23,'montreal','edmonton','2022-12-04','09:00:00',21,'2022-11-05 13:48:20'),(25,'montreal','edmonton','2022-12-04','05:00:00',21,'2022-11-05 13:48:21'),(26,'montreal','calgary','2022-11-15','05:00:00',21,'2022-11-05 13:56:38'),(27,'toronto','edmonton','2022-11-15','05:00:00',21,'2022-11-05 13:56:38'),(28,'toronto','edmonton','2022-11-15','05:00:00',21,'2022-11-05 13:57:10'),(29,'toronto','edmonton','2022-11-15','05:00:00',21,'2022-11-05 13:57:10'),(30,'saskatoon','edmonton','2022-11-15','05:00:00',21,'2022-11-05 13:57:54'),(31,'toronto','calgary','2022-11-15','05:00:00',21,'2022-11-05 13:57:55'),(32,'toronto','edmonton','2022-11-15','05:00:00',21,'2022-11-05 14:00:38'),(33,'toronto','edmonton','2022-11-15','05:00:00',21,'2022-11-05 14:00:39'),(34,'regina','edmonton','2022-11-04','05:00:00',21,'2022-11-05 14:00:40'),(35,'toronto','calgary','2022-11-15','05:00:00',21,'2022-11-05 14:00:41'),(36,'red deer','edmonton','2022-11-15','05:00:00',21,'2022-11-05 14:01:01'),(37,'toronto','edmonton','2022-11-01','05:00:00',21,'2022-11-05 14:01:08'),(38,'edson','edmonton','2022-11-15','05:00:00',21,'2022-11-05 14:01:14'),(39,'toronto','edmonton','2022-11-15','05:00:00',21,'2022-11-05 14:01:25'),(40,'toronto','vancouver','2022-11-15','05:00:00',21,'2022-11-05 14:01:53'),(41,'lethbridge','edmonton','2022-11-01','05:00:00',21,'2022-11-05 14:05:33'),(42,'vancouver','edmonton','2022-11-15','05:00:00',21,'2022-11-05 14:05:41');
 /*!40000 ALTER TABLE `ride` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -455,6 +455,27 @@ DELIMITER ;
 /*!50003 SET character_set_client  = @saved_cs_client */ ;
 /*!50003 SET character_set_results = @saved_cs_results */ ;
 /*!50003 SET collation_connection  = @saved_col_connection */ ;
+/*!50003 DROP PROCEDURE IF EXISTS `rides_get_all` */;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = utf8mb4 */ ;
+/*!50003 SET character_set_results = utf8mb4 */ ;
+/*!50003 SET collation_connection  = utf8mb4_general_ci */ ;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = 'IGNORE_SPACE,STRICT_TRANS_TABLES,ERROR_FOR_DIVISION_BY_ZERO,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION' */ ;
+DELIMITER ;;
+CREATE DEFINER=`root`@`localhost` PROCEDURE `rides_get_all`()
+BEGIN
+	select r.id 
+	from ride r
+	where r.travel_date >= now();
+END ;;
+DELIMITER ;
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
 /*!50003 DROP PROCEDURE IF EXISTS `ride_delete` */;
 /*!50003 SET @saved_cs_client      = @@character_set_client */ ;
 /*!50003 SET @saved_cs_results     = @@character_set_results */ ;
@@ -593,4 +614,4 @@ DELIMITER ;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2022-11-05 16:43:15
+-- Dump completed on 2022-11-06 11:38:30

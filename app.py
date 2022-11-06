@@ -8,10 +8,12 @@ from ride import ride_post,ride_patch,ride_get,ride_delete
 
 app = Flask(__name__)
 # -----------------------------------------------
+# will login the client 
 @app.post('/api/client_login')
 def use_client_login():
     return client_login()
 
+# will logout the client
 @app.delete('/api/client_login')
 def use_client_logout():
     return client_logout()
@@ -29,6 +31,7 @@ def use_client_verified():
 
 # -------------------------------------------------
 
+# will get the information about the client
 @app.get('/api/client')
 def use_client_get():
     return client_get()
@@ -38,27 +41,33 @@ def use_client_get():
 def use_client_post():
     return client_post()
 
+# will edit the client info for example password,name.etc
 @app.patch('/api/client')
 def use_client_patch_all():
     return client_patch_all()
 
+# will delete the client from the database
 @app.delete('/api/client')
 def use_client_delete():
     return client_delete()
 
 # -------------------------------------------------------
+# will patch the client image
 @app.patch('/api/client_image')
 def use_client_patch_image():
     return client_patch_image()
 # --------------------------------------------------------
+# post a new ride
 @app.post('/api/ride')
 def use_ride_post():
     return ride_post()
 
+# edit the information about the ride
 @app.patch('/api/ride')
 def use_ride_patch():
     return ride_patch()
 
+# get the inform
 @app.get('/api/ride')
 def use_ride_get():
     return ride_get()
