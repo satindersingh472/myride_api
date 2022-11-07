@@ -3,6 +3,27 @@ from flask import request,make_response
 from apihelpers import verify_endpoints_info,add_for_patch
 from dbhelpers import conn_exe_close
 
+# it will get the information regarding the booking for the passenger
+# will require a valid token and client id as a passenger id
+def booking_passenger_get():
+    invalid_headers = verify_endpoints_info(request.headers,['token'])
+    if(invalid_headers != None):
+        return make_response(json.dumps(invalid_headers,default=str),400)
+    invalid = verify_endpoints_info(request.args,['client_id'])
+    if(invalid != None):
+        return make_response(json.dumps(invalid,default=str),400)
+    results = conn_exe_close('call booking_passenger_get(?,?)',[request.args['client_id'],request.headers['token']])
+    if(type(results) == list and len(results) != 0 ):
+        return make_response(json.dumps(results,default=str),200)
+    elif(type(results) == list and len(results) == 0):
+        return make_response(json.dumps('no booking available',default=str),400)
+    elif(type(results) == str):
+        return make_response(json.dumps(results,default=str),400)
+    else:
+        return make_response(json.dumps(results,default=str),500)
+
+
+
 
 # will post a new booking for a passenger given valid token and valid ride_id
 def booking_post():

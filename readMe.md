@@ -356,3 +356,44 @@ Delete will delete the ride belongs to a client if valid token is sent as header
 **On failure** : "ride delete failed" or **any other error** <br>
 
 <br>
+<br>
+
+## /api/booking_passenger
+HTTP methods available: **GET,POST** <br>
+
+## `Get`
+It will display all the bookings associated with a passenger.
+so, the passenger can get all its upcoming and past bookings.(the date feature will be coming soon...)
+
+**Required Headers** <br>
+```
+{
+   token: (string)
+}
+```
+
+**Required Data** <br>
+```
+{
+   client_id: (string)
+}
+```
+
+**Data Returned** <br>
+```
+[
+   {
+      booking_id: (number),
+      is_confirmed: (bool),
+      is_completed: (bool),
+      from_city: (string),
+      to_city: (string),
+      travel_date: (string),
+      leave_time: (string),
+      rider_id: (number),
+      ride_id: (number),
+      rider_first_name: (string),
+      rider_last_name: (string),
+      phone_number: (string)
+   },
+]
