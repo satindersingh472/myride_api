@@ -402,3 +402,24 @@ so, the passenger can get all its upcoming and past bookings.(the date feature w
 
 ## `POST` <br>
 post method will post a new booking for a ride with a valid token and ride id.
+
+**Required Headers** <br>
+```
+{
+   token: (string)
+}
+```
+
+**Required Data**  <br>
+```
+{
+   ride_id: (string)
+}
+```
+**Data Returned** <br>
+```
+{
+   booking_id: (number)
+}
+```
+<br>
