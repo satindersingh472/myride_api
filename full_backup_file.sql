@@ -34,7 +34,7 @@ CREATE TABLE `booking` (
   KEY `booking_FK_2` (`ride_id`),
   CONSTRAINT `booking_FK_1` FOREIGN KEY (`passenger_id`) REFERENCES `client` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `booking_FK_2` FOREIGN KEY (`ride_id`) REFERENCES `ride` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=16 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin;
+) ENGINE=InnoDB AUTO_INCREMENT=22 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -43,7 +43,7 @@ CREATE TABLE `booking` (
 
 LOCK TABLES `booking` WRITE;
 /*!40000 ALTER TABLE `booking` DISABLE KEYS */;
-INSERT INTO `booking` VALUES (1,21,0,0,26,'2022-11-06 18:45:46'),(2,21,0,0,27,'2022-11-06 18:56:47'),(3,21,0,0,28,'2022-11-06 18:56:54'),(4,21,0,0,29,'2022-11-06 18:57:44'),(5,24,0,0,35,'2022-11-06 19:06:40'),(6,25,0,0,37,'2022-11-06 19:06:47'),(7,26,0,0,39,'2022-11-06 19:06:52'),(8,27,0,0,27,'2022-11-06 20:14:48'),(10,21,0,0,42,'2022-11-06 20:15:35'),(11,21,0,0,45,'2022-11-06 20:40:53'),(12,24,0,0,45,'2022-11-06 20:43:59'),(13,24,0,0,45,'2022-11-06 20:57:53'),(14,24,0,0,45,'2022-11-06 20:57:55'),(15,27,0,0,36,'2022-11-06 21:19:32');
+INSERT INTO `booking` VALUES (1,21,0,0,26,'2022-11-06 18:45:46'),(2,21,0,0,27,'2022-11-06 18:56:47'),(3,21,0,0,28,'2022-11-06 18:56:54'),(4,21,0,0,29,'2022-11-06 18:57:44'),(5,24,0,0,35,'2022-11-06 19:06:40'),(6,25,0,0,37,'2022-11-06 19:06:47'),(7,26,0,0,39,'2022-11-06 19:06:52'),(8,27,0,0,27,'2022-11-06 20:14:48'),(10,21,0,0,42,'2022-11-06 20:15:35'),(11,21,0,0,45,'2022-11-06 20:40:53'),(12,24,0,0,45,'2022-11-06 20:43:59'),(13,24,0,0,45,'2022-11-06 20:57:53'),(14,24,0,0,45,'2022-11-06 20:57:55'),(15,27,0,0,36,'2022-11-06 21:19:32'),(16,27,0,0,40,'2022-11-07 10:00:31'),(17,27,0,0,40,'2022-11-07 10:41:37'),(18,27,0,0,40,'2022-11-07 10:46:25'),(19,27,0,0,40,'2022-11-07 10:46:26'),(21,27,0,0,44,'2022-11-07 10:47:05');
 /*!40000 ALTER TABLE `booking` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -161,18 +161,20 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `booking_passenger_get`(id_input int
 BEGIN
 	select 
 	b.id  as booking_id,
-	convert(b.is_confirmed using utf8) as is_confirmed,
-	convert(b.is_completed using utf8) as is_completed ,
+	b.is_confirmed as is_confirmed,
+	b.is_completed as is_completed,
 	convert (r.from_city using utf8) as from_city ,
 	convert(r.to_city using utf8) as to_city,
 	convert(r.travel_date using utf8) as travel_date,
 	convert (r.leave_time using utf8) as leave_time ,
 	r.rider_id as rider_id ,
 	r.id as ride_id ,
-	convert(c.first_name using utf8) as first_name,
+	convert(c.first_name using utf8) as rider_first_name,
+	convert(c.last_name using utf8) as rider_last_name,
 	convert(c.phone_number using utf8) as phone_number 
 	from client_session cs inner join booking b on cs.client_id = b.passenger_id inner join ride r on b.ride_id = r.id
 	inner join client c on r.rider_id = c.id
+	
 	where cs.token = token_input and b.passenger_id = id_input;
 	
 END ;;
@@ -195,7 +197,7 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `booking_post`(ride_id_input int uns
     MODIFIES SQL DATA
 BEGIN
 	insert into booking (passenger_id,ride_id)
-	select c.id, ride_id_input
+	select c.id , ride_id_input
 	from client_session cs inner join client c on c.id = cs.client_id 
 	where cs.token = token_input and c.verified = 1;
 	select LAST_INSERT_ID() as booking_id; 
@@ -729,4 +731,4 @@ DELIMITER ;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2022-11-07  9:36:48
+-- Dump completed on 2022-11-07 10:47:23

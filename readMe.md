@@ -397,3 +397,8 @@ so, the passenger can get all its upcoming and past bookings.(the date feature w
       phone_number: (string)
    },
 ]
+```
+<br>
+
+## `POST` <br>
+post method will post a new booking for a ride with a valid token and ride id.
