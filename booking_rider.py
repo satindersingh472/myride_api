@@ -5,18 +5,25 @@ from dbhelpers import conn_exe_close
 
 # will get the booking on rider side with a valid ride id and token
 def booking_rider_get():
+    # check for token if sent or not will show error if not sent
     invalid_headers = verify_endpoints_info(request.headers,['token'])
     if(invalid_headers != None):
         return make_response(json.dumps(invalid_headers,default=str),400)
+    # will check if ride id is sent or not 
     invalid = verify_endpoints_info(request.args,['ride_id'])
     if(invalid != None):
         return make_response(json.dumps(invalid,default=str),400)
+    # if token and id are sent then make a request to grab the details about the ride 
     results = conn_exe_close('call booking_rider_get(?,?)',[request.args['ride_id'],request.headers['token']])
     if(type(results) == list and len(results) != 0):
+        # if there is any booking then it will true 
         return make_response(json.dumps(results,default=str),200)
     elif(type(results) == list and len(results) == 0):
+        # if no booking then this will be true
         return make_response(json.dumps('no bookings available',default=str),400)
     elif(type(results) != list):
+        # if error then this statement will be true
         return make_response(json.dumps(results,default=str),400)
     else:
+        # in case of other error this will be true
         return make_response(json.dumps(results,default=str),500)
