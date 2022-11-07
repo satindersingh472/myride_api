@@ -423,3 +423,22 @@ post method will post a new booking for a ride with a valid token and ride id.
 }
 ```
 <br>
+
+## `DELETE`
+delete method will delete the booking for a passenger
+**Required Headers**
+```
+{
+   token: (string)
+}
+```
+**Required Data**
+```
+{
+   booking_id: (number)
+}
+```
+**On success** : "booking delete successfull"  <br>
+**On failure** : "booking delete failed" or **any other error**. <br>
+
+<br>
