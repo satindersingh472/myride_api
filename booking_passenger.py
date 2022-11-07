@@ -57,3 +57,19 @@ def booking_post():
         return make_response(json.dumps(results,default=str),500)
 
 
+def booking_passenger_delete():
+    invalid_headers = verify_endpoints_info(request.headers,['token'])
+    if(invalid_headers != None):
+        return make_response(json.dumps(invalid_headers,default=str),400)
+    invalid = verify_endpoints_info(request.json,['booking_id'])
+    if(invalid != None):
+        return make_response(json.dumps(invalid,default=str),400)
+    results = conn_exe_close('call booking_passenger_delete(?,?)',[request.json['booking_id'],request.headers['token']])
+    if(type(results) == list and results[0]['row_count'] ==1 ):
+        return make_response(json.dumps('booking delete successfull',default=str),200)
+    elif(type(results) == list and results[0]['row_count'] == 0):
+        return make_response(json.dumps('booking delete failed',default=str),400)
+    elif(type(results) != list):
+        return make_response(json.dumps(results,default=str),400)
+    else:
+        return make_response(json.dumps(results,default=str),500)

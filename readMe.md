@@ -372,7 +372,7 @@ so, the passenger can get all its upcoming and past bookings.(the date feature w
 }
 ```
 
-**Required Data** <br>
+**Required params** <br>
 ```
 {
    client_id: (string)
