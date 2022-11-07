@@ -5,6 +5,7 @@ from apihelpers import upload_picture
 from client_verification import client_verify,client_verified
 from client_login import client_login,client_logout
 from ride import ride_post,ride_patch,ride_get,ride_delete,rides_get_all
+from booking import booking_post
 
 app = Flask(__name__)
 # -----------------------------------------------
@@ -82,6 +83,11 @@ def use_ride_get():
 @app.delete('/api/ride')
 def use_ride_delete():
     return ride_delete()
+# ----------------------------------------------------------
+
+@app.post('/api/booking')
+def use_booking_post():
+    return booking_post()
 
 # -----------------------------------------------------------
 if(dbcreds.production_mode == True):
