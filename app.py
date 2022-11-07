@@ -89,6 +89,7 @@ def use_ride_delete():
 def use_booking_post():
     return booking_post()
 
+# will get details about the booking for a passenger
 @app.get('/api/booking_passenger')
 def use_booking_passenger_get():
     return booking_passenger_get()
