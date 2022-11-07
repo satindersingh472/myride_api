@@ -94,6 +94,7 @@ def use_booking_post():
 def use_booking_passenger_get():
     return booking_passenger_get()
 
+# will delete the booking from passenger side
 @app.delete('/api/booking_passenger')
 def use_booking_passenger_delete():
     return booking_passenger_delete()

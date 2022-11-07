@@ -57,19 +57,30 @@ def booking_post():
         return make_response(json.dumps(results,default=str),500)
 
 
+# will delete the booking from passenger side with valid token and booking id
 def booking_passenger_delete():
+    # will check the header if token argument is sent or not
     invalid_headers = verify_endpoints_info(request.headers,['token'])
     if(invalid_headers != None):
+        # if token argument not sent then error will show up
         return make_response(json.dumps(invalid_headers,default=str),400)
+    # will check if booking id argument as a data is sent or not if not sent then error will show up
     invalid = verify_endpoints_info(request.json,['booking_id'])
     if(invalid != None):
         return make_response(json.dumps(invalid,default=str),400)
+        # will make a request to delete the booking sending booking id and token
     results = conn_exe_close('call booking_passenger_delete(?,?)',[request.json['booking_id'],request.headers['token']])
+    # expect results as a list and at index 0 the row count key should have 1 
+    # other wise if 0 then no booking is deleted 
+    # if booking already deleted and user try to delete it once one then this error will be shown
     if(type(results) == list and results[0]['row_count'] ==1 ):
         return make_response(json.dumps('booking delete successfull',default=str),200)
     elif(type(results) == list and results[0]['row_count'] == 0):
+        # if nothing got deleted
         return make_response(json.dumps('booking delete failed',default=str),400)
     elif(type(results) != list):
+        # if error in data sent by user 
         return make_response(json.dumps(results,default=str),400)
     else:
+        # if server error
         return make_response(json.dumps(results,default=str),500)
