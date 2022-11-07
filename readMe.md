@@ -359,7 +359,7 @@ Delete will delete the ride belongs to a client if valid token is sent as header
 <br>
 
 ## /api/booking_passenger
-HTTP methods available: **GET,POST** <br>
+HTTP methods available: **GET,POST,DELETE** <br>
 
 ## `Get`
 It will display all the bookings associated with a passenger.
