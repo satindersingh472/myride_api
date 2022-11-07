@@ -6,6 +6,7 @@ from client_verification import client_verify,client_verified
 from client_login import client_login,client_logout
 from ride import ride_post,ride_patch,ride_get,ride_delete,rides_get_all
 from booking_passenger import booking_post,booking_passenger_get,booking_passenger_delete
+from booking_rider import booking_rider_get
 
 app = Flask(__name__)
 # -----------------------------------------------
@@ -98,6 +99,12 @@ def use_booking_passenger_get():
 @app.delete('/api/booking_passenger')
 def use_booking_passenger_delete():
     return booking_passenger_delete()
+# ------------------------------------------------
+
+@app.get('/api/booking_rider')
+def use_booking_rider_get():
+    return booking_rider_get()
+
 
 # -----------------------------------------------------------
 if(dbcreds.production_mode == True):

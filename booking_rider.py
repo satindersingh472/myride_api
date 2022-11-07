@@ -3,4 +3,20 @@ from flask import request,make_response
 from apihelpers import verify_endpoints_info,add_for_patch
 from dbhelpers import conn_exe_close 
 
-
+# will get the booking on rider side with a valid ride id and token
+def booking_rider_get():
+    invalid_headers = verify_endpoints_info(request.headers,['token'])
+    if(invalid_headers != None):
+        return make_response(json.dumps(invalid_headers,default=str),400)
+    invalid = verify_endpoints_info(request.args,['ride_id'])
+    if(invalid != None):
+        return make_response(json.dumps(invalid,default=str),400)
+    results = conn_exe_close('call booking_rider_get(?,?)',[request.args['ride_id'],request.headers['token']])
+    if(type(results) == list and len(results) != 0):
+        return make_response(json.dumps(results,default=str),200)
+    elif(type(results) == list and len(results) == 0):
+        return make_response(json.dumps('no bookings available',default=str),400)
+    elif(type(results) != list):
+        return make_response(json.dumps(results,default=str),400)
+    else:
+        return make_response(json.dumps(results,default=str),500)
