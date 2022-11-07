@@ -7,13 +7,13 @@ from apihelpers import verify_endpoints_info,upload_picture,bring_picture,send_e
 
 # will grab the information about the client with token and client id
 def client_get():
-    # it will check for sent token and client id as headers
-    invalid_headers = verify_endpoints_info(request.headers,['client_id'])
+    # it will check for client id as arguments
+    invalid = verify_endpoints_info(request.args,['client_id'])
     # if not sent then error will show up
-    if(invalid_headers != None):
-        return make_response(json.dumps(invalid_headers,default=str),400)
+    if(invalid!= None):
+        return make_response(json.dumps(invalid,default=str),400)
     # will call the stored procedure with token and id as a parameters
-    results = conn_exe_close('call client_get(?)',[request.headers['client_id']])
+    results = conn_exe_close('call client_get(?)',[request.args['client_id']])
     # response will have all the info about client matching id and token
     if(type(results) == list and len(results) == 1):
         return make_response(json.dumps(results[0],default=str),200)

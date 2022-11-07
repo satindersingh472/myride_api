@@ -14,12 +14,11 @@ take benefit of not driving while going away from a city.
  so, the first step in creating an account is send credentials as a required data and verify an email sent to the client's email.
 
  ## `GET`
- Get method will bring details about the client with valid id and token if a client is verified. <br>
- **Required Headers**
+ Get method will bring details about the client with valid id if client is verified<br>
+ **Required params**
  ```
  {
-   token: (string),
-   client_id: (string)
+   client_id: (number)
  }
  ```
 **Data Returned** <br>
