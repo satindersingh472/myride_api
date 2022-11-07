@@ -6,13 +6,18 @@ from dbhelpers import conn_exe_close
 # it will get the information regarding the booking for the passenger
 # will require a valid token and client id as a passenger id
 def booking_passenger_get():
+    # check for header if token is sent or not
     invalid_headers = verify_endpoints_info(request.headers,['token'])
     if(invalid_headers != None):
+        # if not then foll error will show up
         return make_response(json.dumps(invalid_headers,default=str),400)
+    # check if client id is sent as params or not
     invalid = verify_endpoints_info(request.args,['client_id'])
     if(invalid != None):
         return make_response(json.dumps(invalid,default=str),400)
+    # make a req to db to get the booking for client id and token given
     results = conn_exe_close('call booking_passenger_get(?,?)',[request.args['client_id'],request.headers['token']])
+    # will check len and type of results and send the response accordingly
     if(type(results) == list and len(results) != 0 ):
         return make_response(json.dumps(results,default=str),200)
     elif(type(results) == list and len(results) == 0):
