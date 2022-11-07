@@ -161,7 +161,7 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `booking_passenger_delete`(booking_i
     MODIFIES SQL DATA
 BEGIN
 	delete b
-	from booking b inner join client_session cs on cs.client_id = b.passenger_id inner join client c on c.id = cs.client_id 
+	from booking b inner join client_session cs on cs.client_id = b.passenger_id
 	where b.id = booking_id_input and cs.token = token_input;
 	
 	select row_count() as row_count;
@@ -756,4 +756,4 @@ DELIMITER ;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2022-11-07 11:48:00
+-- Dump completed on 2022-11-07 11:53:13
