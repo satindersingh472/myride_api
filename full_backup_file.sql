@@ -34,7 +34,7 @@ CREATE TABLE `booking` (
   KEY `booking_FK_2` (`ride_id`),
   CONSTRAINT `booking_FK_1` FOREIGN KEY (`passenger_id`) REFERENCES `client` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `booking_FK_2` FOREIGN KEY (`ride_id`) REFERENCES `ride` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=23 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin;
+) ENGINE=InnoDB AUTO_INCREMENT=24 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -43,7 +43,7 @@ CREATE TABLE `booking` (
 
 LOCK TABLES `booking` WRITE;
 /*!40000 ALTER TABLE `booking` DISABLE KEYS */;
-INSERT INTO `booking` VALUES (1,21,0,0,26,'2022-11-06 18:45:46'),(2,21,0,0,27,'2022-11-06 18:56:47'),(3,21,0,0,28,'2022-11-06 18:56:54'),(4,21,0,0,29,'2022-11-06 18:57:44'),(5,24,0,0,35,'2022-11-06 19:06:40'),(6,25,0,0,37,'2022-11-06 19:06:47'),(7,26,0,0,39,'2022-11-06 19:06:52'),(10,21,0,0,42,'2022-11-06 20:15:35'),(11,21,0,0,45,'2022-11-06 20:40:53'),(12,24,0,0,45,'2022-11-06 20:43:59'),(13,24,0,0,45,'2022-11-06 20:57:53'),(14,24,0,0,45,'2022-11-06 20:57:55'),(16,27,0,0,40,'2022-11-07 10:00:31'),(17,27,0,0,40,'2022-11-07 10:41:37'),(18,27,0,0,40,'2022-11-07 10:46:25'),(19,27,0,0,40,'2022-11-07 10:46:26'),(22,26,0,0,44,'2022-11-07 10:54:18');
+INSERT INTO `booking` VALUES (1,21,0,0,26,'2022-11-06 18:45:46'),(2,21,0,0,27,'2022-11-06 18:56:47'),(3,21,0,0,28,'2022-11-06 18:56:54'),(4,21,0,0,29,'2022-11-06 18:57:44'),(5,24,0,0,35,'2022-11-06 19:06:40'),(6,25,0,0,37,'2022-11-06 19:06:47'),(7,26,0,0,39,'2022-11-06 19:06:52'),(10,21,0,0,42,'2022-11-06 20:15:35'),(11,21,0,0,45,'2022-11-06 20:40:53'),(12,24,0,0,45,'2022-11-06 20:43:59'),(13,24,0,0,45,'2022-11-06 20:57:53'),(14,24,0,0,45,'2022-11-06 20:57:55'),(16,27,0,0,40,'2022-11-07 10:00:31'),(18,27,0,0,40,'2022-11-07 10:46:25'),(22,26,0,0,44,'2022-11-07 10:54:18'),(23,25,0,0,23,'2022-11-07 12:45:03');
 /*!40000 ALTER TABLE `booking` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -233,6 +233,34 @@ DELIMITER ;
 /*!50003 SET character_set_client  = @saved_cs_client */ ;
 /*!50003 SET character_set_results = @saved_cs_results */ ;
 /*!50003 SET collation_connection  = @saved_col_connection */ ;
+/*!50003 DROP PROCEDURE IF EXISTS `booking_rider_get` */;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = utf8mb4 */ ;
+/*!50003 SET character_set_results = utf8mb4 */ ;
+/*!50003 SET collation_connection  = utf8mb4_general_ci */ ;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = 'IGNORE_SPACE,STRICT_TRANS_TABLES,ERROR_FOR_DIVISION_BY_ZERO,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION' */ ;
+DELIMITER ;;
+CREATE DEFINER=`root`@`localhost` PROCEDURE `booking_rider_get`(ride_id_input int unsigned, token_input varchar(100))
+BEGIN
+	select
+	r.id as ride_id,
+	b.id as booking_id,
+	b.is_confirmed as is_confirmed,
+	b.is_completed  as is_completed,
+	convert (c.first_name using utf8) as passenger_first_name,
+	convert(c.phone_number using utf8) as phone_number, 
+	convert (c.email using utf8) as email
+	from client_session cs inner join ride r on cs.client_id = r.rider_id inner join booking b on r.id = b.ride_id inner join client c on c.id = b.passenger_id 
+	where cs.token = token_input and r.id = ride_id_input ;
+END ;;
+DELIMITER ;
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
 /*!50003 DROP PROCEDURE IF EXISTS `client_delete` */;
 /*!50003 SET @saved_cs_client      = @@character_set_client */ ;
 /*!50003 SET @saved_cs_results     = @@character_set_results */ ;
@@ -267,7 +295,7 @@ DELIMITER ;
 /*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
 /*!50003 SET sql_mode              = 'IGNORE_SPACE,STRICT_TRANS_TABLES,ERROR_FOR_DIVISION_BY_ZERO,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION' */ ;
 DELIMITER ;;
-CREATE DEFINER=`root`@`localhost` PROCEDURE `client_get`(id_input int unsigned, token_input varchar(100))
+CREATE DEFINER=`root`@`localhost` PROCEDURE `client_get`(id_input int unsigned)
 BEGIN
 	select 
 	convert (c.first_name using utf8) as first_name,
@@ -280,7 +308,7 @@ BEGIN
 	convert (c.dob using utf8) as dob,
 	convert (c.profile_image using utf8) as profile_image
 	from client c inner join client_session cs on cs.client_id = c.id 
-	where cs.client_id = id_input and cs.token = token_input and c.verified = 1;
+	where cs.client_id = id_input and c.verified = 1;
 END ;;
 DELIMITER ;
 /*!50003 SET sql_mode              = @saved_sql_mode */ ;
@@ -756,4 +784,4 @@ DELIMITER ;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2022-11-07 11:53:13
+-- Dump completed on 2022-11-07 13:36:05
