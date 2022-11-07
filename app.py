@@ -5,7 +5,7 @@ from apihelpers import upload_picture
 from client_verification import client_verify,client_verified
 from client_login import client_login,client_logout
 from ride import ride_post,ride_patch,ride_get,ride_delete,rides_get_all
-from booking import booking_post
+from booking_client import booking_post
 
 app = Flask(__name__)
 # -----------------------------------------------
@@ -58,7 +58,7 @@ def use_client_delete():
 def use_client_patch_image():
     return client_patch_image()
 # -------------------------------------------------------
-
+# will get all the rides available 
 @app.get('/api/rides')
 def use_rides_get_all():
     return rides_get_all()
@@ -84,7 +84,7 @@ def use_ride_get():
 def use_ride_delete():
     return ride_delete()
 # ----------------------------------------------------------
-
+# will post a new booking related to the ride
 @app.post('/api/booking')
 def use_booking_post():
     return booking_post()
