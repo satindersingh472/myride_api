@@ -28,10 +28,11 @@ def booking_rider_get():
         # in case of other error this will be true
         return make_response(json.dumps(results,default=str),500)
 
+
 # def will confirm the booking with just checking is confirmed is true 
 def booking_rider_patch_confirm():
     # if is_confirmed in true then it will make the request to the stored procedure
-    if(request.json['is_confirmed'] in ['true','True',0]):
+    if(request.json['is_confirmed'] in ['true','True']):
         results = conn_exe_close('call booking_rider_patch_confirm(?,?)',[request.json['booking_id'],request.headers['token']])
         # if response is list and results[0] row count is 1 
         # i.e. then booking is confirmed
@@ -49,6 +50,27 @@ def booking_rider_patch_confirm():
     else:
         # if is_confirmed is not in true then it is not allowed
         return make_response(json.dumps('booking can be confirmed only, sending false for is_confirmed not allowed',default=str),400)
+
+
+def booking_rider_patch_complete():
+    if(request.json['is_completed'] in ['true','True']):
+        results = conn_exe_close('call booking_rider_patch_complete(?,?)',[request.json['booking_id'],request.headers['token']])
+        # if response is list and results[0] row count is 1 
+        # i.e. then booking is completed
+        if(type(results) == list and results[0]['row_count'] == 1):
+            return make_response(json.dumps('booking complete successful',default=str),200)
+        # if results[0] row_count is 0 booking complete failed
+        elif(type(results) == list and results[0]['row_count'] == 0):
+            return make_response(json.dumps('booking complete failed',default=str),400)
+        elif(type(results) == str):
+            # results type string cause of an error
+            return make_response(json.dumps(results,default=str),400)
+        else:
+            # server error will be shown with 500 error code
+            return make_response(json.dumps(results,default=str),500)
+    else:
+        # if is_completed is not in true then it is not allowed
+        return make_response(json.dumps('booking can be completed only,sending false value for is_completed not allowed',default=str),400)
 
 
 # this will check for is_confirmed and is_completed and divert the function towards
@@ -70,4 +92,8 @@ def booking_rider_patch_all():
     # if is confirmed is sent then will execute the below statement
     if(is_confirmed != None and is_completed == None):
         return booking_rider_patch_confirm()
+    elif(is_completed != None and is_confirmed == None):
+        return booking_rider_patch_complete()
+    elif(is_completed != None and is_confirmed != None):
+        return booking_rider_patch_complete()
     
