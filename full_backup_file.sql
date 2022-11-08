@@ -43,7 +43,7 @@ CREATE TABLE `booking` (
 
 LOCK TABLES `booking` WRITE;
 /*!40000 ALTER TABLE `booking` DISABLE KEYS */;
-INSERT INTO `booking` VALUES (1,21,0,0,26,'2022-11-06 18:45:46'),(2,21,0,0,27,'2022-11-06 18:56:47'),(3,21,0,0,28,'2022-11-06 18:56:54'),(4,21,0,0,29,'2022-11-06 18:57:44'),(5,24,0,0,35,'2022-11-06 19:06:40'),(6,25,0,0,37,'2022-11-06 19:06:47'),(7,26,0,0,39,'2022-11-06 19:06:52'),(10,21,0,0,42,'2022-11-06 20:15:35'),(11,21,0,0,45,'2022-11-06 20:40:53'),(12,24,0,0,45,'2022-11-06 20:43:59'),(13,24,0,0,45,'2022-11-06 20:57:53'),(14,24,0,0,45,'2022-11-06 20:57:55'),(16,27,0,0,40,'2022-11-07 10:00:31'),(18,27,0,0,40,'2022-11-07 10:46:25'),(22,26,0,0,44,'2022-11-07 10:54:18'),(23,25,0,0,23,'2022-11-07 12:45:03');
+INSERT INTO `booking` VALUES (1,21,1,0,26,'2022-11-06 18:45:46'),(2,21,1,0,27,'2022-11-06 18:56:47'),(3,21,1,1,28,'2022-11-06 18:56:54'),(4,21,1,1,29,'2022-11-06 18:57:44'),(5,24,1,1,35,'2022-11-06 19:06:40'),(6,25,0,0,37,'2022-11-06 19:06:47'),(7,26,0,0,39,'2022-11-06 19:06:52'),(10,21,1,1,42,'2022-11-06 20:15:35'),(11,21,0,0,45,'2022-11-06 20:40:53'),(12,24,0,0,45,'2022-11-06 20:43:59'),(13,24,0,0,45,'2022-11-06 20:57:53'),(14,24,0,0,45,'2022-11-06 20:57:55'),(16,27,0,0,40,'2022-11-07 10:00:31'),(18,27,0,0,40,'2022-11-07 10:46:25'),(22,26,0,0,44,'2022-11-07 10:54:18'),(23,25,0,0,23,'2022-11-07 12:45:03');
 /*!40000 ALTER TABLE `booking` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -197,6 +197,7 @@ BEGIN
 	convert(c.first_name using utf8) as rider_first_name,
 	convert(c.last_name using utf8) as rider_last_name,
 	convert(c.phone_number using utf8) as phone_number 
+	
 	from client_session cs inner join booking b on cs.client_id = b.passenger_id inner join ride r on b.ride_id = r.id
 	inner join client c on r.rider_id = c.id
 	
@@ -253,8 +254,59 @@ BEGIN
 	convert (c.first_name using utf8) as passenger_first_name,
 	convert(c.phone_number using utf8) as phone_number, 
 	convert (c.email using utf8) as email
+	
 	from client_session cs inner join ride r on cs.client_id = r.rider_id inner join booking b on r.id = b.ride_id inner join client c on c.id = b.passenger_id 
 	where cs.token = token_input and r.id = ride_id_input ;
+END ;;
+DELIMITER ;
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
+/*!50003 DROP PROCEDURE IF EXISTS `booking_rider_patch_complete` */;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = utf8mb4 */ ;
+/*!50003 SET character_set_results = utf8mb4 */ ;
+/*!50003 SET collation_connection  = utf8mb4_general_ci */ ;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = 'IGNORE_SPACE,STRICT_TRANS_TABLES,ERROR_FOR_DIVISION_BY_ZERO,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION' */ ;
+DELIMITER ;;
+CREATE DEFINER=`root`@`localhost` PROCEDURE `booking_rider_patch_complete`(booking_id_input int unsigned,token_input varchar(100))
+    MODIFIES SQL DATA
+BEGIN
+	update booking b inner join ride r on r.id = b.ride_id inner join client_session cs on cs.client_id = r.rider_id  
+	set b.is_confirmed = 1, b.is_completed = 1
+	where b.id = booking_id_input AND  cs.token = token_input;
+	
+	select row_count() as row_count;
+	commit;
+END ;;
+DELIMITER ;
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
+/*!50003 DROP PROCEDURE IF EXISTS `booking_rider_patch_confirm` */;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = utf8mb4 */ ;
+/*!50003 SET character_set_results = utf8mb4 */ ;
+/*!50003 SET collation_connection  = utf8mb4_general_ci */ ;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = 'IGNORE_SPACE,STRICT_TRANS_TABLES,ERROR_FOR_DIVISION_BY_ZERO,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION' */ ;
+DELIMITER ;;
+CREATE DEFINER=`root`@`localhost` PROCEDURE `booking_rider_patch_confirm`(booking_id_input int unsigned ,token_input varchar(100))
+    MODIFIES SQL DATA
+BEGIN
+	 
+	update booking b inner join ride r on r.id = b.ride_id inner join client_session cs on cs.client_id = r.rider_id  
+	set b.is_confirmed = 1
+	where b.id = booking_id_input AND  cs.token = token_input;
+	select row_count() as row_count;
+	commit;
 END ;;
 DELIMITER ;
 /*!50003 SET sql_mode              = @saved_sql_mode */ ;
@@ -784,4 +836,4 @@ DELIMITER ;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2022-11-07 13:36:05
+-- Dump completed on 2022-11-07 23:14:00
