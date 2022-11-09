@@ -441,3 +441,65 @@ delete method will delete the booking for a passenger
 **On failure** : "booking delete failed" or **any other error**. <br>
 
 <br>
+<br>
+
+## /api/booking_rider
+HTTP methods available: **GET,PATCH**  <br>
+
+## `GET`  <br>
+Get method will grab the information about the specific ride by sending the ride id and a valid token
+
+**Required Headers** <br>
+```
+{
+   token: (string)
+}
+```
+**Required Data** <br>
+```
+{
+   ride_id: (number)
+}
+```
+
+**Data Returned** <br>
+```
+{
+   ride_id: (number),
+   booking_id: (number),
+   is_confirmed: (bool),
+   is_completed: (bool),
+   passenger_first_name: (string),
+   phone_number: (string),
+   email: (string)
+}
+
+```
+<br>
+
+## `PATCH`  <br>
+Riders can confirm or complete the bookings.
+
+**Required Headers** <br>
+```
+{
+   token: (string)
+}
+```
+**Required Data** <br>
+```
+{
+   booking_id: (number)
+}
+```
+**Optional Data** : Send one or both <br>
+```
+{
+   is_confirmed: true (false is not allowed , it wont do anything),
+   is_completed: true(false is not allowed, it wont do anything)
+}
+```
+<br>
+<br>
+
+**END**
