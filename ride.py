@@ -1,6 +1,6 @@
 import json
 from flask import request,make_response
-from apihelpers import verify_endpoints_info,add_for_patch
+from apihelpers import verify_endpoints_info,add_for_patch,bring_picture
 from dbhelpers import conn_exe_close
 
 
@@ -11,6 +11,8 @@ def rides_get_all():
     results = conn_exe_close('call rides_get_all()',[])
     if(type(results) == list and len(results) != 0):
         # if response has rides then this statement will be true
+        for result in results:
+            result['profile_image'] = bring_picture(result['profile_image'])
         return make_response(json.dumps(results,default=str),200)
     # if not then this statement will be true
     elif(type(results) == list and len(results) == 0):
