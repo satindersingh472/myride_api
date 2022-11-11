@@ -84,6 +84,21 @@ def client_delete():
         return make_response(json.dumps(results,default=str),500)
 
 
+# will get the profile image with a given token
+def client_get_image():
+    # check if token is sent as header or not
+    invalid_header = verify_endpoints_info(request.headers,['token'])
+    if(invalid_header != None):
+        return make_response(json.dumps(invalid_header,default=str),400)
+    results = conn_exe_close('call client_get_image(?)',[request.headers['token']])
+    if(type(results) == list and results[0]['profile_image'] != None):
+        return make_response(json.dumps(results[0],default=str),200)
+    elif(type(results) == list and results[0]['profile_image'] == None):
+        return make_response(json.dumps(results,default=str),400)
+    elif(type(results) == str):
+        return make_response(json.dumps(results,default=str),400)
+    else:
+        return make_response(json.dumps(results,default=str),500)
 
 
 

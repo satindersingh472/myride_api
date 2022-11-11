@@ -1,6 +1,6 @@
 from flask import Flask
 import dbcreds
-from clients import client_get,client_post,client_patch_all,client_patch_image,client_delete
+from clients import client_get,client_post,client_patch_all,client_patch_image,client_delete,client_get_image
 from apihelpers import upload_picture
 from client_verification import client_verify,client_verified
 from client_login import client_login,client_logout
@@ -54,6 +54,11 @@ def use_client_delete():
     return client_delete()
 
 # -------------------------------------------------------
+@app.get('/api/client_image')
+def use_client_get_image():
+    return client_get_image()
+
+
 # will patch the client image
 @app.patch('/api/client_image')
 def use_client_patch_image():
