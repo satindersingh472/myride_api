@@ -89,10 +89,15 @@ def client_get_image():
     # check if token is sent as header or not
     invalid_header = verify_endpoints_info(request.headers,['token'])
     if(invalid_header != None):
+        # will return the function if token is not sent
         return make_response(json.dumps(invalid_header,default=str),400)
+        # will make a request to get the image name from db
     results = conn_exe_close('call client_get_image(?)',[request.headers['token']])
+    # if name was there then response is ok and use the name to grab image from server
     if(type(results) == list and results[0]['profile_image'] != None):
-        return make_response(json.dumps(results[0],default=str),200)
+        image = bring_picture(results[0]['profile_image'])
+        return make_response(json.dumps(image,default=str),200)
+        # else errors will show up
     elif(type(results) == list and results[0]['profile_image'] == None):
         return make_response(json.dumps(results,default=str),400)
     elif(type(results) == str):
