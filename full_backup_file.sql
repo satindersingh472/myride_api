@@ -80,7 +80,7 @@ CREATE TABLE `client` (
 
 LOCK TABLES `client` WRITE;
 /*!40000 ALTER TABLE `client` DISABLE KEYS */;
-INSERT INTO `client` VALUES (21,'satinder','singh','satindersingh772@gmail.com','*DBA628DA0790B6320396FD364F7047245CC71429',NULL,NULL,NULL,NULL,NULL,'8666b6759e1041d89ef5fc9dadaa9ace.jpeg','c8e99f041b2f49e9bdca443b25aef2a9',1),(24,'sati','singh','satindersingh472@gmail.com','*B59177F379C99E6E315B17FBF197C0D3A0B8245E',NULL,NULL,NULL,NULL,NULL,NULL,'e5cf0abe3b344eedb5fdc259c1ef68d2',1),(25,'sam','grewal','samgrewal25@gmail.com','*415F74E3B47DB39B1B23D251EB6C976ECE6C6C4F',NULL,NULL,NULL,NULL,NULL,NULL,'7dc65414184f494a83946332faaaa54a',1),(26,'simranpreet','kaur','simranpreetgrewal@gmail.com','*6501D3B67278257D55C2C4B0F5FB7ED924B5B2DA',NULL,NULL,NULL,NULL,NULL,NULL,'ed60f41647344014b19c9b8d4d744faa',1),(27,'simranpreet','kaur','simranpreetgrewal24@gmail.com','*1DCC6D01A50D2BA30EAE460CD89FEB0FD7E93CF9',NULL,NULL,NULL,NULL,NULL,NULL,'e7e99784a7db487683db6eb6eba8de4d',1);
+INSERT INTO `client` VALUES (21,'satinder','singh','satindersingh772@gmail.com','*DBA628DA0790B6320396FD364F7047245CC71429',NULL,NULL,NULL,NULL,NULL,'8666b6759e1041d89ef5fc9dadaa9ace.jpeg','c8e99f041b2f49e9bdca443b25aef2a9',1),(24,'sati','singh','satindersingh472@gmail.com','*B59177F379C99E6E315B17FBF197C0D3A0B8245E',NULL,NULL,NULL,NULL,NULL,NULL,'e5cf0abe3b344eedb5fdc259c1ef68d2',1),(25,'sam','grewal','samgrewal25@gmail.com','*415F74E3B47DB39B1B23D251EB6C976ECE6C6C4F',NULL,NULL,NULL,NULL,NULL,NULL,'7dc65414184f494a83946332faaaa54a',1),(26,'simranpreet','kaur','simranpreetgrewal@gmail.com','*6501D3B67278257D55C2C4B0F5FB7ED924B5B2DA',NULL,NULL,NULL,NULL,NULL,NULL,'ed60f41647344014b19c9b8d4d744faa',1),(27,'simranpreet','kaur','simranpreetgrewal24@gmail.com','*1DCC6D01A50D2BA30EAE460CD89FEB0FD7E93CF9',NULL,NULL,NULL,NULL,NULL,'af4c6df640c34bc38d429aba0d84ffee.jpeg','e7e99784a7db487683db6eb6eba8de4d',1);
 /*!40000 ALTER TABLE `client` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -357,8 +357,30 @@ BEGIN
 	convert (c.city using utf8) as city,
 	convert (c.phone_number using utf8) as phone_number,
 	convert (c.bio using utf8) as bio,
-	convert (c.dob using utf8) as dob,
-	convert (c.profile_image using utf8) as profile_image
+	convert (c.dob using utf8) as dob
+	from client c inner join client_session cs on cs.client_id = c.id 
+	where cs.client_id = id_input and c.verified = 1;
+END ;;
+DELIMITER ;
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
+/*!50003 DROP PROCEDURE IF EXISTS `client_get_image` */;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = utf8mb4 */ ;
+/*!50003 SET character_set_results = utf8mb4 */ ;
+/*!50003 SET collation_connection  = utf8mb4_general_ci */ ;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = 'IGNORE_SPACE,STRICT_TRANS_TABLES,ERROR_FOR_DIVISION_BY_ZERO,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION' */ ;
+DELIMITER ;;
+CREATE DEFINER=`root`@`localhost` PROCEDURE `client_get_image`( token_input varchar(100))
+BEGIN
+	
+	select 
+	convert(c.profile_image using utf8) as profile_image
 	from client c inner join client_session cs on cs.client_id = c.id 
 	where cs.client_id = id_input and c.verified = 1;
 END ;;
@@ -836,4 +858,4 @@ DELIMITER ;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2022-11-07 23:14:00
+-- Dump completed on 2022-11-11 13:59:04

@@ -52,11 +52,13 @@ def upload_picture(key):
 def bring_picture(image_name):
     with open(os.path.join('files/profile_images',image_name),'rb') as my_image: 
         image = base64.b64encode(my_image.read())
-    return image 
+    return image.decode('utf-8')
 
 def remove_old_image(image_name):
     os.remove(os.path.join('files/profile_images',image_name))
     
+
+
 
 def send_email(email,name,token):
     port = 465  # For SSL

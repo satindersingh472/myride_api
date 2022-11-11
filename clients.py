@@ -83,6 +83,12 @@ def client_delete():
         # if any other error the server has made that error and 500 code as a response will be back
         return make_response(json.dumps(results,default=str),500)
 
+
+
+
+
+
+
 # it will patch the image only expecting a key that is sent as a argument in a form data
 def client_patch_image():
      # token inside a header is important for this endpoint and it will check if the token is sent as a header
