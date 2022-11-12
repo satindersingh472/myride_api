@@ -266,11 +266,12 @@ given the valid client id and token.
 ```
 [
    {
-      ride_id: (number),
       from_city: (string),
+      from_prov: (string),
       to_city: (string),
-      travel_date: (string with format "yyyy-mm-dd"),
-      leave_time: (time with format hh:mm:ss)
+      to_prov: (string),
+      travel_date: (date with format yyyy-mm-dd),
+      leave_time: (time format hh:mm::ss)
    }
 ]
 ```

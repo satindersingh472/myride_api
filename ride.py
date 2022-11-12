@@ -12,7 +12,7 @@ def rides_filter():
         # will send the results as 200 if everything is fine other wise error
         return make_response(json.dumps(results,default=str),200)
     elif(len(results) == 0):
-        return make_response(json.dumps('no results related to search',default=str),400)
+        return make_response(json.dumps('No results related to search',default=str),400)
     elif(type(results) == str):
         return make_response(json.dumps(results,default=str),400)
     else:
@@ -55,7 +55,7 @@ def ride_get():
         return make_response(json.dumps(results,default=str),200)
     # if error then show the error
     elif(type(results) == list and len(results) == 0):
-        return make_response(json.dumps('no rides to show',default=str),400)
+        return make_response(json.dumps('No rides to show',default=str),400)
     else:
         # if server messed up then show this error
         return make_response(json.dumps(results,default=str),500)
