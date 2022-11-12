@@ -238,7 +238,9 @@ regardless of the location but upcoming rides only not the past rides.
       travel_date: (string),
       leave_time: (string),
       rider_id: (number),
-      rider_first_name: (string)
+      rider_first_name: (string),
+      from_prov: (string),
+      to_prov: (string)
    },
 ]
 ```
@@ -296,6 +298,8 @@ It will post the ride in the database. User with a valid token can post a ride. 
    to_city: (string),
    travel_date: (date with format yyyy-mm-dd),
    leave_time: (time format hh:mm::ss)
+   from_prov: (string),
+   to_prov: (string)
 }
 ```
 
