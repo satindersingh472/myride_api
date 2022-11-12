@@ -1,6 +1,6 @@
 import json
 from uuid import uuid4 
-from flask import make_response,request
+from flask import make_response,request,send_from_directory
 from dbhelpers import conn_exe_close
 from apihelpers import verify_endpoints_info,upload_picture,bring_picture,send_email,add_for_patch,remove_old_image
 
@@ -95,10 +95,11 @@ def client_get_image():
     results = conn_exe_close('call client_get_image(?)',[request.headers['token']])
     # if name was there then response is ok and use the name to grab image from server
     if(type(results) == list and results[0]['profile_image'] != None):
-        image = bring_picture(results[0]['profile_image'])
-        return make_response(json.dumps(image,default=str),200)
+        # results[0]['profile_image'] = bring_picture(results[0]['profile_image'])
+        return send_from_directory('files/profile_images',results[0]['profile_image'])
+        # return make_response(json.dumps(results,default=str),200)
         # else errors will show up
-    elif(type(results) == list and results[0]['profile_image'] == None):
+    elif(len(results) == 0 or results[0]['profile_image'] == None ):
         return make_response(json.dumps(results,default=str),400)
     elif(type(results) == str):
         return make_response(json.dumps(results,default=str),400)

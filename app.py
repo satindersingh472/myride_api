@@ -4,7 +4,7 @@ from clients import client_get,client_post,client_patch_all,client_patch_image,c
 from apihelpers import upload_picture
 from client_verification import client_verify,client_verified
 from client_login import client_login,client_logout
-from ride import ride_post,ride_patch,ride_get,ride_delete,rides_get_all
+from ride import ride_post,ride_patch,ride_get,ride_delete,rides_get_all,rides_filter
 from booking_passenger import booking_post,booking_passenger_get,booking_passenger_delete
 from booking_rider import booking_rider_get,booking_rider_patch_all
 
@@ -68,6 +68,10 @@ def use_client_patch_image():
 @app.get('/api/rides')
 def use_rides_get_all():
     return rides_get_all()
+
+@app.get('/api/rides_filter')
+def use_rides_filter():
+    return rides_filter()
 
 
 # --------------------------------------------------------

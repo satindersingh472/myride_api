@@ -4,6 +4,20 @@ from apihelpers import verify_endpoints_info,add_for_patch,bring_picture
 from dbhelpers import conn_exe_close
 
 
+# will help filter the results according to the city typed in
+def rides_filter():
+    # if user just typed one city it will still work
+    results = conn_exe_close('call rides_filter(?,?)',[request.args.get('from_city'),request.args.get('to_city')])
+    if(type(results) == list and len(results) >= 1):
+        # will send the results as 200 if everything is fine other wise error
+        return make_response(json.dumps(results,default=str),200)
+    elif(len(results) == 0):
+        return make_response(json.dumps('no results related to search',default=str),400)
+    elif(type(results) == str):
+        return make_response(json.dumps(results,default=str),400)
+    else:
+        return make_response(json.dumps(results,default=str),500)
+
 # will get all the rides available after now()
 # stored procedure rides_get_all is not expecting any arguments
 def rides_get_all():
@@ -24,6 +38,8 @@ def rides_get_all():
     else:
         # if server error then this statement will get executed
         return make_response(json.dumps(results,default=str),500)
+
+
 
 
 def ride_get():
