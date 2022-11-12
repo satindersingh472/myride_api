@@ -80,7 +80,7 @@ CREATE TABLE `client` (
 
 LOCK TABLES `client` WRITE;
 /*!40000 ALTER TABLE `client` DISABLE KEYS */;
-INSERT INTO `client` VALUES (21,'satinder','singh','satindersingh772@gmail.com','*DBA628DA0790B6320396FD364F7047245CC71429',NULL,NULL,NULL,NULL,NULL,'f31810abd5c441dcae872f48c4c634a3.jpeg','c8e99f041b2f49e9bdca443b25aef2a9',1),(24,'sati','singh','satindersingh472@gmail.com','*B59177F379C99E6E315B17FBF197C0D3A0B8245E',NULL,NULL,NULL,NULL,NULL,NULL,'e5cf0abe3b344eedb5fdc259c1ef68d2',1),(25,'sam','grewal','samgrewal25@gmail.com','*415F74E3B47DB39B1B23D251EB6C976ECE6C6C4F',NULL,NULL,NULL,NULL,NULL,NULL,'7dc65414184f494a83946332faaaa54a',1),(26,'simranpreet','kaur','simranpreetgrewal@gmail.com','*6501D3B67278257D55C2C4B0F5FB7ED924B5B2DA',NULL,NULL,NULL,NULL,NULL,NULL,'ed60f41647344014b19c9b8d4d744faa',1),(27,'simranpreet','kaur','simranpreetgrewal24@gmail.com','*1DCC6D01A50D2BA30EAE460CD89FEB0FD7E93CF9',NULL,NULL,NULL,NULL,NULL,'af4c6df640c34bc38d429aba0d84ffee.jpeg','e7e99784a7db487683db6eb6eba8de4d',1);
+INSERT INTO `client` VALUES (21,'satinder','singh','satindersingh772@gmail.com','*DBA628DA0790B6320396FD364F7047245CC71429',NULL,NULL,NULL,NULL,NULL,'f31810abd5c441dcae872f48c4c634a3.jpeg','c8e99f041b2f49e9bdca443b25aef2a9',1),(24,'sati','singh','satindersingh472@gmail.com','*B59177F379C99E6E315B17FBF197C0D3A0B8245E',NULL,NULL,NULL,NULL,NULL,'f31810abd5c441dcae872f48c4c634a3.jpeg','e5cf0abe3b344eedb5fdc259c1ef68d2',1),(25,'sam','grewal','samgrewal25@gmail.com','*415F74E3B47DB39B1B23D251EB6C976ECE6C6C4F',NULL,NULL,NULL,NULL,NULL,NULL,'7dc65414184f494a83946332faaaa54a',1),(26,'simranpreet','kaur','simranpreetgrewal@gmail.com','*6501D3B67278257D55C2C4B0F5FB7ED924B5B2DA',NULL,NULL,NULL,NULL,NULL,NULL,'ed60f41647344014b19c9b8d4d744faa',1),(27,'simranpreet','kaur','simranpreetgrewal24@gmail.com','*1DCC6D01A50D2BA30EAE460CD89FEB0FD7E93CF9',NULL,NULL,NULL,NULL,NULL,'af4c6df640c34bc38d429aba0d84ffee.jpeg','e7e99784a7db487683db6eb6eba8de4d',1);
 /*!40000 ALTER TABLE `client` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -100,7 +100,7 @@ CREATE TABLE `client_session` (
   UNIQUE KEY `client_session_unique_token` (`token`),
   KEY `client_session_FK` (`client_id`),
   CONSTRAINT `client_session_FK` FOREIGN KEY (`client_id`) REFERENCES `client` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=103 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin;
+) ENGINE=InnoDB AUTO_INCREMENT=104 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -109,7 +109,7 @@ CREATE TABLE `client_session` (
 
 LOCK TABLES `client_session` WRITE;
 /*!40000 ALTER TABLE `client_session` DISABLE KEYS */;
-INSERT INTO `client_session` VALUES (102,'d0e4eb7f20b24e3c8e963a8988e8e892',21,'2022-11-11 19:01:56');
+INSERT INTO `client_session` VALUES (102,'d0e4eb7f20b24e3c8e963a8988e8e892',21,'2022-11-11 19:01:56'),(103,'80fee05561984e66a53ee8ba7f7d0b9a',24,'2022-11-12 10:06:05');
 /*!40000 ALTER TABLE `client_session` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -125,7 +125,7 @@ CREATE TABLE `ride` (
   `from_city` varchar(100) COLLATE utf8mb4_bin NOT NULL,
   `to_city` varchar(100) COLLATE utf8mb4_bin NOT NULL,
   `travel_date` date NOT NULL,
-  `leave_time` time NOT NULL,
+  `leave_time` varchar(10) COLLATE utf8mb4_bin NOT NULL,
   `rider_id` int(10) unsigned NOT NULL,
   `created_at` datetime NOT NULL DEFAULT current_timestamp(),
   `from_prov` varchar(2) COLLATE utf8mb4_bin NOT NULL,
@@ -133,7 +133,7 @@ CREATE TABLE `ride` (
   PRIMARY KEY (`id`),
   KEY `ride_FK` (`rider_id`),
   CONSTRAINT `ride_FK` FOREIGN KEY (`rider_id`) REFERENCES `client` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=47 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin;
+) ENGINE=InnoDB AUTO_INCREMENT=48 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -142,7 +142,7 @@ CREATE TABLE `ride` (
 
 LOCK TABLES `ride` WRITE;
 /*!40000 ALTER TABLE `ride` DISABLE KEYS */;
-INSERT INTO `ride` VALUES (23,'montreal','edmonton','2022-12-04','09:00:00',21,'2022-11-05 13:48:20','QC','AB'),(25,'montreal','edmonton','2022-12-04','05:00:00',21,'2022-11-05 13:48:21','QC','AB'),(26,'montreal','calgary','2022-11-15','05:00:00',21,'2022-11-05 13:56:38','QC','AB'),(27,'toronto','edmonton','2022-11-15','05:00:00',21,'2022-11-05 13:56:38','ON','AB'),(28,'toronto','edmonton','2022-11-15','05:00:00',21,'2022-11-05 13:57:10','ON','AB'),(29,'toronto','edmonton','2022-11-15','05:00:00',21,'2022-11-05 13:57:10','ON','AB'),(30,'saskatoon','edmonton','2022-11-15','05:00:00',21,'2022-11-05 13:57:54','SK','AB'),(31,'toronto','calgary','2022-11-15','05:00:00',21,'2022-11-05 13:57:55','ON','AB'),(32,'toronto','edmonton','2022-11-15','05:00:00',21,'2022-11-05 14:00:38','ON','AB'),(33,'toronto','edmonton','2022-11-15','05:00:00',21,'2022-11-05 14:00:39','ON','AB'),(34,'regina','edmonton','2022-11-04','05:00:00',21,'2022-11-05 14:00:40','SK','AB'),(35,'toronto','calgary','2022-11-15','05:00:00',21,'2022-11-05 14:00:41','ON','AB'),(36,'red deer','edmonton','2022-11-15','05:00:00',21,'2022-11-05 14:01:01','AB','AB'),(37,'toronto','edmonton','2022-11-01','05:00:00',21,'2022-11-05 14:01:08','ON','AB'),(38,'edson','edmonton','2022-11-15','05:00:00',21,'2022-11-05 14:01:14','AB','AB'),(39,'toronto','edmonton','2022-11-15','05:00:00',21,'2022-11-05 14:01:25','ON','AB'),(40,'toronto','vancouver','2022-11-15','05:00:00',21,'2022-11-05 14:01:53','ON','BC'),(41,'lethbridge','edmonton','2022-11-01','05:00:00',21,'2022-11-05 14:05:33','AB','AB'),(42,'vancouver','edmonton','2022-11-15','05:00:00',21,'2022-11-05 14:05:41','BC','AB'),(44,'edson','calgary','2022-11-06','19:09:29',26,'2022-11-06 19:09:29','AB','AB'),(45,'red deer','lethbridge','2022-11-10','09:00:00',26,'2022-11-06 19:10:28','AB','AB'),(46,'red_deer','lethbridge','2022-11-19','14:00:00',21,'2022-11-12 07:53:09','AB','AB');
+INSERT INTO `ride` VALUES (23,'montreal','edmonton','2022-12-04','09:00:00',21,'2022-11-05 13:48:20','QC','AB'),(25,'montreal','edmonton','2022-12-04','05:00:00',21,'2022-11-05 13:48:21','QC','AB'),(26,'montreal','calgary','2022-11-15','05:00:00',21,'2022-11-05 13:56:38','QC','AB'),(27,'toronto','edmonton','2022-11-15','05:00:00',21,'2022-11-05 13:56:38','ON','AB'),(28,'toronto','edmonton','2022-11-15','05:00:00',21,'2022-11-05 13:57:10','ON','AB'),(29,'toronto','edmonton','2022-11-15','05:00:00',21,'2022-11-05 13:57:10','ON','AB'),(30,'saskatoon','edmonton','2022-11-15','05:00:00',21,'2022-11-05 13:57:54','SK','AB'),(31,'toronto','calgary','2022-11-15','05:00:00',21,'2022-11-05 13:57:55','ON','AB'),(32,'toronto','edmonton','2022-11-15','05:00:00',21,'2022-11-05 14:00:38','ON','AB'),(33,'toronto','edmonton','2022-11-15','05:00:00',21,'2022-11-05 14:00:39','ON','AB'),(34,'regina','edmonton','2022-11-04','05:00:00',21,'2022-11-05 14:00:40','SK','AB'),(35,'toronto','calgary','2022-11-15','05:00:00',21,'2022-11-05 14:00:41','ON','AB'),(36,'red deer','edmonton','2022-11-15','05:00:00',21,'2022-11-05 14:01:01','AB','AB'),(37,'toronto','edmonton','2022-11-01','05:00:00',21,'2022-11-05 14:01:08','ON','AB'),(38,'edson','edmonton','2022-11-15','05:00:00',21,'2022-11-05 14:01:14','AB','AB'),(39,'toronto','edmonton','2022-11-15','05:00:00',21,'2022-11-05 14:01:25','ON','AB'),(40,'toronto','vancouver','2022-11-15','05:00:00',21,'2022-11-05 14:01:53','ON','BC'),(41,'lethbridge','edmonton','2022-11-01','05:00:00',21,'2022-11-05 14:05:33','AB','AB'),(42,'vancouver','edmonton','2022-11-15','05:00:00',21,'2022-11-05 14:05:41','BC','AB'),(44,'edson','calgary','2022-11-06','19:09:29',26,'2022-11-06 19:09:29','AB','AB'),(45,'red deer','lethbridge','2022-11-10','09:00:00',26,'2022-11-06 19:10:28','AB','AB'),(46,'red_deer','lethbridge','2022-11-19','14:00:00',21,'2022-11-12 07:53:09','AB','AB'),(47,'thunderbay','winnipeg','2022-11-18','03:00:00',21,'2022-11-12 08:00:03','ON','MB');
 /*!40000 ALTER TABLE `ride` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -827,7 +827,8 @@ DELIMITER ;
 /*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
 /*!50003 SET sql_mode              = 'IGNORE_SPACE,STRICT_TRANS_TABLES,ERROR_FOR_DIVISION_BY_ZERO,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION' */ ;
 DELIMITER ;;
-CREATE DEFINER=`root`@`localhost` PROCEDURE `ride_post`(from_input varchar(100),from_prov_input varchar(2),to_input varchar(100),to_prov_input varchar(2),date_input date, time_input time,token_input varchar(100))
+CREATE DEFINER=`root`@`localhost` PROCEDURE `ride_post`(from_input varchar(100),from_prov_input varchar(2),
+to_input varchar(100),to_prov_input varchar(2),date_input date, time_input time,token_input varchar(100))
     MODIFIES SQL DATA
 BEGIN
 	insert into ride(from_city,to_city,travel_date,leave_time,rider_id,from_prov,to_prov)
@@ -880,4 +881,4 @@ DELIMITER ;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2022-11-12  7:54:03
+-- Dump completed on 2022-11-12 13:48:43
