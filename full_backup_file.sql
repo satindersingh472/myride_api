@@ -100,7 +100,7 @@ CREATE TABLE `client_session` (
   UNIQUE KEY `client_session_unique_token` (`token`),
   KEY `client_session_FK` (`client_id`),
   CONSTRAINT `client_session_FK` FOREIGN KEY (`client_id`) REFERENCES `client` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=101 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin;
+) ENGINE=InnoDB AUTO_INCREMENT=103 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -109,7 +109,7 @@ CREATE TABLE `client_session` (
 
 LOCK TABLES `client_session` WRITE;
 /*!40000 ALTER TABLE `client_session` DISABLE KEYS */;
-INSERT INTO `client_session` VALUES (100,'9e9441904af04e56b55efab0b24eb2a3',21,'2022-11-11 16:02:36');
+INSERT INTO `client_session` VALUES (102,'d0e4eb7f20b24e3c8e963a8988e8e892',21,'2022-11-11 19:01:56');
 /*!40000 ALTER TABLE `client_session` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -129,7 +129,7 @@ CREATE TABLE `ride` (
   `rider_id` int(10) unsigned NOT NULL,
   `created_at` datetime NOT NULL DEFAULT current_timestamp(),
   `from_prov` varchar(2) COLLATE utf8mb4_bin NOT NULL,
-  `to_prov` varchar(2) COLLATE utf8mb4_bin NOT NULL DEFAULT '0',
+  `to_prov` varchar(2) COLLATE utf8mb4_bin NOT NULL,
   PRIMARY KEY (`id`),
   KEY `ride_FK` (`rider_id`),
   CONSTRAINT `ride_FK` FOREIGN KEY (`rider_id`) REFERENCES `client` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
@@ -669,7 +669,8 @@ BEGIN
 		convert (r.travel_date using utf8) as travel_date ,
 		convert (r.leave_time using utf8) as leave_time,
 		r.rider_id as rider_id,
-		convert (c.first_name using utf8) as rider_first_name 
+		convert (c.first_name using utf8) as rider_first_name, 
+		convert (c.email using utf8) as rider_email
 		
 		from ride r inner join client c on c.id = r.rider_id 
 		where r.from_city like concat("%",from_input,"%") 
@@ -753,7 +754,11 @@ BEGIN
 	convert (r.from_city using utf8) as from_city,
 	convert (r.to_city using utf8) as to_city,
 	convert (r.travel_date using utf8) as travel_date,
-	convert (r.leave_time using utf8) as leave_time
+	convert (r.leave_time using utf8) as leave_time,
+	convert (r.from_prov using utf8) as from_prov,
+	convert (r.to_prov using utf8) as to_prov
+	
+	
 	from client c inner join client_session cs on cs.client_id = c.id inner join ride r on r.rider_id = c.id 
 	where c.id = id_input and c.verified =1 and cs.token = token_input;
 END ;;
@@ -875,4 +880,4 @@ DELIMITER ;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2022-11-11 18:36:44
+-- Dump completed on 2022-11-11 23:30:41
