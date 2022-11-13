@@ -332,6 +332,8 @@ Patch will change information about the ride posted with valid token of a client
    to_city: (string),
    travel_date: (date as a string format "yyyy-mm-dd"),
    leave_time: (time as format hh:mm:ss)
+   to_prov: (string),
+   from_prov: (string)
 }
 ```
 **Data Returned** 
