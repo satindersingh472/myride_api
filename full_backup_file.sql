@@ -133,7 +133,7 @@ CREATE TABLE `ride` (
   PRIMARY KEY (`id`),
   KEY `ride_FK` (`rider_id`),
   CONSTRAINT `ride_FK` FOREIGN KEY (`rider_id`) REFERENCES `client` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=57 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin;
+) ENGINE=InnoDB AUTO_INCREMENT=65 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -142,7 +142,7 @@ CREATE TABLE `ride` (
 
 LOCK TABLES `ride` WRITE;
 /*!40000 ALTER TABLE `ride` DISABLE KEYS */;
-INSERT INTO `ride` VALUES (37,'toronto','edmonton','2022-11-01','05:00:00',21,'2022-11-05 14:01:08','ON','AB'),(39,'toronto','edmonton','2022-11-15','05:00:00',21,'2022-11-05 14:01:25','ON','AB'),(40,'toronto','vancouver','2022-11-15','05:00:00',21,'2022-11-05 14:01:53','ON','BC'),(44,'edson','calgary','2022-11-06','19:09:29',26,'2022-11-06 19:09:29','AB','AB'),(45,'red deer','lethbridge','2022-11-10','09:00:00',26,'2022-11-06 19:10:28','AB','AB');
+INSERT INTO `ride` VALUES (37,'toronto','edmonton','2022-11-01','05:00:00',21,'2022-11-05 14:01:08','ON','AB'),(39,'toronto','montreal','2022-11-15','05:00:00',21,'2022-11-05 14:01:25','ON','AB'),(40,'toronto','vancouver','2022-11-15','05:00:00',21,'2022-11-05 14:01:53','ON','BC'),(44,'edson','calgary','2022-11-06','19:09:29',26,'2022-11-06 19:09:29','AB','AB'),(45,'red deer','lethbridge','2022-11-10','09:00:00',26,'2022-11-06 19:10:28','AB','AB'),(57,'Toronto','Calgary','2022-11-16','10:30 PM',21,'2022-11-13 03:15:22','ON','AB'),(58,'Toronto','Calgary','2022-11-16','10:30 PM',21,'2022-11-13 03:16:10','ON','AB'),(59,'vancouver','lethrbridge','2022-11-15','03:30 PM',21,'2022-11-13 03:30:16','BC','AB'),(60,'winnipeg','edmonton','2022-11-16','06:30 PM',21,'2022-11-13 03:32:23','MB','AB'),(61,'hello','hight','2022-11-13','02:15 PM',21,'2022-11-13 03:34:38','AB','BC'),(62,'helllo','canada','2022-11-13','01:45 AM',21,'2022-11-13 03:36:13','AB','BC'),(63,'fssf','adfdf','2022-11-25','02:15 PM',21,'2022-11-13 03:38:05','BC','BC'),(64,'dfsfdsaf','dfdsafad','2022-11-13','02:15 PM',21,'2022-11-13 03:39:21','BC','BC');
 /*!40000 ALTER TABLE `ride` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -674,7 +674,8 @@ BEGIN
 		
 		from ride r inner join client c on c.id = r.rider_id 
 		where r.from_city like concat("%",from_input,"%") 
-		and r.to_city like concat("%",to_input,"%");
+		and r.to_city like concat("%",to_input,"%")
+		and r.travel_date >= now();
 END ;;
 DELIMITER ;
 /*!50003 SET sql_mode              = @saved_sql_mode */ ;
@@ -887,4 +888,4 @@ DELIMITER ;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2022-11-13  2:32:27
+-- Dump completed on 2022-11-13  3:53:39
