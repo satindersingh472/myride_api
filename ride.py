@@ -6,8 +6,16 @@ from dbhelpers import conn_exe_close
 
 # will help filter the results according to the city typed in
 def rides_filter():
-    # if user just typed one city it will still work
-    results = conn_exe_close('call rides_filter(?,?)',[request.args.get('from_city'),request.args.get('to_city')])
+    # if user just typed one city it will still work because it will just be equal to empty string
+    if(request.args.get('from_city') != None):
+        data_one = request.args['from_city']
+    else:
+        data_one = ''
+    if(request.args.get('to_city') != None):
+        data_two = request.args['to_city']
+    else:
+        data_two = ''
+    results = conn_exe_close('call rides_filter(?,?)',[data_one,data_two])
     if(type(results) == list and len(results) >= 1):
         # will send the results as 200 if everything is fine other wise error
         return make_response(json.dumps(results,default=str),200)
