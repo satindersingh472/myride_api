@@ -403,7 +403,8 @@ so, the passenger can get all its upcoming and past bookings.(the date feature w
       rider_last_name: (string),
       rider_phone_number: (string),
       to_prov: (string),
-      from_prov: (string)
+      from_prov: (string),
+      rider_email: (string)
    },
 ]
 ```
