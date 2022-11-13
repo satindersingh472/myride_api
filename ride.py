@@ -72,13 +72,13 @@ def ride_patch():
     # but it is not common that every information will the user want to change
     # the user might want to change one or two column
     # the rest of the data we will use the existing one from the db itself
-    required_data = ['from_city','to_city','travel_date','leave_time']
+    required_data = ['from_city','to_city','travel_date','leave_time','from_prov','to_prov']
     # this code will overwrite the sent data to the original data and grab all the orignal data with
     # overwritten data and call the procedure by sending new and some old data or 
     # totally new data or totally old data if user did not sent anything
     results = add_for_patch(request.json,required_data,results[0])
-    results = conn_exe_close('call ride_patch(?,?,?,?,?,?)',
-    [results['from_city'],results['to_city'],results['travel_date'],results['leave_time'],
+    results = conn_exe_close('call ride_patch(?,?,?,?,?,?,?,?)',
+    [results['from_city'],results['from_prov'],results['to_city'],results['to_prov'],results['travel_date'],results['leave_time'],
     request.headers['ride_id'],request.headers['token']])
     # if something is changed then user will get the following message
     if(type(results) == list and results[0]['row_count'] == 1):
