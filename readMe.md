@@ -42,6 +42,7 @@ take benefit of not driving while going away from a city.
 
  Post method will add a new a client's first_name, last_name, email and password to the database
  and it will also send an email to confirm the account.
+ 
  **Required Data**
  ```
  {

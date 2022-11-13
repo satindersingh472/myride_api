@@ -1,6 +1,6 @@
 import json
 from uuid import uuid4
-from flask import request,make_response
+from flask import request,make_response,redirect
 from apihelpers import verify_endpoints_info
 from dbhelpers import conn_exe_close
 
@@ -15,11 +15,14 @@ def client_verify():
         # if everything is fine then store procedure will get called 
     results = conn_exe_close('call client_verify(?,?)',[request.args['verified'],request.args['token']])
     # if it chnages anything in the database row count will be 1 other wise 0
+    # upon success the user will be redirected to the following address
     if(type(results) == list and results[0]['row_count'] == 1):
-        return make_response(json.dumps('your account is verified successfully',default=str),200)
+        return redirect('http://myride.ml/#/client_verified')
+        # return make_response(json.dumps('your account is verified successfully',default=str),200)
     elif(type(results) == list and results[0]['row_count'] == 0):
+        return redirect('http://myride.ml/#/client_verified')
         # if row count is 0 then the foll statement will be true
-        return make_response(json.dumps('account already verified',default=str),400)
+        # return make_response(json.dumps('account already verified',default=str),400)
     elif(type(results) == str):
         return make_response(json.dumps(results,default=str),400)
     else:
