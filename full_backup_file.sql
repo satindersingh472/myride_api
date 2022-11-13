@@ -100,7 +100,7 @@ CREATE TABLE `client_session` (
   UNIQUE KEY `client_session_unique_token` (`token`),
   KEY `client_session_FK` (`client_id`),
   CONSTRAINT `client_session_FK` FOREIGN KEY (`client_id`) REFERENCES `client` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=119 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin;
+) ENGINE=InnoDB AUTO_INCREMENT=120 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -109,7 +109,7 @@ CREATE TABLE `client_session` (
 
 LOCK TABLES `client_session` WRITE;
 /*!40000 ALTER TABLE `client_session` DISABLE KEYS */;
-INSERT INTO `client_session` VALUES (118,'e13c3a5ae75e4409a89edae8e38150cf',24,'2022-11-13 14:48:35');
+INSERT INTO `client_session` VALUES (119,'80957913e8574207976bf0d045b088e1',24,'2022-11-13 15:54:29');
 /*!40000 ALTER TABLE `client_session` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -200,7 +200,8 @@ BEGIN
 	r.id as ride_id ,
 	convert(c.first_name using utf8) as rider_first_name,
 	convert(c.last_name using utf8) as rider_last_name,
-	convert(c.phone_number using utf8) as rider_phone_number 
+	convert(c.phone_number using utf8) as rider_phone_number,
+	convert (c.email using utf8) as rider_email
 	
 	from client_session cs inner join booking b on cs.client_id = b.passenger_id inner join ride r on b.ride_id = r.id
 	inner join client c on r.rider_id = c.id
@@ -888,4 +889,4 @@ DELIMITER ;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2022-11-13 15:03:36
+-- Dump completed on 2022-11-13 16:29:47
