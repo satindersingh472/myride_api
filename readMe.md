@@ -401,7 +401,7 @@ so, the passenger can get all its upcoming and past bookings.(the date feature w
       ride_id: (number),
       rider_first_name: (string),
       rider_last_name: (string),
-      phone_number: (string),
+      rider_phone_number: (string),
       to_prov: (string),
       from_prov: (string)
    },
