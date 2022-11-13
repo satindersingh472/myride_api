@@ -80,9 +80,11 @@ def ride_patch():
     results = conn_exe_close('call ride_patch(?,?,?,?,?,?,?,?)',
     [results['from_city'],results['from_prov'],results['to_city'],results['to_prov'],results['travel_date'],results['leave_time'],
     request.headers['ride_id'],request.headers['token']])
-    # if something is changed then user will get the following message
+    # if something is changed then we will call the stored procedure again 
+    # it will help in making changes at the screen without refreshing the window
     if(type(results) == list and results[0]['row_count'] == 1):
-        return make_response(json.dumps('ride update successfull',default=str),200)
+        results = conn_exe_close('call ride_get_for_patch(?,?)',[request.headers['ride_id'],request.headers['token']])
+        return make_response(json.dumps(results[0],default=str),200)
         # if nothing changed then the following message will appear
     elif(type(results) == list and results[0]['row_count'] == 0):
         return make_response(json.dumps('ride update failed',default=str),400)

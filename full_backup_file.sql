@@ -43,7 +43,7 @@ CREATE TABLE `booking` (
 
 LOCK TABLES `booking` WRITE;
 /*!40000 ALTER TABLE `booking` DISABLE KEYS */;
-INSERT INTO `booking` VALUES (4,21,1,1,29,'2022-11-06 18:57:44'),(5,24,1,1,35,'2022-11-06 19:06:40'),(6,25,0,0,37,'2022-11-06 19:06:47'),(7,26,0,0,39,'2022-11-06 19:06:52'),(11,21,0,0,45,'2022-11-06 20:40:53'),(12,24,0,0,45,'2022-11-06 20:43:59'),(13,24,0,0,45,'2022-11-06 20:57:53'),(14,24,0,0,45,'2022-11-06 20:57:55'),(16,27,0,0,40,'2022-11-07 10:00:31'),(18,27,0,0,40,'2022-11-07 10:46:25'),(22,26,0,0,44,'2022-11-07 10:54:18');
+INSERT INTO `booking` VALUES (6,25,0,0,37,'2022-11-06 19:06:47'),(7,26,0,0,39,'2022-11-06 19:06:52'),(11,21,0,0,45,'2022-11-06 20:40:53'),(12,24,0,0,45,'2022-11-06 20:43:59'),(13,24,0,0,45,'2022-11-06 20:57:53'),(14,24,0,0,45,'2022-11-06 20:57:55'),(16,27,0,0,40,'2022-11-07 10:00:31'),(18,27,0,0,40,'2022-11-07 10:46:25'),(22,26,0,0,44,'2022-11-07 10:54:18');
 /*!40000 ALTER TABLE `booking` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -142,7 +142,7 @@ CREATE TABLE `ride` (
 
 LOCK TABLES `ride` WRITE;
 /*!40000 ALTER TABLE `ride` DISABLE KEYS */;
-INSERT INTO `ride` VALUES (29,'toronto','edmonton','2022-11-15','05:00:00',21,'2022-11-05 13:57:10','ON','AB'),(35,'toronto','calgary','2022-11-15','05:00:00',21,'2022-11-05 14:00:41','ON','AB'),(36,'red deer','edmonton','2022-11-15','05:00:00',21,'2022-11-05 14:01:01','AB','AB'),(37,'toronto','edmonton','2022-11-01','05:00:00',21,'2022-11-05 14:01:08','ON','AB'),(39,'toronto','edmonton','2022-11-15','05:00:00',21,'2022-11-05 14:01:25','ON','AB'),(40,'toronto','vancouver','2022-11-15','05:00:00',21,'2022-11-05 14:01:53','ON','BC'),(44,'edson','calgary','2022-11-06','19:09:29',26,'2022-11-06 19:09:29','AB','AB'),(45,'red deer','lethbridge','2022-11-10','09:00:00',26,'2022-11-06 19:10:28','AB','AB');
+INSERT INTO `ride` VALUES (37,'toronto','edmonton','2022-11-01','05:00:00',21,'2022-11-05 14:01:08','ON','AB'),(39,'toronto','edmonton','2022-11-15','05:00:00',21,'2022-11-05 14:01:25','ON','AB'),(40,'toronto','vancouver','2022-11-15','05:00:00',21,'2022-11-05 14:01:53','ON','BC'),(44,'edson','calgary','2022-11-06','19:09:29',26,'2022-11-06 19:09:29','AB','AB'),(45,'red deer','lethbridge','2022-11-10','09:00:00',26,'2022-11-06 19:10:28','AB','AB');
 /*!40000 ALTER TABLE `ride` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -780,10 +780,14 @@ DELIMITER ;;
 CREATE DEFINER=`root`@`localhost` PROCEDURE `ride_get_for_patch`(id_input int unsigned, token_input varchar(100))
 BEGIN
 	SELECT 
+	r.id as ride_id,
 	convert (r.from_city using utf8) as from_city,
 	convert (r.to_city using utf8) as  to_city,
 	convert (r.travel_date using utf8) as travel_date,
-	convert (r.leave_time using utf8) as leave_time
+	convert (r.leave_time using utf8) as leave_time,
+	convert (r.from_prov using utf8)  as from_prov,
+	convert (r.to_prov using utf8) as to_prov
+	
 	from ride r  inner join client c on c.id = r.rider_id  inner join client_session cs on cs.client_id = c.id 
 	where cs.token = token_input and r.id = id_input;
 	
@@ -883,4 +887,4 @@ DELIMITER ;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2022-11-12 20:52:02
+-- Dump completed on 2022-11-13  2:32:27
