@@ -283,6 +283,9 @@ given the valid client id and token.
 ```
 [
    {
+      ride_id: (number),
+      rider_first_name: (string),
+      rider_last_name: (string),
       from_city: (string),
       from_prov: (string),
       to_city: (string),
