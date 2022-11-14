@@ -34,7 +34,7 @@ CREATE TABLE `booking` (
   KEY `booking_FK_2` (`ride_id`),
   CONSTRAINT `booking_FK_1` FOREIGN KEY (`passenger_id`) REFERENCES `client` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `booking_FK_2` FOREIGN KEY (`ride_id`) REFERENCES `ride` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=34 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin;
+) ENGINE=InnoDB AUTO_INCREMENT=36 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -43,7 +43,7 @@ CREATE TABLE `booking` (
 
 LOCK TABLES `booking` WRITE;
 /*!40000 ALTER TABLE `booking` DISABLE KEYS */;
-INSERT INTO `booking` VALUES (12,24,1,1,45,'2022-11-06 20:43:59'),(13,24,1,0,45,'2022-11-06 20:57:53'),(32,26,1,0,45,'2022-11-13 21:30:14'),(33,40,0,0,45,'2022-11-13 22:48:10');
+INSERT INTO `booking` VALUES (12,24,1,1,45,'2022-11-06 20:43:59'),(13,24,1,0,45,'2022-11-06 20:57:53'),(32,26,1,0,45,'2022-11-13 21:30:14'),(33,40,1,0,45,'2022-11-13 22:48:10'),(34,26,1,0,45,'2022-11-14 13:31:28'),(35,26,0,0,66,'2022-11-14 13:31:34');
 /*!40000 ALTER TABLE `booking` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -285,9 +285,12 @@ BEGIN
 	update booking b inner join ride r on r.id = b.ride_id inner join client_session cs on cs.client_id = r.rider_id  
 	set b.is_confirmed = 1, b.is_completed = 1
 	where b.id = booking_id_input AND  cs.token = token_input;
-	
-	select row_count() as row_count;
 	commit;
+	select
+	b.is_completed as is_completed
+	from booking b inner join ride r on r.id  = b.ride_id inner join client_session cs on r.rider_id = cs.client_id
+	where b.id = booking_id_input and cs.token = token_input;
+	
 END ;;
 DELIMITER ;
 /*!50003 SET sql_mode              = @saved_sql_mode */ ;
@@ -311,8 +314,11 @@ BEGIN
 	update booking b inner join ride r on r.id = b.ride_id inner join client_session cs on cs.client_id = r.rider_id  
 	set b.is_confirmed = 1
 	where b.id = booking_id_input AND  cs.token = token_input;
-	select row_count() as row_count;
 	commit;
+	select 
+	b.is_confirmed as is_confirmed 
+	from booking b inner join ride r on r.id = b.ride_id inner join client_session cs on cs.client_id = r.rider_id 
+	where b.id = booking_id_input and cs.token = token_input ;
 END ;;
 DELIMITER ;
 /*!50003 SET sql_mode              = @saved_sql_mode */ ;
@@ -894,4 +900,4 @@ DELIMITER ;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2022-11-13 23:21:33
+-- Dump completed on 2022-11-14 15:29:03
