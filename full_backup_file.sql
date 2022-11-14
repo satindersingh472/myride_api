@@ -142,7 +142,7 @@ CREATE TABLE `ride` (
 
 LOCK TABLES `ride` WRITE;
 /*!40000 ALTER TABLE `ride` DISABLE KEYS */;
-INSERT INTO `ride` VALUES (45,'red deer','lethbridge','2022-11-18','09:00:00',26,'2022-11-06 19:10:28','AB','AB');
+INSERT INTO `ride` VALUES (45,'red deer','lethbridge','2022-11-13','03:00 AM',26,'2022-11-06 19:10:28','AB','AB');
 /*!40000 ALTER TABLE `ride` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -790,7 +790,9 @@ BEGIN
 	convert (r.travel_date using utf8) as travel_date,
 	convert (r.leave_time using utf8) as leave_time,
 	convert (r.from_prov using utf8)  as from_prov,
-	convert (r.to_prov using utf8) as to_prov
+	convert (r.to_prov using utf8) as to_prov,
+	convert (c.first_name using utf8) as rider_first_name,
+	convert (c.last_name using utf8) as rider_last_name
 	
 	from ride r  inner join client c on c.id = r.rider_id  inner join client_session cs on cs.client_id = c.id 
 	where cs.token = token_input and r.id = id_input;
@@ -891,4 +893,4 @@ DELIMITER ;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2022-11-13 19:59:09
+-- Dump completed on 2022-11-13 20:06:34
