@@ -500,6 +500,7 @@ Get method will grab the information about the specific ride by sending the ride
    is_confirmed: (bool),
    is_completed: (bool),
    passenger_first_name: (string),
+   passenger_last_name: (string),
    phone_number: (string),
    email: (string)
 }
