@@ -58,7 +58,7 @@ def booking_rider_patch_complete():
             return make_response(json.dumps(results[0],default=str),200)
         # booking complete failed will error
         elif(type(results) != list or len(results) == 0):
-            return make_response(json.dumps('Booking not completed, login aggain can solve the problem',default=str),400)
+            return make_response(json.dumps('Booking not completed, login again can solve the problem',default=str),400)
         else:
             # server error will be shown with 500 error code
             return make_response(json.dumps(results,default=str),500)

@@ -1,10 +1,10 @@
 # **`MyRide Api`**
-MyRide will connect riders and drivers with each other for outside of the city rides.
+MyRide will connect riders and drivers with each other for outside of the city rides.   <br>
 
 Website url:**`https://myride.ml`** <br>
 
 user can either offer rides or can ride as a passenger. So, the user will be able to earn money or 
-take benefit of not driving while going away from a city.
+take benefit of not driving while going away from a city. <br>
 
 ## **`Endpoints`**
 
@@ -41,7 +41,7 @@ take benefit of not driving while going away from a city.
  ## `POST`
 
  Post method will add a new a client's first_name, last_name, email and password to the database
- and it will also send an email to confirm the account.
+ and it will also send an email to confirm the account.  <br>
  
  **Required Data**
  ```
@@ -59,7 +59,7 @@ take benefit of not driving while going away from a city.
     token: (string)
  }
  ```
- after this point user will recieve an email for confirming an account
+ after this point user will recieve an email for confirming an account <br>
  
 <br>
 
@@ -75,7 +75,7 @@ Patch method will patch the client's information and password as well
    token: (string)
 }
 ```
-only one of these should be sent at one time
+only one of these should be sent at one time <br>
 
 **Required Data**   <br>
 ```
@@ -86,10 +86,15 @@ only one of these should be sent at one time
 **Data Returned** <br>
 **On Success** : "password update successfull" <br>
 **On Failure** : "password update failed" or **any other error** <br>
+
 <br>
+
 **`OR`** <br>
+
 <br>
+
 **Required Data**  <br>
+
 **Optional data** : Send one or more of these optional data
 ```
 {
@@ -133,11 +138,11 @@ only one of these should be sent at one time
 <br>
 
 ## /api/client_login
-This endpoint will login user and logout user
+This endpoint will login user and logout user <br>
 HTTP methods available : **POST,DELETE**   <br>
 
 ## `POST`
-post method will log in the client with valid email and password
+post method will log in the client with valid email and password <br>
 
 **Required Data** <br>
 ```
@@ -157,7 +162,7 @@ post method will log in the client with valid email and password
 <br>
 
 ## `DELETE`
-delete method will logout the client and delete the token from session
+delete method will logout the client and delete the token from session <br>
 
 **Required Headers**
 ```
@@ -210,7 +215,7 @@ This will change the existing profile image or even if there is no profile image
 
 **Data Returned** 
 
-Image as a string. 
+Image as a string. <br>
 
 
 <br>
@@ -218,10 +223,10 @@ Image as a string.
 
  ## /api/client_verified
  HTTP methods available: **GET**
-This endpoint will check if client is verified or not
+This endpoint will check if client is verified or not <br>
 
 ## `GET`
-it will check the status of a client verification
+it will check the status of a client verification <br>
 
 **Required Header**
 ```
@@ -243,8 +248,8 @@ it will check the status of a client verification
 HTTP methods available: **GET** <br>
 
 ## `GET`
-It will show all the available rides to the user. at this time all the rides are being shown to the user
-regardless of the location but upcoming rides only not the past rides.
+It will show all the available rides to the user. at this time all the rides are being shown to the user <br>
+regardless of the location but upcoming rides only not the past rides.  <br>
 **Data Returned**
 ```
 [
@@ -269,7 +274,7 @@ regardless of the location but upcoming rides only not the past rides.
 HTTP methods available: **GET,POST,PATCH,DELETE** <br>
 
 ## `GET`
-this method will get all the rides associated with user that is posted by the user
+this method will get all the rides associated with user that is posted by the user <br>
 given the valid client id and token.
 
 **Required Headers**  <br>
@@ -336,7 +341,7 @@ It will post the ride in the database. User with a valid token can post a ride. 
 <br>
 
 ## `PATCH`
-Patch will change information about the ride posted with valid token of a client and valid ride_id sent as a header
+Patch will change information about the ride posted with valid token of a client and valid ride_id sent as a header <br>
 
 **Required Headers** <br>
 ```
@@ -389,7 +394,7 @@ HTTP methods available: **GET,POST,DELETE** <br>
 
 ## `Get`
 It will display all the bookings associated with a passenger.
-so, the passenger can get all its upcoming and past bookings.(the date feature will be coming soon...)
+so, the passenger can get all its upcoming and past bookings. <br> 
 
 **Required Headers** <br>
 ```
@@ -430,7 +435,7 @@ so, the passenger can get all its upcoming and past bookings.(the date feature w
 <br>
 
 ## `POST` <br>
-post method will post a new booking for a ride with a valid token and ride id.
+post method will post a new booking for a ride with a valid token and ride id. <br>
 
 **Required Headers** <br>
 ```
@@ -477,7 +482,7 @@ delete method will delete the booking for a passenger <br>
 HTTP methods available: **GET,PATCH**  <br>
 
 ## `GET`  <br>
-Get method will grab the information about the specific ride by sending the ride id and a valid token
+Get method will grab the information about the specific ride by sending the ride id and a valid token <br>
 
 **Required Headers** <br>
 ```
@@ -509,7 +514,7 @@ Get method will grab the information about the specific ride by sending the ride
 <br>
 
 ## `PATCH`  <br>
-Riders can confirm or complete the bookings.
+Riders can confirm or complete the bookings. <br>
 
 **Required Headers** <br>
 ```
@@ -530,6 +535,18 @@ Riders can confirm or complete the bookings.
    is_completed: true(false is not allowed, it wont do anything)
 }
 ```
+**Data Returned**
+```
+{
+   is_confirmed = 1 (if is_confirmed is sent as a data object key and value "true" ),
+   is_completed = 1 (if is_completed is sent as a data object key and value "true" ),
+
+   or 
+
+   is_completed = 1 (if both options were sent as data object keys and value "true" for both)
+}
+```
+
 <br>
 <br>
 
