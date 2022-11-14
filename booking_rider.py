@@ -34,16 +34,13 @@ def booking_rider_patch_confirm():
     # if is_confirmed in true then it will make the request to the stored procedure
     if(request.json['is_confirmed'] in ['true','True']):
         results = conn_exe_close('call booking_rider_patch_confirm(?,?)',[request.json['booking_id'],request.headers['token']])
-        # if response is list and results[0] row count is 1 
+        # if response is list and results[0] is_confirmed is 1 
         # i.e. then booking is confirmed
-        if(type(results) == list and results[0]['row_count'] == 1):
-            return make_response(json.dumps('booking confirm successful',default=str),200)
-        # if results[0] row_count is 0 booking confirm failed
-        elif(type(results) == list and results[0]['row_count'] == 0):
-            return make_response(json.dumps('booking confirm failed',default=str),400)
-        elif(type(results) == str):
-            # results type string cause of an error
-            return make_response(json.dumps(results,default=str),400)
+        if(type(results) == list and len(results) == 1 ):
+            return make_response(json.dumps(results[0],default=str),200)
+        # if empty list  booking confirm failed
+        elif(type(results) != list or len(results) == 0):
+            return make_response(json.dumps('Booking not confirmed,login again can solve the problem',default=str),400)
         else:
             # server error will be shown with 500 error code
             return make_response(json.dumps(results,default=str),500)
@@ -55,16 +52,13 @@ def booking_rider_patch_confirm():
 def booking_rider_patch_complete():
     if(request.json['is_completed'] in ['true','True']):
         results = conn_exe_close('call booking_rider_patch_complete(?,?)',[request.json['booking_id'],request.headers['token']])
-        # if response is list and results[0] row count is 1 
+        # if response is list and results[0] is is completde =1 
         # i.e. then booking is completed
-        if(type(results) == list and results[0]['row_count'] == 1):
-            return make_response(json.dumps('booking complete successful',default=str),200)
-        # if results[0] row_count is 0 booking complete failed
-        elif(type(results) == list and results[0]['row_count'] == 0):
-            return make_response(json.dumps('booking complete failed',default=str),400)
-        elif(type(results) == str):
-            # results type string cause of an error
-            return make_response(json.dumps(results,default=str),400)
+        if(type(results) == list and len(results) == 1 ):
+            return make_response(json.dumps(results[0],default=str),200)
+        # booking complete failed will error
+        elif(type(results) != list or len(results) == 0):
+            return make_response(json.dumps('Booking not completed, login aggain can solve the problem',default=str),400)
         else:
             # server error will be shown with 500 error code
             return make_response(json.dumps(results,default=str),500)
