@@ -174,7 +174,23 @@ delete method will logout the client and delete the token from session
 
 ## /api/client_image
 This endpoint will help with the client profile image
-HTTP methods available: **PATCH** <br>
+HTTP methods available: **GET,PATCH** <br>
+
+## `GET` <br>
+Get method will return the image of valid token is sent <br>
+**Required Headers** <br>
+```
+{
+   token: (string)
+}
+```
+**Data Returned** <br>
+```
+{
+   profile_image: (string of an image file blob)
+}
+```
+<br>
 
 ## `PATCH`
 This will change the existing profile image or even if there is no profile image it will insert the sent profile image as file. <br>
