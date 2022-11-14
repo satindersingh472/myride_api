@@ -435,7 +435,7 @@ post method will post a new booking for a ride with a valid token and ride id.
 <br>
 
 ## `DELETE`
-delete method will delete the booking for a passenger
+delete method will delete the booking for a passenger <br>
 **Required Headers**
 ```
 {

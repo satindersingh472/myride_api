@@ -34,7 +34,7 @@ CREATE TABLE `booking` (
   KEY `booking_FK_2` (`ride_id`),
   CONSTRAINT `booking_FK_1` FOREIGN KEY (`passenger_id`) REFERENCES `client` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `booking_FK_2` FOREIGN KEY (`ride_id`) REFERENCES `ride` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=29 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin;
+) ENGINE=InnoDB AUTO_INCREMENT=31 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -43,7 +43,7 @@ CREATE TABLE `booking` (
 
 LOCK TABLES `booking` WRITE;
 /*!40000 ALTER TABLE `booking` DISABLE KEYS */;
-INSERT INTO `booking` VALUES (12,24,0,0,45,'2022-11-06 20:43:59'),(13,24,0,0,45,'2022-11-06 20:57:53'),(14,24,0,0,45,'2022-11-06 20:57:55'),(22,26,0,0,44,'2022-11-07 10:54:18'),(28,24,0,0,45,'2022-11-13 14:58:09');
+INSERT INTO `booking` VALUES (12,24,1,1,45,'2022-11-06 20:43:59'),(13,24,1,0,45,'2022-11-06 20:57:53');
 /*!40000 ALTER TABLE `booking` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -100,7 +100,7 @@ CREATE TABLE `client_session` (
   UNIQUE KEY `client_session_unique_token` (`token`),
   KEY `client_session_FK` (`client_id`),
   CONSTRAINT `client_session_FK` FOREIGN KEY (`client_id`) REFERENCES `client` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=120 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin;
+) ENGINE=InnoDB AUTO_INCREMENT=123 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -109,7 +109,7 @@ CREATE TABLE `client_session` (
 
 LOCK TABLES `client_session` WRITE;
 /*!40000 ALTER TABLE `client_session` DISABLE KEYS */;
-INSERT INTO `client_session` VALUES (119,'80957913e8574207976bf0d045b088e1',24,'2022-11-13 15:54:29');
+INSERT INTO `client_session` VALUES (122,'3b9363d0b09144b9989706f1d4d172d6',26,'2022-11-13 19:50:51');
 /*!40000 ALTER TABLE `client_session` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -142,7 +142,7 @@ CREATE TABLE `ride` (
 
 LOCK TABLES `ride` WRITE;
 /*!40000 ALTER TABLE `ride` DISABLE KEYS */;
-INSERT INTO `ride` VALUES (44,'edson','calgary','2022-11-06','19:09:29',26,'2022-11-06 19:09:29','AB','AB'),(45,'red deer','lethbridge','2022-11-18','09:00:00',26,'2022-11-06 19:10:28','AB','AB');
+INSERT INTO `ride` VALUES (45,'red deer','lethbridge','2022-11-18','09:00:00',26,'2022-11-06 19:10:28','AB','AB');
 /*!40000 ALTER TABLE `ride` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -758,7 +758,9 @@ BEGIN
 	convert (r.travel_date using utf8) as travel_date,
 	convert (r.leave_time using utf8) as leave_time,
 	convert (r.from_prov using utf8) as from_prov,
-	convert (r.to_prov using utf8) as to_prov
+	convert (r.to_prov using utf8) as to_prov,
+	convert (c.first_name using utf8) as rider_first_name,
+	convert (c.last_name using utf8) as rider_last_name
 	
 	
 	from client c inner join client_session cs on cs.client_id = c.id inner join ride r on r.rider_id = c.id 
@@ -889,4 +891,4 @@ DELIMITER ;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2022-11-13 16:29:47
+-- Dump completed on 2022-11-13 19:59:09
