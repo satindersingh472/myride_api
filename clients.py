@@ -5,7 +5,7 @@ from dbhelpers import conn_exe_close
 from apihelpers import verify_endpoints_info,upload_picture,bring_picture,send_email,add_for_patch,remove_old_image
 
 
-# will grab the information about the client with token and client id
+# will grab the information about the client id
 def client_get():
     # it will check for client id as arguments
     invalid = verify_endpoints_info(request.args,['client_id'])
