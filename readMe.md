@@ -182,11 +182,11 @@ This endpoint will help with the client profile image
 HTTP methods available: **GET,PATCH** <br>
 
 ## `GET` <br>
-Get method will return the image if valid token is sent <br>
-**Required Headers** <br>
+Get method will return the image if valid client_id is sent <br>
+**Required params** <br>
 ```
 {
-   token: (string)
+   client_id: (number)
 }
 ```
 **Data Returned** <br>

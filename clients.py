@@ -86,13 +86,13 @@ def client_delete():
 
 # will get the profile image with a given token
 def client_get_image():
-    # check if token is sent as header or not
-    invalid_header = verify_endpoints_info(request.headers,['token'])
-    if(invalid_header != None):
+    # check if id is sent as args
+    invalid = verify_endpoints_info(request.args,['client_id'])
+    if(invalid != None):
         # will return the function if token is not sent
-        return make_response(json.dumps(invalid_header,default=str),400)
+        return make_response(json.dumps(invalid,default=str),400)
         # will make a request to get the image name from db
-    results = conn_exe_close('call client_get_image(?)',[request.headers['token']])
+    results = conn_exe_close('call client_get_image(?)',[request.args['client_id']])
     # if name was there then response is ok and use the name to grab image from server
     if(type(results) == list and results[0]['profile_image'] != None):
         # results[0]['profile_image'] = bring_picture(results[0]['profile_image'])
