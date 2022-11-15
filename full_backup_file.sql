@@ -38,16 +38,6 @@ CREATE TABLE `booking` (
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `booking`
---
-
-LOCK TABLES `booking` WRITE;
-/*!40000 ALTER TABLE `booking` DISABLE KEYS */;
-INSERT INTO `booking` VALUES (12,24,1,1,45,'2022-11-06 20:43:59'),(13,24,1,0,45,'2022-11-06 20:57:53'),(32,26,1,0,45,'2022-11-13 21:30:14'),(33,40,1,0,45,'2022-11-13 22:48:10'),(34,26,1,0,45,'2022-11-14 13:31:28'),(35,26,0,0,66,'2022-11-14 13:31:34');
-/*!40000 ALTER TABLE `booking` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
 -- Table structure for table `client`
 --
 
@@ -75,16 +65,6 @@ CREATE TABLE `client` (
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `client`
---
-
-LOCK TABLES `client` WRITE;
-/*!40000 ALTER TABLE `client` DISABLE KEYS */;
-INSERT INTO `client` VALUES (24,'sati','singh','satindersingh472@gmail.com','*B59177F379C99E6E315B17FBF197C0D3A0B8245E',NULL,NULL,NULL,NULL,NULL,'f31810abd5c441dcae872f48c4c634a3.jpeg','e5cf0abe3b344eedb5fdc259c1ef68d2',1),(25,'sam','grewal','samgrewal25@gmail.com','*415F74E3B47DB39B1B23D251EB6C976ECE6C6C4F',NULL,NULL,NULL,NULL,NULL,NULL,'7dc65414184f494a83946332faaaa54a',1),(26,'simranpreet','kaur','simranpreetgrewal@gmail.com','*6501D3B67278257D55C2C4B0F5FB7ED924B5B2DA',NULL,NULL,NULL,NULL,NULL,NULL,'ed60f41647344014b19c9b8d4d744faa',1),(27,'simranpreet','kaur','simranpreetgrewal24@gmail.com','*1DCC6D01A50D2BA30EAE460CD89FEB0FD7E93CF9',NULL,NULL,NULL,NULL,NULL,'af4c6df640c34bc38d429aba0d84ffee.jpeg','e7e99784a7db487683db6eb6eba8de4d',1),(40,'satinder','singh','satindersingh772@gmail.com','*91680D07DC742B609A098BCDDA295E58DEFA562F',NULL,NULL,NULL,NULL,NULL,NULL,'ac014f5a2eb749be9c602971e58d5cf5',1);
-/*!40000 ALTER TABLE `client` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
 -- Table structure for table `client_session`
 --
 
@@ -100,18 +80,8 @@ CREATE TABLE `client_session` (
   UNIQUE KEY `client_session_unique_token` (`token`),
   KEY `client_session_FK` (`client_id`),
   CONSTRAINT `client_session_FK` FOREIGN KEY (`client_id`) REFERENCES `client` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=125 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin;
+) ENGINE=InnoDB AUTO_INCREMENT=129 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin;
 /*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `client_session`
---
-
-LOCK TABLES `client_session` WRITE;
-/*!40000 ALTER TABLE `client_session` DISABLE KEYS */;
-INSERT INTO `client_session` VALUES (124,'04c1a9b17ecf4989afbcb542ae4676b9',26,'2022-11-13 23:05:01');
-/*!40000 ALTER TABLE `client_session` ENABLE KEYS */;
-UNLOCK TABLES;
 
 --
 -- Table structure for table `ride`
@@ -135,16 +105,6 @@ CREATE TABLE `ride` (
   CONSTRAINT `ride_FK` FOREIGN KEY (`rider_id`) REFERENCES `client` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB AUTO_INCREMENT=67 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin;
 /*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `ride`
---
-
-LOCK TABLES `ride` WRITE;
-/*!40000 ALTER TABLE `ride` DISABLE KEYS */;
-INSERT INTO `ride` VALUES (45,'red deer','lethbridge','2022-11-23','09:00 PM',26,'2022-11-06 19:10:28','NL','AB'),(65,'high prarie','London','2022-11-13','05:30 PM',26,'2022-11-13 20:13:01','AB','ON'),(66,'toronto','calgary','2022-11-22','03:30 PM',40,'2022-11-13 22:50:10','ON','AB');
-/*!40000 ALTER TABLE `ride` ENABLE KEYS */;
-UNLOCK TABLES;
 
 --
 -- Dumping routines for database 'myride_api'
@@ -900,4 +860,4 @@ DELIMITER ;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2022-11-14 15:29:03
+-- Dump completed on 2022-11-14 17:07:41
