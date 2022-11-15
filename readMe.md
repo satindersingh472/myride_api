@@ -280,10 +280,16 @@ given the valid client id and token.
 **Required Headers**  <br>
 ```
 {
-   client_id : (number),
    token: (string)
 }
 ```
+**Required Params** 
+```
+{
+   client_id: (number)
+}
+```
+
 **Data Returned**  <br>
 ```
 [
