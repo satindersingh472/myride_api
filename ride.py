@@ -51,13 +51,16 @@ def rides_get_all():
 
 
 def ride_get():
-    # will check for headers if id and token is present
-    invalid_headers = verify_endpoints_info(request.headers,['client_id','token'])
+    # will check for headers iftoken is present
+    invalid_headers = verify_endpoints_info(request.headers,['token'])
     if(invalid_headers != None):
         # if not then error will show up
         return make_response(json.dumps(invalid_headers,default=str),400)
-        # make a request with id and token sent
-    results = conn_exe_close('call ride_get(?,?)',[request.headers['client_id'],request.headers['token']])
+        # check if id is sent or not
+    invalid = verify_endpoints_info(request.args,['client_id'])
+    if(invalid != None):
+        return make_response(json.dumps(invalid,default=str),400)
+    results = conn_exe_close('call ride_get(?,?)',[request.args['client_id'],request.headers['token']])
     # will show the response with 200 if there is a valid response with a list of dictionarie or dictionaries
     if(type(results) == list and len(results) >= 1):
         return make_response(json.dumps(results,default=str),200)
