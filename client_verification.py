@@ -17,10 +17,10 @@ def client_verify():
     # if it chnages anything in the database row count will be 1 other wise 0
     # upon success the user will be redirected to the following address
     if(type(results) == list and results[0]['row_count'] == 1):
-        return redirect('http://myride.ml/#/client_verified')
+        return redirect('https://myride.ml/#/client_verified')
         # return make_response(json.dumps('your account is verified successfully',default=str),200)
     elif(type(results) == list and results[0]['row_count'] == 0):
-        return redirect('http://myride.ml/#/client_verified')
+        return redirect('https://myride.ml/#/client_verified')
         # if row count is 0 then the foll statement will be true
         # return make_response(json.dumps('account already verified',default=str),400)
     elif(type(results) == str):

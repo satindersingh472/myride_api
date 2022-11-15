@@ -79,7 +79,7 @@ def send_email(email,name,token):
         <p>Hi {name},</p>
         <p>  To use services at MyRide, please confirm that you have created an account at Myride. 
         </p>
-        <a href="http://127.0.0.1:5000/api/client_verify?verified=1&token={token}">
+        <a href="https://myride.ml/api/client_verify?verified=1&token={token}">
         <button style = "width:100px;background-color:green;font-size:2px;padding:5px;font-weight:bold;">Confirm</button>
         </a>        
     </body>
