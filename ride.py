@@ -39,7 +39,7 @@ def rides_get_all():
         return make_response(json.dumps(results,default=str),200)
     # if not then this statement will be true
     elif(type(results) == list and len(results) == 0):
-        return make_response(json.dumps('no rides available',default=str),400)
+        return make_response(json.dumps('No rides available',default=str),400)
     elif(type(results) != list):
         # if error then this statement will be true
         return make_response(json.dumps(results,default=str),400)
@@ -63,7 +63,7 @@ def ride_get():
         return make_response(json.dumps(results,default=str),200)
     # if error then show the error
     elif(type(results) == list and len(results) == 0):
-        return make_response(json.dumps('No rides to show',default=str),400)
+        return make_response(json.dumps('No rides available',default=str),400)
     else:
         # if server messed up then show this error
         return make_response(json.dumps(results,default=str),500)
@@ -95,7 +95,7 @@ def ride_patch():
         return make_response(json.dumps(results[0],default=str),200)
         # if nothing changed then the following message will appear
     elif(type(results) == list and results[0]['row_count'] == 0):
-        return make_response(json.dumps('ride update failed',default=str),400)
+        return make_response(json.dumps('Ride update failed',default=str),400)
     else:
         # on server error the following message will be displayed
         return make_response(json.dumps(results,default=str),500)
@@ -120,7 +120,7 @@ def ride_post():
         return make_response(json.dumps(results[0],default=str),200)
         # if no ride posted then error will show up from the following statment
     elif(type(results) == list and results[0]['rides_posted_count'] == 0):
-        return make_response(json.dumps('ride post failed',default=str),400)
+        return make_response(json.dumps('Ride post failed',default=str),400)
     else:
         # server error will show up as error 500
         return make_response(json.dumps(results,default=str),500)
@@ -143,7 +143,7 @@ def ride_delete():
     if(type(results) == list and results[0]['row_count'] == 1):
         return make_response(json.dumps('ride delete successfull',default=str),200)
     elif(type(results) == list and results[0]['row_count'] == 0):
-        return make_response(json.dumps('ride delete failed',default=str),400)
+        return make_response(json.dumps('Ride delete failed',default=str),400)
     elif(type(results) != list):
         # if some error occur from user side then this statement will show up
         return make_response(json.dumps(results,default=str),400)
