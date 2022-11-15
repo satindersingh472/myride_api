@@ -348,13 +348,12 @@ DELIMITER ;
 /*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
 /*!50003 SET sql_mode              = 'IGNORE_SPACE,STRICT_TRANS_TABLES,ERROR_FOR_DIVISION_BY_ZERO,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION' */ ;
 DELIMITER ;;
-CREATE DEFINER=`root`@`localhost` PROCEDURE `client_get_image`( token_input varchar(100))
+CREATE DEFINER=`root`@`localhost` PROCEDURE `client_get_image`( id_input int unsigned)
 BEGIN
 	
 	select 
 	convert(c.profile_image using utf8) as profile_image
-	from client c inner join client_session cs on cs.client_id = c.id 
-	where cs.token = token_input and c.verified = 1;
+	from client c where c.id = id_input;
 END ;;
 DELIMITER ;
 /*!50003 SET sql_mode              = @saved_sql_mode */ ;
@@ -504,9 +503,12 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `client_patch_image`(profile_image_i
 BEGIN
 	update client c inner join client_session cs on cs.client_id = c.id 
 	set c.profile_image = profile_image_input where cs.token = token_input and c.verified = 1;
-	
-	select row_count() as row_count;
 	commit;
+	select 
+	convert (c.profile_image using utf8) as profile_image
+	FROM  client c inner join client_session cs on cs.client_id = c.id 
+	where cs.token = token_input and c.verified = 1;
+	
 END ;;
 DELIMITER ;
 /*!50003 SET sql_mode              = @saved_sql_mode */ ;
@@ -860,4 +862,4 @@ DELIMITER ;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2022-11-15 10:15:05
+-- Dump completed on 2022-11-15 12:43:14
