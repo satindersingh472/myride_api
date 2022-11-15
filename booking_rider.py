@@ -20,7 +20,7 @@ def booking_rider_get():
         return make_response(json.dumps(results,default=str),200)
     elif(type(results) == list and len(results) == 0):
         # if no booking then this will be true
-        return make_response(json.dumps('no bookings available',default=str),400)
+        return make_response(json.dumps('No bookings available',default=str),400)
     elif(type(results) != list):
         # if error then this statement will be true
         return make_response(json.dumps(results,default=str),400)
