@@ -135,7 +135,7 @@ def client_patch_image():
             image = send_from_directory('files/profile_images',results[0]['profile_image'])
             if(old_image != '' and old_image != None):
                 remove_old_image(old_image)
-            return make_response(json.dumps(image,default=str),200)
+            return image
         # if row count is 0 then this statement will be true
         elif(type(results) == list and len(results) == 0):
             return make_response(json.dumps('image upload failed',default=str),400)
