@@ -129,15 +129,15 @@ def client_patch_image():
         # if everything goes fine then image name is true and have some value then none
         results = conn_exe_close('call client_patch_image(?,?)',[image_name,request.headers['token']])
         # if results has a list and first object row_count is 1 then this statement will be true
-        if(type(results) == list and results[0]['row_count'] == 1):
+        if(type(results) == list and len(results) == 1):
             # will get image so that to display the user instant changes
             # remove old picture will delete the old image from server we got from database 
-            image = bring_picture(image_name)
+            image = send_from_directory('files/profile_images',results[0]['profile_image'])
             if(old_image != '' and old_image != None):
                 remove_old_image(old_image)
             return make_response(json.dumps(image,default=str),200)
         # if row count is 0 then this statement will be true
-        elif(type(results) == list and results[0]['row_count'] == 0):
+        elif(type(results) == list and len(results) == 0):
             return make_response(json.dumps('image upload failed',default=str),400)
         # if error then results will be string then this statement 
         elif(type(results) == str):
