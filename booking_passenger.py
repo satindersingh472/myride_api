@@ -21,7 +21,7 @@ def booking_passenger_get():
     if(type(results) == list and len(results) != 0 ):
         return make_response(json.dumps(results,default=str),200)
     elif(type(results) == list and len(results) == 0):
-        return make_response(json.dumps('no booking available',default=str),400)
+        return make_response(json.dumps('No bookings available',default=str),400)
     elif(type(results) == str):
         return make_response(json.dumps(results,default=str),400)
     else:
