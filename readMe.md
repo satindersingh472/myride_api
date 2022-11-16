@@ -80,7 +80,8 @@ only one of these should be sent at one time <br>
 **Required Data**   <br>
 ```
 {
-   password: (string)
+   old_password: (string the old password),
+   new_password: (string the new password )
 }
 ```
 **Data Returned** <br>
