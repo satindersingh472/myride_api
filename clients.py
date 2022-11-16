@@ -152,7 +152,7 @@ def client_patch_with_password():
     # will grab the new salt with uuid and hex
     salt = uuid4().hex
     # will send the password along with new salt and token
-    results = conn_exe_close('call client_patch_with_password(?,?,?)',[request.json['new_password'],
+    results = conn_exe_close('call client_patch_with_password(?,?,?,?)',[request.json['new_password'],
     request.json['old_password'],request.headers['token'],salt])
     # if password updated below result statement will be true and message will show up
     if(type(results) == list and results[0]['row_count'] == 1):
