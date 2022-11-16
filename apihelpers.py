@@ -49,6 +49,7 @@ def upload_picture(key):
         return filename
 
 # will bring back the file from the server as a string and read it as a binary 
+# but i am using send from directory
 def bring_picture(image_name):
     with open(os.path.join('files/profile_images',image_name),'rb') as my_image: 
         image = base64.b64encode(my_image.read())

@@ -132,10 +132,9 @@ def client_patch_image():
         if(type(results) == list and len(results) == 1):
             # will get image so that to display the user instant changes
             # remove old picture will delete the old image from server we got from database 
-            image = send_from_directory('files/profile_images',results[0]['profile_image'])
             if(old_image != '' and old_image != None):
                 remove_old_image(old_image)
-            return image
+            return send_from_directory('files/profile_images',results[0]['profile_image'])
         # if row count is 0 then this statement will be true
         elif(type(results) == list and len(results) == 0):
             return make_response(json.dumps('image upload failed',default=str),400)
@@ -153,7 +152,8 @@ def client_patch_with_password():
     # will grab the new salt with uuid and hex
     salt = uuid4().hex
     # will send the password along with new salt and token
-    results = conn_exe_close('call client_patch_with_password(?,?,?)',[request.json['password'],request.headers['token'],salt])
+    results = conn_exe_close('call client_patch_with_password(?,?,?)',[request.json['new_password'],
+    request.json['old_password'],request.headers['token'],salt])
     # if password updated below result statement will be true and message will show up
     if(type(results) == list and results[0]['row_count'] == 1):
         return make_response(json.dumps('password update successfull',default=str),200)
@@ -209,7 +209,7 @@ def client_patch_all():
     if(invalid_header != None):
     # if token not sent then this message will show up
         return make_response(json.dumps(invalid_header,default=str),400)
-    if(request.json.get('password') != None):
+    if(request.json.get('old_password') != None):
         return client_patch_with_password()
     # if password is not sent then this statement will be true
     else:
