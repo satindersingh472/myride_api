@@ -38,6 +38,16 @@ CREATE TABLE `booking` (
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
+-- Dumping data for table `booking`
+--
+
+LOCK TABLES `booking` WRITE;
+/*!40000 ALTER TABLE `booking` DISABLE KEYS */;
+INSERT INTO `booking` VALUES (42,46,1,0,73,'2022-11-17 20:17:32');
+/*!40000 ALTER TABLE `booking` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
 -- Table structure for table `client`
 --
 
@@ -65,6 +75,16 @@ CREATE TABLE `client` (
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
+-- Dumping data for table `client`
+--
+
+LOCK TABLES `client` WRITE;
+/*!40000 ALTER TABLE `client` DISABLE KEYS */;
+INSERT INTO `client` VALUES (46,'test','name','sample@email.com','*C5ABD99C318E9B9A0EC0342AC9CF962547394A88',NULL,'calgary',NULL,NULL,'2022-11-30','206e34f0ab4d497094ff9c66c91adbce.png','b4b2a73de0fd4b5cb64b904a22fe312d',1),(48,'user','name','satindersingh772@gmail.com','*F0299B0557D35873CE2840CD984E701A12666FE3',NULL,NULL,NULL,NULL,NULL,NULL,'4a123058d1c6461eafd40061c17a1c30',1);
+/*!40000 ALTER TABLE `client` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
 -- Table structure for table `client_session`
 --
 
@@ -80,8 +100,18 @@ CREATE TABLE `client_session` (
   UNIQUE KEY `client_session_unique_token` (`token`),
   KEY `client_session_FK` (`client_id`),
   CONSTRAINT `client_session_FK` FOREIGN KEY (`client_id`) REFERENCES `client` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=187 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin;
+) ENGINE=InnoDB AUTO_INCREMENT=190 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin;
 /*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `client_session`
+--
+
+LOCK TABLES `client_session` WRITE;
+/*!40000 ALTER TABLE `client_session` DISABLE KEYS */;
+INSERT INTO `client_session` VALUES (187,'03991814452243f282724340c3ca6751',48,'2022-11-18 07:28:00'),(188,'bb8e5edae827449eb151baad423bbcb2',48,'2022-11-18 13:28:47'),(189,'311562b4cc114e9b8062cf11b03fde81',48,'2022-11-18 14:38:48');
+/*!40000 ALTER TABLE `client_session` ENABLE KEYS */;
+UNLOCK TABLES;
 
 --
 -- Table structure for table `ride`
@@ -105,6 +135,16 @@ CREATE TABLE `ride` (
   CONSTRAINT `ride_FK` FOREIGN KEY (`rider_id`) REFERENCES `client` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB AUTO_INCREMENT=76 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin;
 /*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `ride`
+--
+
+LOCK TABLES `ride` WRITE;
+/*!40000 ALTER TABLE `ride` DISABLE KEYS */;
+INSERT INTO `ride` VALUES (73,'slave lake','lethbridge','2022-11-18','03:30 PM',46,'2022-11-17 20:16:48','AB','AB'),(74,'saskatoon','toronto','2022-11-28','06:30 PM',48,'2022-11-18 06:56:46','SK','ON'),(75,'toronto','vancouver','2022-11-22','03:45 PM',46,'2022-11-18 07:19:17','ON','BC');
+/*!40000 ALTER TABLE `ride` ENABLE KEYS */;
+UNLOCK TABLES;
 
 --
 -- Dumping routines for database 'myride_api'
@@ -330,8 +370,8 @@ BEGIN
 	convert (c.phone_number using utf8) as phone_number,
 	convert (c.bio using utf8) as bio,
 	convert (c.dob using utf8) as dob
-	from client c inner join client_session cs on cs.client_id = c.id 
-	where cs.client_id = id_input and c.verified = 1 ;
+	from client c  
+	where c.id = id_input and c.verified = 1;
 END ;;
 DELIMITER ;
 /*!50003 SET sql_mode              = @saved_sql_mode */ ;
@@ -863,4 +903,4 @@ DELIMITER ;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2022-11-18  7:21:25
+-- Dump completed on 2022-11-18 14:42:39
