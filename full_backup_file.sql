@@ -80,7 +80,7 @@ CREATE TABLE `client_session` (
   UNIQUE KEY `client_session_unique_token` (`token`),
   KEY `client_session_FK` (`client_id`),
   CONSTRAINT `client_session_FK` FOREIGN KEY (`client_id`) REFERENCES `client` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=186 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin;
+) ENGINE=InnoDB AUTO_INCREMENT=187 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -103,7 +103,7 @@ CREATE TABLE `ride` (
   PRIMARY KEY (`id`),
   KEY `ride_FK` (`rider_id`),
   CONSTRAINT `ride_FK` FOREIGN KEY (`rider_id`) REFERENCES `client` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=75 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin;
+) ENGINE=InnoDB AUTO_INCREMENT=76 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -476,7 +476,7 @@ token_input varchar(100))
     MODIFIES SQL DATA
 BEGIN
 	update client c inner join client_session cs on cs.client_id = c.id  
-	set first_name = first_name_input,last_name = last_name_input,email = email_input, address = address_input,city =  city_input,
+	set first_name = lower(first_name_input),last_name = lower(last_name_input),email = lower(email_input), address = lower(address_input),city =  lower(city_input),
 	phone_number = phone_number_input, bio = bio_input, dob =  dob_input
 	where cs.token = token_input and c.verified = 1;
 	
@@ -788,7 +788,7 @@ date_input date,time_input varchar(15),id_input int unsigned, token_input varcha
     MODIFIES SQL DATA
 BEGIN
 	update ride r  inner join client c on c.id = r.rider_id inner join client_session cs on cs.client_id = c.id
-	set r.from_city = from_city_input, r.to_city = to_city_input, r.travel_date = date_input, r.leave_time = time_input,
+	set r.from_city = lower(from_city_input), r.to_city = lower(to_city_input), r.travel_date = date_input, r.leave_time = time_input,
 	r.from_prov = from_prov_input, r.to_prov = to_prov_input
 	where cs.token = token_input and r.id = id_input and c.verified = 1;
 	SELECT row_count() as row_count;
@@ -814,7 +814,7 @@ to_input varchar(100),to_prov_input varchar(2),date_input date, time_input varch
     MODIFIES SQL DATA
 BEGIN
 	insert into ride(from_city,to_city,travel_date,leave_time,rider_id,from_prov,to_prov)
-	select from_input, to_input, date_input, time_input,cs.client_id,from_prov_input,to_prov_input
+	select lower(from_input), lower(to_input), date_input, time_input,cs.client_id,from_prov_input,to_prov_input
 	from client_session cs inner join client c on c.id = cs.client_id 
 	where cs.token = token_input and c.verified = 1;
 		
@@ -863,4 +863,4 @@ DELIMITER ;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2022-11-18  7:10:15
+-- Dump completed on 2022-11-18  7:21:25
