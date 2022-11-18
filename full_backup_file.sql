@@ -34,7 +34,7 @@ CREATE TABLE `booking` (
   KEY `booking_FK_2` (`ride_id`),
   CONSTRAINT `booking_FK_1` FOREIGN KEY (`passenger_id`) REFERENCES `client` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `booking_FK_2` FOREIGN KEY (`ride_id`) REFERENCES `ride` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=42 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin;
+) ENGINE=InnoDB AUTO_INCREMENT=43 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -61,7 +61,7 @@ CREATE TABLE `client` (
   PRIMARY KEY (`id`),
   UNIQUE KEY `user_unique_email` (`email`),
   UNIQUE KEY `user_unique_phone` (`phone_number`)
-) ENGINE=InnoDB AUTO_INCREMENT=46 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin;
+) ENGINE=InnoDB AUTO_INCREMENT=49 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -80,7 +80,7 @@ CREATE TABLE `client_session` (
   UNIQUE KEY `client_session_unique_token` (`token`),
   KEY `client_session_FK` (`client_id`),
   CONSTRAINT `client_session_FK` FOREIGN KEY (`client_id`) REFERENCES `client` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=179 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin;
+) ENGINE=InnoDB AUTO_INCREMENT=186 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -103,7 +103,7 @@ CREATE TABLE `ride` (
   PRIMARY KEY (`id`),
   KEY `ride_FK` (`rider_id`),
   CONSTRAINT `ride_FK` FOREIGN KEY (`rider_id`) REFERENCES `client` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=73 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin;
+) ENGINE=InnoDB AUTO_INCREMENT=75 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -406,7 +406,7 @@ BEGIN
 	insert into client_session(client_id,token)
 	select c.id,token_input
 	from client c 
-	where c.email = email_input and password = password(concat(password_input, (select salt where c.email = email_input)));
+	where c.email = lower(email_input) and password = password(concat(password_input, (select salt where c.email = lower(email_input))));
 	
 	select cs.client_id as client_id, convert(cs.token using utf8) as token
 	from client_session cs where cs.token = token_input;
@@ -556,7 +556,7 @@ email_input varchar(300),password_input varchar(200),token_input varchar(100), s
     MODIFIES SQL DATA
 BEGIN
 	insert into client(first_name,last_name,email,password,salt)
-	values(first_name_input, last_name_input,email_input ,password(concat(password_input,salt_input)),salt_input);
+	values(lower(first_name_input), lower(last_name_input),lower(email_input) ,password(concat(password_input,salt_input)),salt_input);
 	
 	insert into client_session (client_id,token)
 	values (last_insert_id(),token_input);
@@ -644,8 +644,8 @@ BEGIN
 		convert (c.email using utf8) as rider_email
 		
 		from ride r inner join client c on c.id = r.rider_id 
-		where r.from_city like concat("%",from_input,"%") 
-		and r.to_city like concat("%",to_input,"%")
+		where r.from_city like concat("%",lower(from_input),"%") 
+		and r.to_city like concat("%",lower(to_input),"%")
 		and r.travel_date >= now();
 END ;;
 DELIMITER ;
@@ -863,4 +863,4 @@ DELIMITER ;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2022-11-17 17:06:18
+-- Dump completed on 2022-11-18  7:10:15
