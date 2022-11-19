@@ -74,11 +74,14 @@ def ride_get():
 
 def ride_patch():
     # token and id will be sent as a headers
-    invalid_headers = verify_endpoints_info(request.headers,['ride_id','token'])
+    invalid_headers = verify_endpoints_info(request.headers,['token'])
     if(invalid_headers != None):
         return make_response(json.dumps(invalid_headers,default=str),400)
     # will grab the original data related to the ride and modify it based on information sent by user
-    results = conn_exe_close('call ride_get_for_patch(?,?)',[request.headers['ride_id'],request.headers['token']])
+    invalid = verify_endpoints_info(request.json,['ride_id'])
+    if(invalid != None):
+        return make_response(json.dumps(invalid,default=str),400)
+    results = conn_exe_close('call ride_get_for_patch(?,?)',[request.json['ride_id'],request.headers['token']])
     # looking for these arguments inside data that user should have sent
     # but it is not common that every information will the user want to change
     # the user might want to change one or two column
@@ -90,11 +93,11 @@ def ride_patch():
     results = add_for_patch(request.json,required_data,results[0])
     results = conn_exe_close('call ride_patch(?,?,?,?,?,?,?,?)',
     [results['from_city'],results['from_prov'],results['to_city'],results['to_prov'],results['travel_date'],results['leave_time'],
-    request.headers['ride_id'],request.headers['token']])
+    request.json['ride_id'],request.headers['token']])
     # if something is changed then we will call the stored procedure again 
     # it will help in making changes at the screen without refreshing the window
     if(type(results) == list and results[0]['row_count'] == 1):
-        results = conn_exe_close('call ride_get_for_patch(?,?)',[request.headers['ride_id'],request.headers['token']])
+        results = conn_exe_close('call ride_get_for_patch(?,?)',[request.json['ride_id'],request.headers['token']])
         return make_response(json.dumps(results[0],default=str),200)
         # if nothing changed then the following message will appear
     elif(type(results) == list and results[0]['row_count'] == 0):
