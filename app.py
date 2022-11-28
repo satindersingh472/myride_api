@@ -9,6 +9,8 @@ from booking_passenger import booking_post,booking_passenger_get,booking_passeng
 from booking_rider import booking_rider_get,booking_rider_patch_all
 
 app = Flask(__name__)
+upload_folder = 'files/profile_images'
+app.config['upload_folder'] = upload_folder
 # -----------------------------------------------
 # will login the client 
 @app.post('/api/client_login')
