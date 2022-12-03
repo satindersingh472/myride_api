@@ -2,6 +2,7 @@ import json
 from uuid import uuid4 
 from flask import make_response,request,send_from_directory
 from dbhelpers import conn_exe_close
+import dbcreds
 from apihelpers import verify_endpoints_info,upload_picture,bring_picture,send_email,add_for_patch,remove_old_image
 
 
@@ -96,7 +97,7 @@ def client_get_image():
     # if name was there then response is ok and use the name to grab image from server
     if(type(results) == list and results[0]['profile_image'] != None):
         # results[0]['profile_image'] = bring_picture(results[0]['profile_image'])
-        return send_from_directory('files/profile_images',results[0]['profile_image'])
+        return send_from_directory(dbcreds.path_to_images,results[0]['profile_image'])
         # return make_response(json.dumps(results,default=str),200)
         # else errors will show up
     elif(len(results) == 0 or results[0]['profile_image'] == None ):
@@ -134,7 +135,7 @@ def client_patch_image():
             # remove old picture will delete the old image from server we got from database 
             if(old_image != '' and old_image != None):
                 remove_old_image(old_image)
-            return send_from_directory('/home/opc/projects/myride_api/files/profile_images',results[0]['profile_image'])
+            return send_from_directory(dbcreds.path_to_images,results[0]['profile_image'])
         # if row count is 0 then this statement will be true
         elif(type(results) == list and len(results) == 0):
             return make_response(json.dumps('image upload failed',default=str),400)

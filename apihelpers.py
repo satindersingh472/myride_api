@@ -45,18 +45,18 @@ def upload_picture(key):
         # will return true if file type is in allowed extension
     if file and allowed_file(file.filename):
         filename = uuid4().hex + '.' + file.filename.rsplit('.',1)[1].lower()
-        file.save(os.path.join('/home/opc/projects//myride_api/files/profile_images',filename))
+        file.save(os.path.join(dbcreds.path_to_images,filename))
         return filename
 
 # will bring back the file from the server as a string and read it as a binary 
 # but i am using send from directory
 def bring_picture(image_name):
-    with open(os.path.join('files/profile_images',image_name),'rb') as my_image: 
+    with open(os.path.join(dbcreds.path_to_images,image_name),'rb') as my_image: 
         image = base64.b64encode(my_image.read())
     return image.decode('utf-8')
 
 def remove_old_image(image_name):
-    os.remove(os.path.join('/home/opc/projects/myride_api/files/profile_images',image_name))
+    os.remove(os.path.join(dbcreds.path_to_images,image_name))
     
 
 
