@@ -1,5 +1,5 @@
 import os,base64
-from flask import request,flash,current_app
+from flask import request,flash
 from uuid import uuid4
 import smtplib, ssl
 from email.mime.text import MIMEText
@@ -45,7 +45,7 @@ def upload_picture(key):
         # will return true if file type is in allowed extension
     if file and allowed_file(file.filename):
         filename = uuid4().hex + '.' + file.filename.rsplit('.',1)[1].lower()
-        file.save(os.path.join(current_app.config['upload_folder'],filename))
+        file.save(os.path.join('files/profile_images',filename))
         return filename
 
 # will bring back the file from the server as a string and read it as a binary 
