@@ -134,7 +134,7 @@ def client_patch_image():
             # remove old picture will delete the old image from server we got from database 
             if(old_image != '' and old_image != None):
                 remove_old_image(old_image)
-            return send_from_directory('/var/opc/projects/myride_api/files/profile_images',results[0]['profile_image'])
+            return send_from_directory('/home/opc/projects/myride_api/files/profile_images',results[0]['profile_image'])
         # if row count is 0 then this statement will be true
         elif(type(results) == list and len(results) == 0):
             return make_response(json.dumps('image upload failed',default=str),400)
